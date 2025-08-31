@@ -1,0 +1,80 @@
+@use 'variables' as *;
+
+.input-container {
+    position: relative;
+    display: grid;
+    width: 320px;
+    height: 50px;
+    background: $color-surface;
+    border-radius: 8px;
+    box-sizing: border-box;
+    border: 1px solid $light-border;
+    margin: 10px;
+    align-items: center;
+    grid-template-columns: 50px auto 40px;
+    .logo {
+        border-right: 1px solid $light-border;
+        margin-right: 10px;
+    }
+    .logo,
+    .valid-input-icon,
+    .invalid-input-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+    .input-label-container {
+        position: relative;
+        height: 100%;
+        .input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            padding-top: 15px;
+            &:focus + label,
+            &:not(:placeholder-shown) + label {
+                top: 8px;
+                transform: translateY(0);
+                font-size: 0.7rem;
+                color: $color-text-primary;
+            }
+            &::placeholder {
+                color: transparent;
+            }
+        }
+        label {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            color: $color-text-secondary;
+            pointer-events: none;
+            transition: all 0.2s ease-in-out;
+        }
+    }
+    .valid-input-icon {
+        color: $success;
+    }
+    .invalid-input-icon {
+        color: $error;
+    }
+}
+
+button.primary-button {
+    width: 320px;
+    height: 50px;
+    border: none;
+    border-radius: 8px;
+    background-color: $color-btn-primary-bg;
+    margin: 10px;
+    font-size: 1rem;
+    color: $color-btn-primary-text;
+    cursor: pointer;
+    &[disabled] {
+        background-color: $color-btn-disabled-bg;
+        color: $color-btn-disabled-text;
+        cursor: not-allowed;
+    }
+}

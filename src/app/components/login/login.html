@@ -1,0 +1,93 @@
+<div class="main-bg-container">
+  <div class="main-container">
+    <div class="login-left">
+      <div class="login-form-container">
+        <h2 class="login-welcome-header">Welcome Back</h2>
+        <p class="login-welcome-message">Welcome Back. Please enter Your details</p>
+        <div class="sign-in-buttons-container">
+          <button
+            class="tab"
+            [class.active]="selectedTab === 'signin'"
+            (click)="selectedTab = 'signin'"
+            type="button"
+          >
+            Sign In
+          </button>
+          <button
+            class="tab"
+            [class.active]="selectedTab === 'signup'"
+            (click)="selectedTab = 'signup'"
+            type="button"
+          >
+            Signup
+          </button>
+          <div
+            class="tab-bg"
+            [style.transform]="selectedTab === 'signup' ? 'translateX(100%)' : 'translateX(0%)'"
+          ></div>
+        </div>
+        <form [formGroup]="form" class="login-form input-form" (ngSubmit)="onSubmit()">
+          <div class="input-container">
+              <div class="logo">
+                  <i class="fa-solid fa-at"></i>
+              </div>
+              <div class="input-label-container">
+                  <input class="input"
+                      type="email"
+                      id="email" placeholder=" "
+                      formControlName="email" required/>
+                  <label for="email">Email Address</label>
+              </div>
+              @if (!email?.errors && email?.touched) {
+                  <div class="valid-input-icon">
+                      <i class="fa-solid fa-circle-check"></i>
+                  </div>
+              } @else if (email?.errors && email?.touched) {
+                  <div class="invalid-input-icon">
+                      <i class="fa-solid fa-circle-xmark"></i>
+                  </div>
+              }
+          </div>
+          <div class="input-container">
+              <div class="logo">
+                  <i class="fa-solid fa-key"></i>
+              </div>
+              <div class="input-label-container">
+                  <input class="input"
+                      type="password"
+                      id="password" placeholder=" "
+                      formControlName="password" required/>
+                  <label for="password">Password</label>
+              </div>
+              @if (!password?.errors && email?.touched) {
+                  <div class="valid-input-icon">
+                      <i class="fa-solid fa-circle-check"></i>
+                  </div>
+              } @else if (password?.errors && email?.touched) {
+                  <div class="invalid-input-icon">
+                      <i class="fa-solid fa-circle-xmark"></i>
+                  </div>
+              }
+          </div>
+          <button class="primary-button login-button"
+                  [disabled]="form.invalid"
+                  type="submit">
+              Continue
+          </button>
+        </form>
+      </div>
+      <div class="copyright-message">
+        <p>©CausalSyntax Inc. 2025</p>
+      </div>
+    </div>
+    <div class="login-right">
+      <h1>SceneWeaver 1.0</h1>
+      <div class="logo-container">
+        <img src="scene_weaver_logo.png" alt="logo">
+      </div>
+      <div class="description">
+        <p>Your intelligent co-pilot for storytelling. Transform your script into a fully narrated animatic in one fluid conversation.</p>
+      </div>
+    </div>
+  </div>
+</div>

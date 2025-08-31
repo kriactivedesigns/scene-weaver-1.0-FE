@@ -1,0 +1,39 @@
+// Brand & Primary Colors
+$color-primary:        #31B0E6; // Main brand blue
+$color-primary-dark:   #278EC2; // Approx. darker blue for hover/focus
+$color-primary-light:  #5FC9F4; // For lighter elements, backgrounds
+
+// Secondary & Accents
+$color-secondary:      #FFC94C; // Warm accent (inspired by login illustration)
+$color-secondary-dark: #D9A900;
+$color-secondary-light:#FFE7A6;
+
+// Surface & Backgrounds
+$color-surface:        #FFFFFF; // Cards, panels
+$color-bg-primary:     #F6F8FA; // Main workspace background
+$color-bg-secondary:   #ECF0F3; // Dashboards/cards background contrast
+
+// Text & Typography
+$color-text-primary:   #222B36; // Main text, high contrast on white/card
+$color-text-secondary: #5F6B7A; // Muted, hints/labels
+$color-text-light:     #93A3B1; // Caption, placeholder
+$color-text-inverse:   #FFFFFF; // On primary buttons or dark backgrounds
+
+// Borders & Dividers
+$dark-border:         #222B36; // Buttons, input outlines, card edges
+$light-border:        #dcdcdc; // Thicker dividers/separators
+
+// Buttons (using color role aliases)
+$color-btn-primary-bg:    $color-primary;
+$color-btn-primary-text:  $color-text-inverse;
+$color-btn-secondary-bg:  $color-secondary;
+$color-btn-secondary-text:$color-text-primary;
+$color-btn-disabled-bg:   $light-border;
+$color-btn-disabled-text: $color-text-light;
+
+// States & Shadows
+$color-hover:          rgba(49, 176, 230, 0.09); // Hover for primary surfaces/buttons
+$success:      #4CAF50;
+$error:        #EF5350;
+$warning:      #FFC107;
+$info:         #03A9F4;
