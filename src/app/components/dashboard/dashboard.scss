@@ -1,0 +1,33 @@
+@use '../../../styles/variables' as *;
+
+.main-container {
+    .main-content-container {
+        .project-listing-container {
+            display: grid;
+            grid-template-rows: auto 75px;
+            align-items: center;
+            height: 90%;
+            width: 90%;
+            background-color: $color-bg-primary;
+            box-shadow: $shadow;
+            padding: 0 40px;;
+            .project-list {
+                height: 100%;
+                width: 100%;
+                border-bottom: 1px solid $light-border;
+                padding: 40px 0;
+                .project-cards-container {
+                    display: flex;
+                    gap: 10px;
+                    justify-content: space-around;
+                    align-items: flex-start;
+                    flex-wrap: wrap;
+                }
+            }
+            .create-new-project-button-container {
+                display: flex;
+                justify-content: center;
+            }
+        }
+    }
+}

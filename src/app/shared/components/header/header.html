@@ -9,10 +9,10 @@
         </div>
     </div>
     <div class="center-content-container">
-        @if (page === 'dashboard') {
+        @if (page() === 'dashboard') {
             <h3 class="dashboard-text">Dashboard</h3>
         } @else {
-            
+            <h3 class="dashboard-text">Different Header</h3>
         }
     </div>
     <div class="right-profile-menu">

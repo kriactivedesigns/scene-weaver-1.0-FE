@@ -1,0 +1,31 @@
+@use '../../../../styles/variables' as *;
+
+.project-card {
+    background-color: $color-surface;
+    box-shadow: $shadow;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 6px;
+    width: 220px;
+    height: 160px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    user-select: none;
+    .project-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+    .labelled-content {
+        display: flex;
+        color: $color-text-secondary;
+        font-size: 0.7rem;
+        .label{}
+        .text {}
+        &.vertical {
+            flex-direction: column;
+            margin-top: 8px;
+        }
+    }
+}

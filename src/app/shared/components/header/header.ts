@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, input, signal } from "@angular/core";
 import { Router } from "@angular/router";
 
 @Component({
@@ -8,11 +8,10 @@ import { Router } from "@angular/router";
 })
 export class Header {
 
-    public page = "dashboard";
+    public page = input.required<string>();
     private router = inject(Router);
 
     goTo(page: string) {
-        this.page = page;
         this.router.navigate([`/${page}`]);
     }
     

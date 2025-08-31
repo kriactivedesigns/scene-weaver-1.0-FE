@@ -1,1 +1,17 @@
-<app-header />
+<div class="main-container">
+    <app-header page="dashboard"/>
+    <div class="main-content-container">
+        <div class="project-listing-container">
+            <div class="project-list">
+                <div class="project-cards-container">
+                    @for (project of projects(); track $index) {
+                        <app-project-card [project]="project" />
+                    }
+                </div>
+            </div>
+            <div class="create-new-project-button-container">
+                <button class="text-only-button">+ Create a New Project</button>
+            </div>
+        </div>
+    </div>
+</div>

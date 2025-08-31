@@ -20,3 +20,15 @@ body, html {
     font-style: normal;
     color: $color-text-primary;
 }
+.main-container {
+    display: grid;
+    grid-template-rows: 90px auto;
+    .main-content-container {
+        padding: 20px;
+        background-color: $color-bg-secondary;
+        height: calc(100vh - 90px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
