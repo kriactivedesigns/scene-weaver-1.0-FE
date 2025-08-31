@@ -1,0 +1,76 @@
+@use '../../../../styles/variables' as *;
+
+.header-container {
+    height: 90px;
+    display: grid;
+    grid-template-columns: 250px auto 250px;
+    padding: 20px 10px;
+    box-shadow: $shadow;
+    .left-logo-menu {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        cursor: pointer;
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img {
+                width: 60px;
+            }
+        }
+        .branding {
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+            align-items: flex-start;
+            .product {
+                font-size: 1rem;
+                font-weight: 600;
+                color: $color-text-primary;
+            }
+            .company {
+                font-size: 0.8rem;
+                color: $color-text-secondary;
+            }
+        }
+    }
+    .center-content-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        h3.dashboard-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: $color-text-primary;
+        }
+    }
+    .right-profile-menu {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center; 
+        .name-email {
+            text-align: right;
+            .name {
+                span {
+                    font-size: 1rem;
+                    font-weight: 600;
+                    color: $color-text-primary;
+                }
+            }
+            .email {
+                font-size: 0.8rem;
+                color: $color-text-secondary;
+            }
+        }
+        .profile-image {
+            img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                margin-left: 10px;
+                cursor: pointer;  
+            }
+        }
+    }
+}

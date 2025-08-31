@@ -5,7 +5,7 @@
     width: 1200px;
     height: 600px;
     display: flex;
-    box-shadow: 0 1px 6px $color-hover;
+    box-shadow: $shadow;
     .login-left {
       width: 50%;
       background-color: $color-surface;
@@ -58,7 +58,7 @@
             height: 100%;
             background: #fff;
             border-radius: 8px;
-            box-shadow: 0 1px 6px $color-hover;
+            box-shadow: $shadow;
             transition: transform 0.3s cubic-bezier(0.47, 1.64, 0.41, 0.8);
             will-change: transform;
           }

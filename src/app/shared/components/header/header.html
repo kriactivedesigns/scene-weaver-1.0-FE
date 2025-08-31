@@ -1,0 +1,31 @@
+<div class="header-container">
+    <div class="left-logo-menu" (click)="goTo('dashboard')">
+        <div class="logo">
+            <img src="scene_weaver_logo_only.png" alt="logo">
+        </div>
+        <div class="branding">
+            <span class="product">SceneWeaver 1.0</span>
+            <span class="company">CausalSyntax Inc.</span>
+        </div>
+    </div>
+    <div class="center-content-container">
+        @if (page === 'dashboard') {
+            <h3 class="dashboard-text">Dashboard</h3>
+        } @else {
+            
+        }
+    </div>
+    <div class="right-profile-menu">
+        <div class="name-email">
+            <div class="name">
+                <span>John Doe</span>
+            </div>
+            <div class="email">
+                <span>john.doe@causalsyntax.com</span>
+            </div>
+        </div>
+        <div class="profile-image">
+            <img src="profile.png" alt="img">
+        </div>
+    </div>
+</div>

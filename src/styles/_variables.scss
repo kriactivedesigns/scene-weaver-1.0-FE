@@ -15,7 +15,7 @@ $color-bg-secondary:   #ECF0F3; // Dashboards/cards background contrast
 
 // Text & Typography
 $color-text-primary:   #222B36; // Main text, high contrast on white/card
-$color-text-secondary: #5F6B7A; // Muted, hints/labels
+$color-text-secondary: #616a76; // Muted, hints/labels
 $color-text-light:     #93A3B1; // Caption, placeholder
 $color-text-inverse:   #FFFFFF; // On primary buttons or dark backgrounds
 
@@ -32,7 +32,8 @@ $color-btn-disabled-bg:   $light-border;
 $color-btn-disabled-text: $color-text-light;
 
 // States & Shadows
-$color-hover:          rgba(49, 176, 230, 0.09); // Hover for primary surfaces/buttons
+$color-hover: #5F6B7A; // Hover for primary surfaces/buttons
+$shadow: 0 1px 3px #e3e2e2;
 $success:      #4CAF50;
 $error:        #EF5350;
 $warning:      #FFC107;
