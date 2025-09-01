@@ -5,3 +5,11 @@ export interface Project {
     updatedOn: string; // ISO date string
     description: string;
 }
+
+export interface NewProject {
+    projectName: string;
+    width: number;
+    height: number;
+    unit: string;
+    description: string;
+}

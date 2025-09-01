@@ -1,7 +1,8 @@
-import { Component, inject } from "@angular/core";
+import { Component } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { customEmailValidator } from "../../extras/customValidators";
-import { Router } from "@angular/router";
+import { BaseComponent } from "../../shared/classes/base-component";
+import { User } from "../../models/user.model";
 
 @Component({
     selector: 'app-login',
@@ -11,7 +12,7 @@ import { Router } from "@angular/router";
         ReactiveFormsModule
     ]
 })
-export class Login {
+export class Login extends BaseComponent {
     public selectedTab: string = 'signin';
     public form = new FormGroup({
         email: new FormControl('', [
@@ -24,8 +25,6 @@ export class Login {
         ])
     })
 
-    private router = inject(Router);
-    
     get email() { return this.form.get('email'); }
     get password() { return this.form.get('password'); }
 
@@ -34,6 +33,11 @@ export class Login {
             this.form.markAllAsTouched();
             return;
         }
+        const user: User = {
+            email: this.email?.value || '',
+            name: 'John Doe'
+        }
+        this.loginState.login(user)
         if(this.selectedTab === 'signin') {
             // Handle sign-in logic
             this.router.navigate(['/dashboard']);

@@ -16,6 +16,7 @@
       text-align: center;
       flex-direction: column;
       .login-form-container {
+        width: 330px;
         padding-top: 50px;
         .login-welcome-header {
           margin: 20px;
@@ -26,13 +27,12 @@
         .sign-in-buttons-container {
           position: relative;
           display: flex;
-          width: 320px;
           height: 50px;
           background: $color-bg-secondary;
           border-radius: 8px;
           box-sizing: border-box;
           border: 1px solid $light-border;
-          margin: 10px;
+          margin: 10px 0;
           .tab {
             z-index: 2;
             flex: 1 1 50%;

@@ -3,8 +3,10 @@ import { GlobalState } from "../services/global-state";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Project } from "../../models/project.model";
 import { Pages } from "../../constants/pages";
+import { LoginState } from "../services/login-state";
 
 export abstract class BaseComponent {
+    protected loginState = inject(LoginState);
     protected globalState = inject(GlobalState);
     protected route = inject(ActivatedRoute);
     protected router = inject(Router);  

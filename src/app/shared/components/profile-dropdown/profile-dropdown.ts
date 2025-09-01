@@ -1,6 +1,8 @@
-import { Component, effect, inject, input } from "@angular/core";
+import { Component, inject, input } from "@angular/core";
 import { Router } from "@angular/router";
 import { Pages } from "../../../constants/pages";
+import { LoginState } from "../../services/login-state";
+import { User } from "../../../models/user.model";
 
 @Component({
     selector: 'profile-dropdown',
@@ -9,16 +11,13 @@ import { Pages } from "../../../constants/pages";
 })
 export class ProfileDropdown {
 
+    private loginState = inject(LoginState);
     open = input.required<boolean>();
+    user = input.required<User | null>();
     private router = inject(Router);
-
-    constructor() {
-        effect(() => {
-            console.log(this.open());
-        })
-    }
     
     signOut() {
+        this.loginState.logout();
         this.router.navigateByUrl(Pages.Login);
     }
     

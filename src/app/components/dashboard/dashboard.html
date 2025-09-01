@@ -9,8 +9,9 @@
                 </div>
             </div>
             <div class="create-new-project-button-container">
-                <button class="text-only-button">+ Create a New Project</button>
+                <button class="text-only-button" (click)="createProject()">+ Create a New Project</button>
             </div>
         </div>
     </div>
+    <new-project-popup [open]="openPopup()" (openChange)="handleOpenChange($event)" (onProjectCreate)="handleProjectCreate($event)"/>
 </div>

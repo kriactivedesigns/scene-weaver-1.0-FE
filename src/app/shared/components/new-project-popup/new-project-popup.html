@@ -1,0 +1,53 @@
+<div class="new-project-popup popup" [class.open]="open()">
+    @if (open()) {
+        <div class="content-container">
+            <div class="container">
+                <div class="close-icon" (click)="close()">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+                <h3>Create a new Project</h3>
+                <form [formGroup]="form" class="login-form input-form" (ngSubmit)="onSubmit()">
+                    <div class="input-container">
+                        <div class="input-label-container">
+                            <input maxlength="128" class="input" type="text" id="projectName" placeholder=" " formControlName="projectName" required/>
+                            <label for="projectName">Project Name</label>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-container">
+                            <div class="input-label-container">
+                                <input maxlength="5" class="input" type="number"
+                                        id="width" placeholder=" " formControlName="width" required
+                                        oninput="javascript: if  (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
+                                <label for="width">Width</label>
+                            </div>
+                        </div>
+                        <div class="input-container">
+                            <div class="input-label-container">
+                                <input maxlength="5" class="input" type="number"
+                                        id="height" placeholder=" " formControlName="height" required
+                                        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"/>
+                                <label for="height">Height</label>
+                            </div>
+                        </div>
+                        <div class="input-container">
+                            <div class="input-label-container">
+                                <input maxlength="2" class="input" type="text" id="unit" placeholder=" " formControlName="unit" required/>
+                                <label for="unit">Unit</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <div class="input-label-container">
+                            <input maxlength="128" class="input" type="text" id="description" placeholder=" " formControlName="description" required/>
+                            <label for="description">Description</label>
+                        </div>
+                    </div>
+                    <button class="primary-button login-button" [disabled]="form.invalid" type="submit">
+                        Create
+                    </button>
+                </form>
+            </div>
+        </div>
+    }
+</div>

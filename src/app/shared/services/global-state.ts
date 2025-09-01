@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from "@angular/core";
-import { Project } from "../../models/project.model";
+import { NewProject, Project } from "../../models/project.model";
 import { HttpClient } from "@angular/common/http";
 
 @Injectable({
@@ -61,6 +61,20 @@ export class GlobalState {
                 console.error('Error fetching projects:', error);
             }
         });
+    }
+
+    public postProject(data: NewProject): void {
+        const project: Project = {
+            id: (this.projects().length + 1).toString(),
+            projectName: data.projectName,
+            description: data.description,
+            createdOn: new Date().toISOString().slice(0, 10),
+            updatedOn: new Date().toISOString().slice(0, 10)
+        }
+        this.projects.update((value) => {
+            return [...value, project];
+        })
+        console.log(this.projects())
     }
     
 }

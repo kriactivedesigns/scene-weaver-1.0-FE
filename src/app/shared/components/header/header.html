@@ -42,17 +42,17 @@
     <div class="right-profile-menu">
         <div class="name-email">
             <div class="name">
-                <span>John Doe</span>
+                <span>{{loginState.getUser()?.name}}</span>
             </div>
             <div class="email">
-                <span>john.doe@causalsyntax.com</span>
+                <span>{{loginState.getUser()?.email}}</span>
             </div>
         </div>
         <div class="profile-image" (click)="openProfileDropdown()">
             <img src="profile.png" alt="img">
         </div>
         <div class="profile-dropdown-container">
-            <profile-dropdown [open]="isDropdownOpen()"/>
+            <profile-dropdown [open]="isDropdownOpen()" [user]="loginState.getUser()"/>
         </div>
     </div>
 </div>
