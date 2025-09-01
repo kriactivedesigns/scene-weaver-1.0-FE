@@ -1,5 +1,5 @@
 <div class="header-container">
-    <div class="left-logo-menu" (click)="goTo('dashboard')">
+    <div class="left-logo-menu" (click)="goTo(Pages.Dashboard)">
         <div class="logo">
             <img src="scene_weaver_logo_only.png" alt="logo">
         </div>
@@ -9,10 +9,34 @@
         </div>
     </div>
     <div class="center-content-container">
-        @if (page() === 'dashboard') {
+        @if (globalState.getCurrentPage() === Pages.Dashboard) {
             <h3 class="dashboard-text">Dashboard</h3>
         } @else {
-            <h3 class="dashboard-text">Different Header</h3>
+            <div class="breadcrumb-container">
+                <div class="project-title">
+                    <span>{{globalState.getCurrentProject()?.projectName}}</span>
+                </div>
+                <div class="breadcrumbs">
+                    <div class="page" [class.active]="globalState.getCurrentPage() === Pages.Realm">
+                        <span (click)="goTo(Pages.Realm)">Realm</span>
+                    </div>
+                    <div class="page" [class.active]="globalState.getCurrentPage() === Pages.Canvas">
+                        <span (click)="goTo(Pages.Canvas)">Canvas</span>
+                    </div>
+                    <div class="page" [class.active]="globalState.getCurrentPage() === Pages.Story">
+                        <span (click)="goTo(Pages.Story)">Story</span>
+                    </div>
+                    <div class="page" [class.active]="globalState.getCurrentPage() === Pages.Screenplay">
+                        <span (click)="goTo(Pages.Screenplay)">Screenplay</span>
+                    </div>
+                    <div class="page" [class.active]="globalState.getCurrentPage() === Pages.Storyboard">
+                        <span (click)="goTo(Pages.Storyboard)">Storyboard</span>
+                    </div>
+                    <div class="page" [class.active]="globalState.getCurrentPage() === Pages.Animatics">
+                        <span (click)="goTo(Pages.Animatics)">Animatics</span>
+                    </div>
+                </div>
+            </div>
         }
     </div>
     <div class="right-profile-menu">
@@ -24,7 +48,7 @@
                 <span>john.doe@causalsyntax.com</span>
             </div>
         </div>
-        <div class="profile-image">
+        <div class="profile-image" (click)="goTo(Pages.Login)">
             <img src="profile.png" alt="img">
         </div>
     </div>

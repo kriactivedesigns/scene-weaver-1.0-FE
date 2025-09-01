@@ -1,10 +1,9 @@
 <div class="main-container">
-    <app-header page="dashboard"/>
     <div class="main-content-container">
         <div class="project-listing-container">
             <div class="project-list">
                 <div class="project-cards-container">
-                    @for (project of projects(); track $index) {
+                    @for (project of globalState.getProjects(); track $index) {
                         <app-project-card [project]="project" />
                     }
                 </div>

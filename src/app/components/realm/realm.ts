@@ -5,10 +5,7 @@ import { Header } from "../../shared/components/header/header";
     selector: 'app-realm',
     templateUrl: './realm.html',
     styleUrls: ['./realm.scss'],
-    standalone: true,
-    imports: [
-        Header
-    ]
+    standalone: true
 })
-export class Realm {
+export class Realm {    
 }

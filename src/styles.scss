@@ -21,8 +21,6 @@ body, html {
     color: $color-text-primary;
 }
 .main-container {
-    display: grid;
-    grid-template-rows: 90px auto;
     .main-content-container {
         padding: 20px;
         background-color: $color-bg-secondary;

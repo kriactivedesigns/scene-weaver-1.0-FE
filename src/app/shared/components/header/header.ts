@@ -1,18 +1,9 @@
-import { Component, inject, input, signal } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, effect } from "@angular/core";
+import { BaseComponent } from "../../classes/base-component";
 
 @Component({
   selector: "app-header",
   templateUrl: "./header.html",
   styleUrls: ["./header.scss"]
 })
-export class Header {
-
-    public page = input.required<string>();
-    private router = inject(Router);
-
-    goTo(page: string) {
-        this.router.navigate([`/${page}`]);
-    }
-    
-}
+export class Header extends BaseComponent { }

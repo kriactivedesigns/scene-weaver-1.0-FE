@@ -1,5 +1,5 @@
 export interface Project {
-    id: number;
+    id: string;
     projectName: string;
     createdOn: string; // ISO date string
     updatedOn: string; // ISO date string
