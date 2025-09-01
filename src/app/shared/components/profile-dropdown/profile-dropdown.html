@@ -1,0 +1,14 @@
+<div class="dropdown-menu">
+    <div class="dropdown-content" [class.open]="open()">
+        <div class="profile">
+            <img src="profile.png" alt="profile">
+        </div>
+        <h3>JOHN DOE</h3>
+        <div class="logout" (click)="signOut()">
+            <span>Sign Out</span>
+            <div class="icon">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </div>
+        </div>
+    </div>
+</div>

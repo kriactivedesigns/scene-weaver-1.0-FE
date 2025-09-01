@@ -48,8 +48,11 @@
                 <span>john.doe@causalsyntax.com</span>
             </div>
         </div>
-        <div class="profile-image" (click)="goTo(Pages.Login)">
+        <div class="profile-image" (click)="openProfileDropdown()">
             <img src="profile.png" alt="img">
+        </div>
+        <div class="profile-dropdown-container">
+            <profile-dropdown [open]="isDropdownOpen()"/>
         </div>
     </div>
 </div>
