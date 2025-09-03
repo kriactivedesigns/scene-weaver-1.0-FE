@@ -1,7 +1,6 @@
-import { Component, inject, input } from "@angular/core";
-import { Project } from "../../../models/project.model";
-import { Router } from "@angular/router";
-import { BaseComponent } from "../../classes/base-component";
+import { Component, input } from "@angular/core";
+import { Project } from "../../models/project.model";
+import { BaseComponent } from "../base-component/base-component";
 
 @Component({
     selector: 'app-project-card',

@@ -1,14 +1,17 @@
-import { effect, inject, signal } from "@angular/core";
-import { GlobalState } from "../services/global-state";
-import { ActivatedRoute, Router } from "@angular/router";
+import { inject } from "@angular/core";
+import { Router } from "@angular/router";
+import { LoginState } from "../../services/login-state.service";
+import { GlobalState } from "../../services/global-state.service";
+import { GenerationService } from "../../services/generative.service";
+import { Pages } from "../../enums/enums";
 import { Project } from "../../models/project.model";
-import { Pages } from "../../constants/pages";
-import { LoginState } from "../services/login-state";
+import { ProjectState } from "../../state/project.state";
 
 export abstract class BaseComponent {
     protected loginState = inject(LoginState);
     protected globalState = inject(GlobalState);
-    protected route = inject(ActivatedRoute);
+    protected generativeService = inject(GenerationService);
+    protected projectState = inject(ProjectState);
     protected router = inject(Router);  
     public Pages = Pages;  
 
@@ -18,7 +21,7 @@ export abstract class BaseComponent {
         if (arg === Pages.Dashboard || arg === Pages.Login) {
             this.router.navigate([`/${arg}`]);
         } else if (typeof arg === 'string') {
-            const currentProjectId = this.globalState.getCurrentProject()?.id;
+            const currentProjectId = this.projectState.currentProjectId;
             this.router.navigate([`/${arg}`], { 
                 queryParams: currentProjectId ? { projectId: currentProjectId } : {} 
             });

@@ -1,8 +1,8 @@
-import { Component, signal } from "@angular/core";
+import { Component, effect, OnInit, signal } from "@angular/core";
 import { ProjectCard } from "../../shared/components/project-card/project-card";
-import { BaseComponent } from "../../shared/classes/base-component";
 import { NewProjectPopup } from "../../shared/components/new-project-popup/new-project-popup";
-import { NewProject } from "../../models/project.model";
+import { Project } from "../../shared/models/project.model";
+import { BaseComponent } from "../../shared/components/base-component/base-component";
 
 @Component({
     selector: 'app-dashboard',
@@ -14,23 +14,34 @@ import { NewProject } from "../../models/project.model";
         NewProjectPopup
     ]
 })
-export class Dashboard extends BaseComponent {
+export class Dashboard extends BaseComponent implements OnInit {
 
     openPopup = signal<boolean>(false);
+    
+    ngOnInit(): void {
+        this.projectState.fetchProjects(); 
+    }
+
+    constructor() {
+        super();
+        effect(() => {
+            this.projectState.projects()
+        })
+    }
 
     createProject() {
         this.openPopup.set(true);
     }
     
-    handleOpenChange(value: boolean) {
+    handleCreateProjectOpenChange(value: boolean) {
         console.log(value);
         this.openPopup.set(value);
     }
     
-    handleProjectCreate(project: NewProject) {
+    handleCreateProjectOutput(project: Project) {
         console.log(project);
         this.openPopup.set(false);
-        this.globalState.postProject(project);
+        this.projectState.addProject(project);
     }
 
 }

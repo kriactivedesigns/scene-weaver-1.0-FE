@@ -1,0 +1,1 @@
+export type PageType = 'login' | 'dashboard' | 'realm' | 'canvas' | 'story' | 'screenplay' | 'storyboard' | 'animatics';

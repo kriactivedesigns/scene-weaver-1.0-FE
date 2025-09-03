@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { customEmailValidator } from "../../extras/customValidators";
-import { BaseComponent } from "../../shared/classes/base-component";
-import { User } from "../../models/user.model";
+import { customEmailValidator } from "../../shared/extras/customValidators";
+import { User } from "../../shared/models/user.model";
+import { BaseComponent } from "../../shared/components/base-component/base-component";
 
 @Component({
     selector: 'app-login',
@@ -34,6 +34,7 @@ export class Login extends BaseComponent {
             return;
         }
         const user: User = {
+            id: '',
             email: this.email?.value || '',
             name: 'John Doe'
         }

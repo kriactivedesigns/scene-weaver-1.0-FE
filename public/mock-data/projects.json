@@ -1,72 +1,122 @@
 [
-    {
-        "id": "1",
-        "projectName": "Project Alpha",
-        "createdOn": "2023-10-01",
-        "updatedOn": "2023-10-15",
-        "description": "Initial project setup and requirements gathering."
-    },
-    {
-        "id": "2",
-        "projectName": "Beta Launch",
-        "createdOn": "2023-11-05",
-        "updatedOn": "2023-11-20",
-        "description": "Beta version released for internal testing."
-    },
-    {
-        "id": "3",
-        "projectName": "Gamma Integration",
-        "createdOn": "2023-12-10",
-        "updatedOn": "2023-12-18",
-        "description": "Integrated third-party APIs for extended features."
-    },
-    {
-        "id": "4",
-        "projectName": "Delta Review",
-        "createdOn": "2024-01-02",
-        "updatedOn": "2024-01-10",
-        "description": "Project reviewed by stakeholders and feedback collected."
-    },
-    {
-        "id": "5",
-        "projectName": "Epsilon Update",
-        "createdOn": "2024-02-14",
-        "updatedOn": "2024-02-20",
-        "description": "Major update with new UI components."
-    },
-    {
-        "id": "6",
-        "projectName": "Zeta Migration",
-        "createdOn": "2024-03-01",
-        "updatedOn": "2024-03-15",
-        "description": "Migrated legacy data to new system."
-    },
-    {
-        "id": "7",
-        "projectName": "Eta Optimization",
-        "createdOn": "2024-04-05",
-        "updatedOn": "2024-04-12",
-        "description": "Performance optimization and bug fixes."
-    },
-    {
-        "id": "8",
-        "projectName": "Theta Expansion",
-        "createdOn": "2024-05-10",
-        "updatedOn": "2024-05-18",
-        "description": "Expanded project scope to include new modules."
-    },
-    {
-        "id": "9",
-        "projectName": "Iota Documentation",
-        "createdOn": "2024-06-01",
-        "updatedOn": "2024-06-07",
-        "description": "Comprehensive documentation completed."
-    },
-    {
-        "id": "10",
-        "projectName": "Kappa Release",
-        "createdOn": "2024-07-15",
-        "updatedOn": "2024-07-20",
-        "description": "Official release and deployment."
-    }
+  {
+    "id": "a1c23fd0-5e11-4bda-8b95-9201dfa67c25",
+    "projectName": "Epic Space Odyssey",
+    "width": 1920,
+    "height": 1080,
+    "unit": "px",
+    "aspectRatio": "16:9",
+    "description": "A sci-fi adventure storyboard project",
+    "visualStyle": "Cinematic",
+    "createdAt": "2025-09-02T10:00:00Z",
+    "updatedAt": "2025-09-02T11:30:00Z"
+  },
+  {
+    "id": "b2ad43dc-902b-4ea4-8b6a-723eae4a70b2",
+    "projectName": "Mystery of the Old Mill",
+    "width": 1280,
+    "height": 720,
+    "unit": "px",
+    "aspectRatio": "16:9",
+    "description": "Murder mystery set in a dilapidated mill",
+    "visualStyle": "Moody Noir",
+    "createdAt": "2025-07-20T16:10:00Z",
+    "updatedAt": "2025-08-01T08:15:00Z"
+  },
+  {
+    "id": "df317452-28e3-4c11-9583-7bb2ff06e1e0",
+    "projectName": "The Coral Kingdom",
+    "width": 3840,
+    "height": 2160,
+    "unit": "px",
+    "aspectRatio": "16:9",
+    "description": "Animated underwater story for children",
+    "visualStyle": "Vivid Colors",
+    "createdAt": "2025-09-01T09:00:00Z",
+    "updatedAt": "2025-09-03T10:45:00Z"
+  },
+  {
+    "id": "e9836a10-6417-4e6c-8372-1bb9ba4ff6a5",
+    "projectName": "Neon Samurai",
+    "width": 2560,
+    "height": 1440,
+    "unit": "px",
+    "aspectRatio": "16:9",
+    "description": "Cyberpunk story of a futuristic warrior",
+    "visualStyle": "Retro Futurism",
+    "createdAt": "2025-07-30T12:50:00Z",
+    "updatedAt": "2025-08-15T17:22:00Z"
+  },
+  {
+    "id": "344a9c82-4979-4949-ba33-21e8b4ebe7c3",
+    "projectName": "Dreams of Kolkata",
+    "width": 1600,
+    "height": 900,
+    "unit": "px",
+    "aspectRatio": "16:9",
+    "description": "Slice-of-life drama set in modern India",
+    "visualStyle": "Documentary Natural",
+    "createdAt": "2025-06-10T06:10:00Z",
+    "updatedAt": "2025-08-11T20:20:00Z"
+  },
+  {
+    "id": "2f546d7b-7c18-4df9-83e8-d0d804168ec9",
+    "projectName": "Quantum Leap",
+    "width": 1920,
+    "height": 1200,
+    "unit": "px",
+    "aspectRatio": "16:10",
+    "description": "Time travel adventure for a young audience",
+    "visualStyle": "Clean Animation",
+    "createdAt": "2025-08-10T14:15:00Z",
+    "updatedAt": "2025-08-21T09:30:00Z"
+  },
+  {
+    "id": "aec789f1-4d42-4ab2-93d3-31c8a3fb6be2",
+    "projectName": "Midnight Express",
+    "width": 1366,
+    "height": 768,
+    "unit": "px",
+    "aspectRatio": "16:9",
+    "description": "Heist thriller on a moving train",
+    "visualStyle": "High Contrast",
+    "createdAt": "2025-05-05T22:00:00Z",
+    "updatedAt": "2025-05-20T12:45:00Z"
+  },
+  {
+    "id": "7a6f2b31-c487-4e8e-b6d6-e71e767af24e",
+    "projectName": "The Greenhouse",
+    "width": 2400,
+    "height": 1350,
+    "unit": "px",
+    "aspectRatio": "16:9",
+    "description": "A family tale about botanical wonder",
+    "visualStyle": "Soft Pastel",
+    "createdAt": "2025-04-18T09:40:00Z",
+    "updatedAt": "2025-07-10T13:30:00Z"
+  },
+  {
+    "id": "2bf8e97a-19c6-4be1-9a97-8e82e7a51be2",
+    "projectName": "Voices in the Mist",
+    "width": 1024,
+    "height": 768,
+    "unit": "pt",
+    "aspectRatio": "4:3",
+    "description": "Supernatural mystery with haunting visuals",
+    "visualStyle": "Monochrome",
+    "createdAt": "2025-06-22T18:25:00Z",
+    "updatedAt": "2025-06-30T19:55:00Z"
+  },
+  {
+    "id": "496e1426-4168-4011-8a21-75333a9f244d",
+    "projectName": "Sunrise Symphony",
+    "width": 4096,
+    "height": 1716,
+    "unit": "px",
+    "aspectRatio": "2.39:1",
+    "description": "Visual exploration of music and rhythm",
+    "visualStyle": "Impressionist",
+    "createdAt": "2025-08-12T05:30:00Z",
+    "updatedAt": "2025-09-01T10:05:00Z"
+  }
 ]

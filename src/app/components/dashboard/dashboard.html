@@ -3,7 +3,7 @@
         <div class="project-listing-container">
             <div class="project-list">
                 <div class="project-cards-container">
-                    @for (project of globalState.getProjects(); track $index) {
+                    @for (project of projectState.projects(); track $index) {
                         <app-project-card [project]="project" />
                     }
                 </div>
@@ -13,5 +13,5 @@
             </div>
         </div>
     </div>
-    <new-project-popup [open]="openPopup()" (openChange)="handleOpenChange($event)" (onProjectCreate)="handleProjectCreate($event)"/>
+    <new-project-popup [open]="openPopup()" (openChange)="handleCreateProjectOpenChange($event)" (onProjectCreate)="handleCreateProjectOutput($event)"/>
 </div>

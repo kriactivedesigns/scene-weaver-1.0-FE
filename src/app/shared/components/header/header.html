@@ -9,30 +9,30 @@
         </div>
     </div>
     <div class="center-content-container">
-        @if (globalState.getCurrentPage() === Pages.Dashboard) {
+        @if (globalState.currentPage() === Pages.Dashboard) {
             <h3 class="dashboard-text">Dashboard</h3>
         } @else {
             <div class="breadcrumb-container">
                 <div class="project-title">
-                    <span>{{globalState.getCurrentProject()?.projectName}}</span>
+                    <span>{{projectState.currentProject()?.projectName}}</span>
                 </div>
                 <div class="breadcrumbs">
-                    <div class="page" [class.active]="globalState.getCurrentPage() === Pages.Realm">
+                    <div class="page" [class.active]="globalState.currentPage() === Pages.Realm">
                         <span (click)="goTo(Pages.Realm)">Realm</span>
                     </div>
-                    <div class="page" [class.active]="globalState.getCurrentPage() === Pages.Canvas">
+                    <div class="page" [class.active]="globalState.currentPage() === Pages.Canvas">
                         <span (click)="goTo(Pages.Canvas)">Canvas</span>
                     </div>
-                    <div class="page" [class.active]="globalState.getCurrentPage() === Pages.Story">
+                    <div class="page" [class.active]="globalState.currentPage() === Pages.Story">
                         <span (click)="goTo(Pages.Story)">Story</span>
                     </div>
-                    <div class="page" [class.active]="globalState.getCurrentPage() === Pages.Screenplay">
+                    <div class="page" [class.active]="globalState.currentPage() === Pages.Screenplay">
                         <span (click)="goTo(Pages.Screenplay)">Screenplay</span>
                     </div>
-                    <div class="page" [class.active]="globalState.getCurrentPage() === Pages.Storyboard">
+                    <div class="page" [class.active]="globalState.currentPage() === Pages.Storyboard">
                         <span (click)="goTo(Pages.Storyboard)">Storyboard</span>
                     </div>
-                    <div class="page" [class.active]="globalState.getCurrentPage() === Pages.Animatics">
+                    <div class="page" [class.active]="globalState.currentPage() === Pages.Animatics">
                         <span (click)="goTo(Pages.Animatics)">Animatics</span>
                     </div>
                 </div>
@@ -42,17 +42,17 @@
     <div class="right-profile-menu">
         <div class="name-email">
             <div class="name">
-                <span>{{loginState.getUser()?.name}}</span>
+                <span>{{loginState.user()?.name}}</span>
             </div>
             <div class="email">
-                <span>{{loginState.getUser()?.email}}</span>
+                <span>{{loginState.user()?.email}}</span>
             </div>
         </div>
         <div class="profile-image" (click)="openProfileDropdown()">
             <img src="profile.png" alt="img">
         </div>
         <div class="profile-dropdown-container">
-            <profile-dropdown [open]="isDropdownOpen()" [user]="loginState.getUser()"/>
+            <profile-dropdown [open]="isDropdownOpen()" [user]="loginState.user()"/>
         </div>
     </div>
 </div>

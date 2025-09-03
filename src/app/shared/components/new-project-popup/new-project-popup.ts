@@ -1,6 +1,6 @@
 import { Component, input, output } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { NewProject } from "../../../models/project.model";
+import { Project } from "../../models/project.model";
 
 @Component({
     selector: 'new-project-popup',
@@ -13,7 +13,7 @@ import { NewProject } from "../../../models/project.model";
 export class NewProjectPopup {
     open = input.required<boolean>();
     openChange = output<boolean>();
-    onProjectCreate = output<NewProject>();
+    onProjectCreate = output<Project>();
 
     public form = new FormGroup({
         projectName: new FormControl('', [
@@ -50,7 +50,7 @@ export class NewProjectPopup {
             this.form.markAllAsTouched();
             return;
         }
-        const project: NewProject = {
+        const project: Project = {
             projectName: this.projectName?.value || '',
             width: this.width?.value || 0,
             height: this.height?.value || 0,
