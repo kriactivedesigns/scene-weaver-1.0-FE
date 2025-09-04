@@ -56,7 +56,7 @@ export class Login extends BaseComponent {
         }
     }
 
-    public onSignInToggle(type: any) {
+    public onSignInToggle() {
         this.selectedTab.update((current) => current === 'signin' ? 'signup' : 'signin');
     }
     

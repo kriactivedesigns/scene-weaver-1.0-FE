@@ -1,6 +1,12 @@
 @use '../../../styles/variables' as *;
 
 .main-bg-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $color-bg-primary;
   .main-container {
     width: 1200px;
     height: 600px;
@@ -26,6 +32,7 @@
         }
         .sign-in-buttons-container {
           height: 50px;
+          margin-bottom: 20px;
         }
       }
       .copyright-message {

@@ -5,7 +5,7 @@
         <h2 class="login-welcome-header">Welcome Back</h2>
         <p class="login-welcome-message">Welcome Back. Please enter Your details</p>
         <div class="sign-in-buttons-container">
-          <toggle-buttons (onclick)="onSignInToggle($event)" [selectedSide]="selectedButton()"  [buttonNames]="['Sign In', 'Signup']" />
+          <toggle-buttons (onclick)="onSignInToggle()" [selectedSide]="selectedButton()"  [buttonNames]="['Sign In', 'Signup']" />
         </div>
         <form [formGroup]="form" class="login-form input-form" (ngSubmit)="onSubmit()">
           <div class="input-container  input-with-logo">

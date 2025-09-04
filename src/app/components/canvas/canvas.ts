@@ -1,5 +1,6 @@
 import { Component, effect } from "@angular/core";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
+import { Pages } from "../../shared/enums/pages";
 
 @Component({
     selector: 'app-canvas',
@@ -7,4 +8,8 @@ import { BaseComponent } from "../../shared/components/base-component/base-compo
     styleUrls: ['./canvas.scss'],
     standalone: true
 })
-export class Canvas extends BaseComponent { }
+export class Canvas extends BaseComponent {
+   navigateToNextPage() {
+    this.goTo(Pages.Story);
+   }
+}

@@ -1,4 +1,6 @@
 import { Component } from "@angular/core";
+import { BaseComponent } from "../../shared/components/base-component/base-component";
+import { Pages } from "../../shared/enums/pages";
 
 @Component({
     selector: 'app-story',
@@ -6,5 +8,10 @@ import { Component } from "@angular/core";
     styleUrls: ['./story.scss'],
     standalone: true
 })
-export class Story {
+export class Story extends BaseComponent {
+
+    navigateToNextPage() {
+        this.goTo(Pages.Screenplay);
+    }
+    
 }

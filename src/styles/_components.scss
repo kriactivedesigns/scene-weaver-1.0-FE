@@ -94,6 +94,10 @@ button.primary-button {
     font-size: 1rem;
     color: $color-btn-primary-text;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
     &[disabled] {
         background-color: $color-btn-disabled-bg;
         color: $color-btn-disabled-text;

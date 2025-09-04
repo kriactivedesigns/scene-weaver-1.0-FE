@@ -1,2 +1,12 @@
 @use '../../../styles/variables' as *;
 
+.main-container {
+    .main-content-container {
+        flex-direction: column;
+        .toggle-button-container {
+            width: 200px;
+            height: 45px;
+            margin-bottom: 15px;
+        }
+    }
+}
