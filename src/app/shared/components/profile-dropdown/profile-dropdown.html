@@ -4,10 +4,20 @@
             <img src="profile.png" alt="profile">
         </div>
         <h3>{{user()?.name}}</h3>
-        <div class="logout" (click)="signOut()">
-            <span>Sign Out</span>
-            <div class="icon">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        <div class="menu-item-container">
+            @if (isProjectOpened()) {
+            <div class="menu-item close" (click)="menuItemClick('close')">
+                <span>Close Project</span>
+                <div class="icon">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+            </div>
+            }
+            <div class="menu-item" (click)="menuItemClick('signout')">
+                <span>Sign Out</span>
+                <div class="icon">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </div>
             </div>
         </div>
     </div>

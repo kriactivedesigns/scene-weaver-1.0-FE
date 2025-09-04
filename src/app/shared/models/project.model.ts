@@ -1,12 +1,19 @@
-export interface Project {
-  id?: string;                 // UUID or string, unique project identifier
-  projectName: string;        // Human-friendly name/title of the project
-  width: number;              // Width (for output, canvas, story scale, etc.)
-  height: number;             // Height (same as above)
-  unit: string;               // 'px', 'pt', etc.
-  aspectRatio?: string;       // (Optional) e.g. "16:9", "2.39:1"
-  description?: string;       // Short summary or notes for this project
-  visualStyle?: string;       // Style or preset name chosen by the user
-  createdAt?: Date;            // Timestamp
-  updatedAt?: Date;            // Timestamp
+import { Animatic } from "./animatics.model";
+import { Character } from "./character.model";
+import { ProjectMetadata } from "./project-metadata.model";
+import { ScreenplayScene } from "./screenplay-scene.model";
+import { StorySnippet } from "./story-snippet.model";
+import { Story } from "./story.model";
+import { StoryboardImage } from "./storyboard-image.model";
+import { WorldSetting } from "./world-setting.model";
+
+export interface Project extends ProjectMetadata {
+  // Nested detailed entities
+  characters?: Character[];
+  worldSettings?: WorldSetting[];
+  snippets?: StorySnippet[];                // or StorySnippet[] if you prefer
+  story?: Story;
+  screenplay?: ScreenplayScene[];
+  storyboardImages?: StoryboardImage[];
+  animatic?: Animatic;
 }

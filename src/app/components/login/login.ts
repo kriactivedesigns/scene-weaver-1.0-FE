@@ -1,19 +1,24 @@
-import { Component } from "@angular/core";
+import { Component, computed, signal } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { customEmailValidator } from "../../shared/extras/customValidators";
 import { User } from "../../shared/models/user.model";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
+import { ToggleButtons } from "../../shared/components/toggle-buttons/toggle-buttons";
+
+type Tabs = 'signin' | 'signup';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.html',
     styleUrls: ['./login.scss'],
     imports: [
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ToggleButtons
     ]
 })
 export class Login extends BaseComponent {
-    public selectedTab: string = 'signin';
+
+    public selectedTab = signal<Tabs>('signin');
     public form = new FormGroup({
         email: new FormControl('', [
             Validators.required,
@@ -24,6 +29,8 @@ export class Login extends BaseComponent {
             Validators.minLength(8)
         ])
     })
+
+    readonly selectedButton = computed(() => this.selectedTab() === 'signin' ? 'left' : 'right');
 
     get email() { return this.form.get('email'); }
     get password() { return this.form.get('password'); }
@@ -38,14 +45,19 @@ export class Login extends BaseComponent {
             email: this.email?.value || '',
             name: 'John Doe'
         }
-        this.loginState.login(user)
-        if(this.selectedTab === 'signin') {
+        if(this.selectedTab() === 'signin') {
             // Handle sign-in logic
-            this.router.navigate(['/dashboard']);
+            console.log('Signining In');
+            this.loginState.login(user)
         } else {
             // Handle sign-up logic
-            this.router.navigate(['/dashboard']);
+            console.log('Signining Up');
+            this.loginState.login(user)
         }
+    }
+
+    public onSignInToggle(type: any) {
+        this.selectedTab.update((current) => current === 'signin' ? 'signup' : 'signin');
     }
     
 }

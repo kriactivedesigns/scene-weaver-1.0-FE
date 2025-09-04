@@ -1,5 +1,5 @@
 <div class="header-container">
-    <div class="left-logo-menu" (click)="goTo(Pages.Dashboard)">
+    <div class="left-logo-menu">
         <div class="logo">
             <img src="scene_weaver_logo_only.png" alt="logo">
         </div>
@@ -52,7 +52,9 @@
             <img src="profile.png" alt="img">
         </div>
         <div class="profile-dropdown-container">
-            <profile-dropdown [open]="isDropdownOpen()" [user]="loginState.user()"/>
+            <profile-dropdown [open]="isDropdownOpen()"
+                            [user]="loginState.user()" (onclick)="onMenuItemClick($event)"
+                            [isProjectOpened]="isProjectOpened()"/>
         </div>
     </div>
 </div>

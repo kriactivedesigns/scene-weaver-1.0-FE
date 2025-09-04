@@ -1,4 +1,4 @@
-import { Component, effect, signal } from "@angular/core";
+import { Component, computed, effect, output, signal } from "@angular/core";
 import { BaseComponent } from "../base-component/base-component";
 import { ProfileDropdown } from "../profile-dropdown/profile-dropdown";
 
@@ -12,20 +12,28 @@ import { ProfileDropdown } from "../profile-dropdown/profile-dropdown";
 })
 export class Header extends BaseComponent {
   
+  isProjectOpened = computed(() => this.projectState.openedProject() ? true : false );
   isDropdownOpen = signal<boolean>(false);
-
-  constructor() {
-    super();
-    effect(() => {
-      console.log('current project id', this.projectState.currentProjectId())
-      console.log('current project', this.projectState.currentProject())
-    })
-  }
   
   openProfileDropdown() {
     this.isDropdownOpen.update((value) => {
       return !value;
     })
+  }
+
+  onMenuItemClick(item: string | null) {
+    switch(item) {
+      case 'close':
+        this.projectState.closeProject();
+        this.openProfileDropdown();
+        break;
+      case 'signout':
+        this.loginState.logout();
+        this.openProfileDropdown();
+        break;
+      default:
+        this.isDropdownOpen.set(false);
+    }
   }
   
 }

@@ -25,6 +25,7 @@
                 }
             }
             .create-new-project-button-container {
+                user-select: none;
                 display: flex;
                 justify-content: center;
             }

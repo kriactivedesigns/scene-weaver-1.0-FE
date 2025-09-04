@@ -5,26 +5,7 @@
         <h2 class="login-welcome-header">Welcome Back</h2>
         <p class="login-welcome-message">Welcome Back. Please enter Your details</p>
         <div class="sign-in-buttons-container">
-          <button
-            class="tab"
-            [class.active]="selectedTab === 'signin'"
-            (click)="selectedTab = 'signin'"
-            type="button"
-          >
-            Sign In
-          </button>
-          <button
-            class="tab"
-            [class.active]="selectedTab === 'signup'"
-            (click)="selectedTab = 'signup'"
-            type="button"
-          >
-            Signup
-          </button>
-          <div
-            class="tab-bg"
-            [style.transform]="selectedTab === 'signup' ? 'translateX(100%)' : 'translateX(0%)'"
-          ></div>
+          <toggle-buttons (onclick)="onSignInToggle($event)" [selectedSide]="selectedButton()"  [buttonNames]="['Sign In', 'Signup']" />
         </div>
         <form [formGroup]="form" class="login-form input-form" (ngSubmit)="onSubmit()">
           <div class="input-container  input-with-logo">

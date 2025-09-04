@@ -1,15 +1,22 @@
-import { Component, input } from "@angular/core";
-import { Project } from "../../models/project.model";
-import { BaseComponent } from "../base-component/base-component";
+import { Component, input, output } from "@angular/core";
+import { ProjectMetadata } from "../../models/project-metadata.model";
+import { DatePipe } from "@angular/common";
 
 @Component({
     selector: 'app-project-card',
     templateUrl: './project-card.html',
     styleUrls: ['./project-card.scss'],
-    standalone: true
+    imports: [
+        DatePipe
+    ]
 })
-export class ProjectCard extends BaseComponent {
+export class ProjectCard {
     
-    public project = input.required<Project>();
+    onOpenProject = output<ProjectMetadata>();
+    public project = input.required<ProjectMetadata>();
+
+    openProject(data: ProjectMetadata): void {
+        this.onOpenProject.emit(data);
+    }
     
 }

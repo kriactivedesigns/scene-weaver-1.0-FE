@@ -4,7 +4,7 @@
     height: 90px;
     display: grid;
     grid-template-columns: 250px auto 250px;
-    padding: 20px 10px;
+    padding: 16px 10px;
     box-shadow: $shadow;
     user-select: none;
     .left-logo-menu {
@@ -17,7 +17,7 @@
             justify-content: center;
             align-items: center;
             img {
-                width: 60px;
+                height: 35px;
             }
         }
         .branding {

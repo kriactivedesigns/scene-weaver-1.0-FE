@@ -1,4 +1,5 @@
-import { Component } from "@angular/core";
+import { Component, effect } from "@angular/core";
+import { BaseComponent } from "../../shared/components/base-component/base-component";
 
 @Component({
     selector: 'app-canvas',
@@ -6,5 +7,4 @@ import { Component } from "@angular/core";
     styleUrls: ['./canvas.scss'],
     standalone: true
 })
-export class Canvas {
-}
+export class Canvas extends BaseComponent { }

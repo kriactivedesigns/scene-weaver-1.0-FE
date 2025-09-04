@@ -1,12 +1,12 @@
-<div class="project-card" (click)="goTo(project())">
+<div class="project-card" (click)="openProject(project())">
     <span class="project-title">{{ project().projectName }}</span>
     <div class="labelled-content">
         <span class="label">Created On &nbsp;:&nbsp;</span>
-        <span class="text">{{ project().createdAt }}</span>
+        <span class="text">{{ project().createdAt | date }}</span>
     </div>
     <div class="labelled-content">
         <span class="label">Updated On :&nbsp;</span>
-        <span class="text">{{ project().updatedAt }}</span>
+        <span class="text">{{ project().updatedAt | date }}</span>
     </div>
     <div class="labelled-content vertical">
         <span class="label">Description :</span>

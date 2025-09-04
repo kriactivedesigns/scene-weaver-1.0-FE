@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { BaseComponent } from "../../shared/components/base-component/base-component";
 
 @Component({
     selector: 'app-realm',
@@ -6,5 +7,4 @@ import { Component } from "@angular/core";
     styleUrls: ['./realm.scss'],
     standalone: true
 })
-export class Realm {    
-}
+export class Realm extends BaseComponent { }

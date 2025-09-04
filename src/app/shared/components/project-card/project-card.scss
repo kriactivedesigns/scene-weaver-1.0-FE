@@ -12,6 +12,10 @@
     margin-bottom: 15px;
     cursor: pointer;
     user-select: none;
+    &:hover {
+        transform: scale(1.02);
+        transition: all 300ms ease;
+    }
     .project-title {
         font-size: 1.1rem;
         font-weight: 600;

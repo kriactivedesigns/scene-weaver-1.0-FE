@@ -1,14 +1,15 @@
-import { Injectable, signal, computed, effect, inject } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { PageType } from '../types/types';
-import { Pages } from '../enums/enums';
-import { Project } from '../models/project.model';
 import { ProjectState } from '../state/project.state';
+import { Pages } from '../enums/pages';
+import { LoginState } from './login-state.service';
 
 @Injectable({ providedIn: 'root' })
 export class GlobalState {
   // Dependancy Injections
+  private loginState = inject(LoginState);
   private router = inject(Router);
   private projectState = inject(ProjectState);
 
@@ -26,11 +27,6 @@ export class GlobalState {
     this.setupRouterListener();
   }
 
-  // Navigation & Page State
-  setCurrentPage(page: PageType): void {
-    this._currentPage.set(page);
-  }
-
   setLoading(loading: boolean): void {
     this._isLoading.set(loading);
   }
@@ -46,24 +42,30 @@ export class GlobalState {
   }
 
   private handleRouteChange(url: string): void {
-    // Extract page and projectId from URL
-    if (url.includes(`/${Pages.Realm}`)) this.setCurrentPage(Pages.Realm);
-    else if (url.includes(`/${Pages.Canvas}`)) this.setCurrentPage(Pages.Canvas);
-    else if (url.includes(`/${Pages.Story}`)) this.setCurrentPage(Pages.Story);
-    else if (url.includes(`/${Pages.Screenplay}`)) this.setCurrentPage(Pages.Screenplay);
-    else if (url.includes(`/${Pages.Storyboard}`)) this.setCurrentPage(Pages.Storyboard);
-    else if (url.includes(`/${Pages.Animatics}`)) this.setCurrentPage(Pages.Animatics);
-    else if (url.includes(`/${Pages.Dashboard}`)) this.setCurrentPage(Pages.Dashboard);
-    else this.setCurrentPage(Pages.Login);
 
     // Extract projectId from query params
     const urlTree = this.router.parseUrl(url);
     const projectId = urlTree.queryParams['projectId'];
-    debugger
     
     if (projectId && projectId !== this.projectState.currentProjectId()) {
-      this.projectState.setCurrentProjectId(projectId);
+      //this.projectState.setCurrentProjectId(projectId);
     }
   }
+
+    // Navigation & Page State
+    setCurrentPage(url: string): void {
+      let page: string;
+      if (url.includes(`/${Pages.Realm}`)) page = Pages.Realm;
+      else if (url.includes(`/${Pages.Canvas}`)) page = Pages.Canvas;
+      else if (url.includes(`/${Pages.Story}`)) page = Pages.Story;
+      else if (url.includes(`/${Pages.Screenplay}`)) page = Pages.Screenplay;
+      else if (url.includes(`/${Pages.Storyboard}`)) page = Pages.Storyboard;
+      else if (url.includes(`/${Pages.Animatics}`)) page = Pages.Animatics;
+      else if (url.includes(`/${Pages.Dashboard}`)) page = Pages.Dashboard;
+      else page = '';
+
+      this._currentPage.set(page);
+    }
+
 
 }

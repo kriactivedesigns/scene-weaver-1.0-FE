@@ -25,43 +25,7 @@
           color: $color-text-secondary;
         }
         .sign-in-buttons-container {
-          position: relative;
-          display: flex;
           height: 50px;
-          background: $color-bg-secondary;
-          border-radius: 8px;
-          box-sizing: border-box;
-          border: 1px solid $light-border;
-          margin: 10px 0;
-          .tab {
-            z-index: 2;
-            flex: 1 1 50%;
-            position: relative;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: $color-text-secondary;
-            font-size: 1rem;
-            height: 100%;
-            cursor: pointer;
-            transition: color 0.2s;
-            &.active {
-              color: $color-text-primary;
-            }
-          }
-          .tab-bg {
-            position: absolute;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            width: 50%;
-            height: 100%;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: $shadow;
-            transition: transform 0.3s cubic-bezier(0.47, 1.64, 0.41, 0.8);
-            will-change: transform;
-          }
         }
       }
       .copyright-message {
