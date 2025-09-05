@@ -1,5 +1,5 @@
-import { Component, input, output } from "@angular/core";
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { Component, inject, input, OnInit, output } from "@angular/core";
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ProjectMetadata } from "../../models/project-metadata.model";
 
 @Component({
@@ -10,40 +10,39 @@ import { ProjectMetadata } from "../../models/project-metadata.model";
         ReactiveFormsModule
     ]
 })
-export class NewProjectPopup {
+export class NewProjectPopup implements OnInit {
     open = input.required<boolean>();
     openChange = output<boolean>();
     onProjectCreate = output<ProjectMetadata>();
 
-    public form = new FormGroup({
-        projectName: new FormControl('', [
-            Validators.required,
-            Validators.minLength(5)
-        ]),
-        width: new FormControl<number | null>(1920, [
-            Validators.required,
-            Validators.maxLength(5)
-        ]),
-        height: new FormControl<number | null>(1080, [
-            Validators.required,
-            Validators.maxLength(5)
-        ]),
-        unit: new FormControl('px', [
-            Validators.required,
-            Validators.minLength(2),
-            Validators.maxLength(2),
-        ]),
-        description: new FormControl('', [
-            Validators.required,
-            Validators.minLength(8)
-        ])
-    })
+    public form! : FormGroup;
+    private fb = inject(FormBuilder);
 
-    get projectName() { return this.form.get('projectName'); }
-    get width() { return this.form.get('width'); }
-    get height() { return this.form.get('height'); }
-    get unit() { return this.form.get('unit'); }
-    get description() { return this.form.get('description'); }
+    ngOnInit(): void {
+        this.form = this.fb.group({
+            projectName: new FormControl('', [
+                Validators.required,
+                Validators.minLength(5)
+            ]),
+            width: new FormControl<number | null>(1920, [
+                Validators.required,
+                Validators.maxLength(5)
+            ]),
+            height: new FormControl<number | null>(1080, [
+                Validators.required,
+                Validators.maxLength(5)
+            ]),
+            unit: new FormControl('px', [
+                Validators.required,
+                Validators.minLength(2),
+                Validators.maxLength(2),
+            ]),
+            description: new FormControl('', [
+                Validators.required,
+                Validators.minLength(8)
+            ])
+        })
+    }
 
     onSubmit() {
         if (!this.form.valid) {
@@ -51,11 +50,12 @@ export class NewProjectPopup {
             return;
         }
         const project: ProjectMetadata = {
-            projectName: this.projectName?.value || '',
-            width: this.width?.value || 0,
-            height: this.height?.value || 0,
-            unit: this.unit?.value || '',
-            description: this.description?.value || '',
+            id: '',
+            projectName: this.form.value.projectName || '',
+            width: this.form.value.width || 0,
+            height: this.form.value.height || 0,
+            unit: this.form.value.unit || '',
+            description: this.form.value.description || '',
         }
         this.form.reset();
         this.onProjectCreate.emit(project);

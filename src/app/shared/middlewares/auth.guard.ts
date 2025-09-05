@@ -1,7 +1,7 @@
 import { inject, Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, GuardResult, MaybeAsync, Router, RouterStateSnapshot } from "@angular/router";
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
 import { LoginState } from "../services/login-state.service";
-import { Pages } from "../enums/pages";
+import { Pages } from "../enums/pages.enum";
 import { GlobalState } from "../services/global-state.service";
 
 @Injectable({

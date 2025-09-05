@@ -1,22 +1,16 @@
-import { Injectable, signal, inject } from '@angular/core';
+import { Injectable, signal, inject, effect } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
-import { PageType } from '../types/types';
 import { ProjectState } from '../state/project.state';
-import { Pages } from '../enums/pages';
-import { LoginState } from './login-state.service';
+import { Pages } from '../enums/pages.enum';
 
 @Injectable({ providedIn: 'root' })
 export class GlobalState {
   // Dependancy Injections
-  private loginState = inject(LoginState);
   private router = inject(Router);
-  private projectState = inject(ProjectState);
 
   // Reactive signals for state
-
   private _currentPage = signal<string>('dashboard');
-
   private _isLoading = signal<boolean>(false);
 
   // Public readonly access
@@ -45,12 +39,12 @@ export class GlobalState {
 
   private handleRouteChange(url: string): void {
     // Extract projectId from query params
-    const urlTree = this.router.parseUrl(url);
-    const projectId = urlTree.queryParams['projectId'];
+    // const urlTree = this.router.parseUrl(url);
+    // const projectId = urlTree.queryParams['projectId'];
 
-    if (projectId && projectId !== this.projectState.currentProjectId()) {
-      //this.projectState.setCurrentProjectId(projectId);
-    }
+    // if (projectId && projectId !== this.projectState.currentProjectId()) {
+    //   //this.projectState.setCurrentProjectId(projectId);
+    // }
   }
 
   // Navigation & Page State

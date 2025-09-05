@@ -1,5 +1,9 @@
 @use '../../../../styles/variables' as *;
 
+:host {
+    display: inline-block;
+}
+
 .project-card {
     background-color: $color-surface;
     box-shadow: $shadow;

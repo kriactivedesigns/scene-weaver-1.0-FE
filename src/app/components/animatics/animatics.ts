@@ -7,5 +7,4 @@ import { BaseComponent } from "../../shared/components/base-component/base-compo
     styleUrls: ['./animatics.scss'],
     standalone: true
 })
-export class Animatics extends BaseComponent {
-}
+export class Animatics extends BaseComponent { }

@@ -1,6 +1,7 @@
 @use 'variables' as *;
 
-.input-container {
+.input-container,
+.input-text-container {
     position: relative;
     display: grid;
     height: 55px;
@@ -84,6 +85,14 @@
     }
 }
 
+.input-text-container {
+    height: 90px;
+    textarea {
+        resize: none;
+        padding-top: 25px !important;
+    }
+}
+
 button.primary-button {
     width: 100%;
     height: 50px;
@@ -132,5 +141,21 @@ button.text-only-button {
     &.open {
         opacity: 1;
         visibility: visible;
+    }
+}
+
+button.icon-button {
+    height: 50px;
+    border: none;
+    background-color: transparent;
+    margin: 10px 0;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &[disabled] {
+        color: $color-btn-disabled-bg;
+        cursor: not-allowed;
     }
 }

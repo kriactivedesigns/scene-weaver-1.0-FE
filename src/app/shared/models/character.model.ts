@@ -2,9 +2,11 @@ export interface Character {
   id: string;
   projectId: string;
   characterName: string;
+  age: number;
+  height: string;
   appearanceDescription: string;
-  personality?: string;
-  voiceDescription?: string;
-  portraitImagePath?: string;
+  description: string;
+  imagePath: string;
   createdAt: Date;
+  updateddAt: Date;
 }

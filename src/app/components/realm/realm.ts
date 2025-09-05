@@ -1,7 +1,9 @@
 import { Component, computed, signal } from "@angular/core";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
 import { ToggleButtons } from "../../shared/components/toggle-buttons/toggle-buttons";
-import { Pages } from "../../shared/enums/pages";
+import { Pages } from "../../shared/enums/pages.enum";
+import { CharacterCard } from "../../shared/components/characted-card/character-card";
+import { Character } from "../../shared/models/character.model";
 
 type Types = 'character' | 'world'
 @Component({
@@ -10,7 +12,8 @@ type Types = 'character' | 'world'
     styleUrls: ['./realm.scss'],
     standalone: true,
     imports: [
-        ToggleButtons
+        ToggleButtons,
+        CharacterCard
     ]
 })
 export class Realm extends BaseComponent {
@@ -31,6 +34,14 @@ export class Realm extends BaseComponent {
 
     navigateToNextPage() {
         this.goTo(Pages.Canvas);
+    }
+
+    generateCharacterImage(character: Partial<Character>) {
+        console.log(character)
+    }
+
+    deleteCharacter(id: string) {
+        this.worldBibleState.deleteCharacter(id)
     }
     
 }

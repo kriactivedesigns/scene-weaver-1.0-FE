@@ -1,10 +1,15 @@
 // world-bible.state.ts
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, effect, inject } from '@angular/core';
 import { Character } from '../models/character.model';
 import { WorldSetting } from '../models/world-setting.model';
+import { ProjectState } from './project.state';
 
 @Injectable({ providedIn: 'root' })
 export class WorldBibleState {
+  
+  // Dependency Injection
+  private projectState = inject(ProjectState);
+
   private _characters = signal<Character[]>([]);
   private _worldSettings = signal<WorldSetting[]>([]);
   private _visualStyle = signal<string | null>(null);
@@ -25,6 +30,13 @@ export class WorldBibleState {
 
   readonly characterNames = computed(() => this.characters().map(c => c.characterName));
 
+  constructor() {
+    effect(() => {
+      const characters = this.projectState.openedProject()?.characters;
+      this._characters.set(characters ? characters : []);
+    })
+  }
+
   addCharacter(character: Character): void {
     this._characters.update(chars => [...chars, character]);
   }
@@ -33,6 +45,10 @@ export class WorldBibleState {
     this._characters.update(chars =>
       chars.map(char => char.id === id ? { ...char, ...updates } : char)
     );
+  }
+
+  deleteCharacter(id: string): void {
+    this._characters.update(chars => chars.filter(c => c.id != id));
   }
 
   setVisualStyle(style: string): void {

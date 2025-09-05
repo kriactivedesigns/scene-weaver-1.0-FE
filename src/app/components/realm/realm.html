@@ -1,24 +1,37 @@
 <div class="main-container">
-  <div class="main-content-container">
-    <div class="toggle-button-container">
-      <toggle-buttons
-        [buttonNames]="['Characters', 'World']"
-        (onclick)="onButtonToggle()"
-        [selectedSide]="selectedButton()"
-      />
-    </div>
-    <div class="content-container">
-      <div class="upper-section">@if (selectedTab() === 'character') { } @else { }</div>
-      <div class="bottom-section">
-        <div class="buttons-container">
-            <button class="text-only-button" (click)="onCreate()">
-          {{ selectedTab() === 'character' ? '+ Create a New Character' : '+ Create a New World'}}
-        </button>
-        <button class="primary-button button"
-                (click)="navigateToNextPage()">
-              CANVAS<span>&#10148;</span>
-        </button>
+  <div class="content-container">
+    <div class="upper-section">
+      <div class="character-world-switch">
+        <div class="toggle-button-container">
+          <toggle-buttons
+            [buttonNames]="['Characters', 'World']"
+            (onclick)="onButtonToggle()"
+            [selectedSide]="selectedButton()"
+          />
         </div>
+      </div>
+      <div class="cards-container">
+        @if (selectedTab() === 'character') { 
+          @for (character of worldBibleState.characters(); track $index) {
+            <character-card
+              [character]="character"
+              (onsubmit)="generateCharacterImage($event)"
+              (ondelete)="deleteCharacter($event)"
+            />
+          } 
+        } @else {
+          <character-card />
+        }
+      </div>
+    </div>
+    <div class="bottom-section">
+      <div class="buttons-container">
+        <button class="text-only-button" (click)="onCreate()">
+          {{ selectedTab() === 'character' ? '+ Create a New Character' : '+ Create a New World' }}
+        </button>
+        <button class="primary-button button" (click)="navigateToNextPage()">
+          CANVAS<span>&#10148;</span>
+        </button>
       </div>
     </div>
   </div>

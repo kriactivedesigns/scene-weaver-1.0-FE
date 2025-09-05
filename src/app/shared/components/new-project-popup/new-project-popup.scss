@@ -1,6 +1,7 @@
 @use '../../../../styles/variables' as *;
+
 .new-project-popup {
-    .content-container {
+    .popup-content-container {
         background-color: $color-bg-secondary;
         border-radius: 6px;
         width: 500px;

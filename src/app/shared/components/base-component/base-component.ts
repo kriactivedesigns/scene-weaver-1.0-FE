@@ -4,13 +4,15 @@ import { LoginState } from "../../services/login-state.service";
 import { GlobalState } from "../../services/global-state.service";
 import { GenerationService } from "../../services/generative.service";
 import { ProjectState } from "../../state/project.state";
-import { Pages } from "../../enums/pages";
+import { Pages } from "../../enums/pages.enum";
+import { WorldBibleState } from "../../state/world-bible.state";
 
 export abstract class BaseComponent {
     protected loginState = inject(LoginState);
     protected globalState = inject(GlobalState);
     protected generativeService = inject(GenerationService);
     protected projectState = inject(ProjectState);
+    protected worldBibleState = inject(WorldBibleState);
     protected router = inject(Router);  
     public Pages = Pages;  
 

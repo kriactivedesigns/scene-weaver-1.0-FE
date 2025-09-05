@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
-import { Pages } from "../../shared/enums/pages";
+import { Pages } from "../../shared/enums/pages.enum";
 
 @Component({
     selector: 'app-screenplay',

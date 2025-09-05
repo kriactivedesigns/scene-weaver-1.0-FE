@@ -1,16 +1,14 @@
 <div class="main-container">
-    <div class="main-content-container">
-        <div class="content-container">
-            <div class="upper-section">
-                <div class="project-cards-container">
-                    @for (project of projectState.projects(); track $index) {
-                        <app-project-card [project]="project" (onOpenProject)="handleOpenProjectOutput($event)"/>
-                    }
-                </div>
+    <div class="content-container">
+        <div class="upper-section">
+            <div class="project-cards-container">
+                @for (project of projectState.projects(); track $index) {
+                    <app-project-card [project]="project" (onOpenProject)="handleOpenProjectOutput($event)"/>
+                }
             </div>
-            <div class="bottom-section">
-                <button class="text-only-button" (click)="createProject()">+ Create a New Project</button>
-            </div>
+        </div>
+        <div class="bottom-section">
+            <button class="text-only-button" (click)="createProject()">+ Create a New Project</button>
         </div>
     </div>
     <new-project-popup [open]="openPopup()" (openChange)="handleCreateProjectOpenChange($event)" (onProjectCreate)="handleCreateProjectOutput($event)"/>

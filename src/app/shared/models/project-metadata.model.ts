@@ -1,5 +1,5 @@
 export interface ProjectMetadata {
-  id?: string;                 // UUID or string, unique project identifier
+  id: string;                 // UUID or string, unique project identifier
   projectName: string;        // Human-friendly name/title of the project
   width: number;              // Width (for output, canvas, story scale, etc.)
   height: number;             // Height (same as above)

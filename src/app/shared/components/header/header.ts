@@ -1,6 +1,7 @@
 import { Component, computed, effect, output, signal } from "@angular/core";
 import { BaseComponent } from "../base-component/base-component";
 import { ProfileDropdown } from "../profile-dropdown/profile-dropdown";
+import { Pages } from "../../enums/pages.enum";
 
 @Component({
   selector: "app-header",
@@ -25,6 +26,7 @@ export class Header extends BaseComponent {
     switch(item) {
       case 'close':
         this.projectState.closeProject();
+        this.router.navigateByUrl(Pages.Dashboard);
         this.openProfileDropdown();
         break;
       case 'signout':

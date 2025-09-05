@@ -1,11 +1,8 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { User } from '../models/user.model';
-import { Pages } from '../enums/pages';
+import { Pages } from '../enums/pages.enum';
 import { Router } from '@angular/router';
-
-export enum SessionStorageKeys {
-  LoggedInUser = 'loggedinuser'
-}
+import { StorageKeys } from '../enums/storagekeys.enum';
 
 @Injectable({ providedIn: 'root' })
 export class LoginState {
@@ -28,29 +25,32 @@ export class LoginState {
   login(user: User): void {
     this._user.set(user);
     this._isLoggedIn.set(true);
-    sessionStorage.setItem(SessionStorageKeys.LoggedInUser, JSON.stringify(user));
+    sessionStorage.setItem(StorageKeys.LoggedInUser, JSON.stringify(user));
     this.router.navigateByUrl(Pages.Dashboard);
   }
 
-  logout(): void {
+  logout(shouldRedirect: boolean = true): void {
     this._user.set(null);
     this._isLoggedIn.set(false);
-    this.router.navigateByUrl(Pages.Login);
-    sessionStorage.removeItem(SessionStorageKeys.LoggedInUser);
+    sessionStorage.removeItem(StorageKeys.LoggedInUser);
+    if (shouldRedirect)
+      this.router.navigateByUrl(Pages.Login);
   }
 
   ifUserLoggedIn(): boolean {
-    const storedUser = sessionStorage.getItem(SessionStorageKeys.LoggedInUser);
     if (this.isLoggedIn()) {
       return true;
     }
+
+    const storedUser = sessionStorage.getItem(StorageKeys.LoggedInUser);
     
     if (storedUser) {
       const user = JSON.parse(storedUser);
-      this.login(user);
+      this._user.set(user);
+      this._isLoggedIn.set(true);
       return true
     }
-    
+
     return false;
   }
   

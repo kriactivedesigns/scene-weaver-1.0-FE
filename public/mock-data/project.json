@@ -1,0 +1,80 @@
+{
+    "id": "a1c23fd0-5e11-4bda-8b95-9201dfa67c25",
+    "projectName": "Epic Space Odyssey",
+    "width": 1920,
+    "height": 1080,
+    "unit": "px",
+    "aspectRatio": "16:9",
+    "description": "A sci-fi adventure storyboard project",
+    "visualStyle": "Cinematic",
+    "createdAt": "2025-09-02T10:00:00Z",
+    "updatedAt": "2025-09-02T11:30:00Z",
+    "characters": [
+        {
+            "id": "c01a2e9d-4f3b-4b57-b78a-9bde3f5d8f01",
+            "projectId": "p1001",
+            "characterName": "Arin Swiftblade",
+            "age": 29,
+            "height": "6",
+            "appearanceDescription": "Tall, slender with sharp green eyes, wears a leather jacket and boots.",
+            "description": "A skilled swordsman from the northern realms.",
+            "imagePath": "https://picsum.photos/200/300",
+            "createdAt": "2025-08-15T10:24:00Z",
+            "updateddAt": "2025-09-01T08:15:00Z"
+        },
+        {
+            "id": "d84f0b2c-7829-4dbb-bd57-30a1e2c4f3c9",
+            "projectId": "p1001",
+            "characterName": "Mira Goldheart",
+            "age": 24,
+            "height": "5",
+            "appearanceDescription": "Short hair with golden curls, bright blue eyes, wearing royal attire.",
+            "description": "Princess with a heart of gold and a fierce determination.",
+            "imagePath": "https://picsum.photos/200/300",
+            "createdAt": "2025-08-16T14:12:00Z",
+            "updateddAt": "2025-09-02T11:45:00Z"
+        },
+        {
+            "id": "f7e5c962-3f4a-4b3a-8f6e-12f12bf4c9c3",
+            "projectId": "p1002",
+            "characterName": "Dax Ironforge",
+            "age": 38,
+            "height": "59",
+            "appearanceDescription": "Broad-shouldered, dark beard, clad in heavy armor.",
+            "description": "Veteran warrior with a reputation as unyielding as iron.",
+            "imagePath": "https://picsum.photos/200/300",
+            "createdAt": "2025-08-18T09:45:00Z",
+            "updateddAt": "2025-09-03T07:00:00Z"
+        },
+        {
+            "id": "a39bcf50-21a4-4297-bdf1-3fcd2e6e6297",
+            "projectId": "p1003",
+            "characterName": "Zara Nightshade",
+            "age": 27,
+            "height": "57",
+            "appearanceDescription": "Slim figure, dark cloak with hood, piercing violet eyes.",
+            "description": "Mysterious figure known for quick wit and shadowy skills.",
+            "imagePath": "https://picsum.photos/200/300",
+            "createdAt": "2025-08-19T17:05:00Z",
+            "updateddAt": "2025-09-04T22:15:00Z"
+        },
+        {
+            "id": "b1279d7a-588e-4b12-90f0-75dd336f1932",
+            "projectId": "p1002",
+            "characterName": "Kai Stormrider",
+            "age": 21,
+            "height": "511",
+            "appearanceDescription": "Athletic build, windswept hair, wears casual armor and scarf.",
+            "description": "Young adventurer with a rebellious streak and boundless energy.",
+            "imagePath": "https://picsum.photos/200/300",
+            "createdAt": "2025-08-20T12:33:00Z",
+            "updateddAt": "2025-09-05T10:30:00Z"
+        }
+    ],
+    "worldSettings": [],
+    "snippets": [],
+    "story": "",
+    "screenplay": [],
+    "storyboardImages": [],
+    "animatic": ""
+}

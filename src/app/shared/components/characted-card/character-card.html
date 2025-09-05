@@ -1,0 +1,93 @@
+<div class="character-card-container">
+  <div class="character-image">
+    <img src="{{ character()?.imagePath }}" alt="{{ character()?.characterName }}" />
+  </div>
+  <form [formGroup]="form" class="login-form input-form" (ngSubmit)="onSubmit()">
+    <div class="name-age-height">
+      <div class="input-container name">
+        <div class="input-label-container">
+          <input
+            maxlength="128"
+            class="input"
+            type="text"
+            id="characterName"
+            placeholder=" "
+            formControlName="characterName"
+            required
+          />
+          <label for="characterName">Name</label>
+        </div>
+      </div>
+      <div class="input-container age">
+        <div class="input-label-container">
+          <input
+            maxlength="3"
+            class="input"
+            type="number"
+            id="characterAge"
+            placeholder=" "
+            formControlName="characterAge"
+            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+            required
+          />
+          <label for="characterAge">Age</label>
+        </div>
+      </div>
+      <div class="input-container height">
+        <div class="input-label-container">
+          <input
+            maxlength="3"
+            class="input"
+            type="number"
+            id="characterHeight"
+            placeholder=" "
+            formControlName="characterHeight"
+            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+            required
+          />
+          <label for="characterHeight">Height</label>
+        </div>
+      </div>
+    </div>
+    <div class="appearance">
+      <div class="input-text-container">
+        <div class="input-label-container">
+          <textarea
+            name="characterAppearance"
+            id="characterAppearance"
+            placeholder=" "
+            class="input"
+            maxlength="512"
+            formControlName="characterAppearance"
+            required
+          ></textarea>
+          <label for="characterAppearance">Appearance</label>
+        </div>
+      </div>
+    </div>
+    <div class="description">
+      <div class="input-text-container">
+        <div class="input-label-container">
+          <textarea
+            name="characterDescription"
+            id="characterDescription"
+            placeholder=" "
+            class="input"
+            maxlength="512"
+            formControlName="characterDescription"
+            required
+          ></textarea>
+          <label for="characterDescription">Description</label>
+        </div>
+      </div>
+    </div>
+    <div class="buttons-container">
+      <button class="primary-button login-button" [disabled]="form.invalid" type="submit">
+        Generate Image
+      </button>
+      <button class="icon-button error" (click)="delete()">
+        <i class="fa-regular fa-trash-can"></i>
+      </button>
+    </div>
+  </form>
+</div>
