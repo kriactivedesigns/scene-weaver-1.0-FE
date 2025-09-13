@@ -5,6 +5,10 @@
     width: 250px;
     height: 230px;
     overflow: hidden;
+    display: none;
+    &.open {
+        display: unset;
+    }
     .dropdown-content {
         width: 250px;
         position: absolute;
@@ -22,14 +26,17 @@
         padding: 0 15px;
         transform: translateY(-190px);
         opacity: 0;
-        transition: transform 350ms ease-in-out, visibility 350ms ease-in-out, opacity 350ms ease-in-out;
         visibility: hidden;
+        display: none;
         &.open {
             transform: translateY(0);
             opacity: 1;
             visibility: visible;
+            display: unset;
         }
         .profile {
+            display: flex;
+            justify-content: center;
             align-self: center;
             margin-top: 25px;
             img {

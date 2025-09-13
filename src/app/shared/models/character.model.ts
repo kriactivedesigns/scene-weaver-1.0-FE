@@ -1,12 +1,9 @@
 export interface Character {
-  id: string;
-  projectId: string;
-  characterName: string;
-  age: number;
-  height: string;
-  appearanceDescription: string;
+  id: string;              // Primary Key (UUID)
+  projectId: string;         // Foreign Key to Project
+  name: string;
   description: string;
-  imagePath: string;
+  imagePath?: string;
   createdAt: Date;
-  updateddAt: Date;
+  updatedAt: Date;
 }

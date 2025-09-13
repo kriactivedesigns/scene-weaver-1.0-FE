@@ -2,19 +2,20 @@ import { inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { LoginState } from "../../services/login-state.service";
 import { GlobalState } from "../../services/global-state.service";
-import { GenerationService } from "../../services/generative.service";
 import { ProjectState } from "../../state/project.state";
 import { Pages } from "../../enums/pages.enum";
-import { WorldBibleState } from "../../state/world-bible.state";
+import { RealmState } from "../../state/realm.state";
 
 export abstract class BaseComponent {
+
+    public Pages = Pages;
     protected loginState = inject(LoginState);
     protected globalState = inject(GlobalState);
-    protected generativeService = inject(GenerationService);
+    protected router = inject(Router);
+
+    // Stage wise state slices inject
     protected projectState = inject(ProjectState);
-    protected worldBibleState = inject(WorldBibleState);
-    protected router = inject(Router);  
-    public Pages = Pages;  
+    protected realmState = inject(RealmState);
 
     protected goTo(page: string): void {
         this.router.navigateByUrl(page);

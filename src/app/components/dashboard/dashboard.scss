@@ -1,19 +1,21 @@
-@use '../../../styles/variables' as *;
+@use '../../../styles/theme' as *;
 
 .main-container {
     .content-container {
-        .upper-section {
-            .project-cards-container {
-                height: 100%;
-                display: flex;
-                justify-content: flex-start;
-                gap: 10px;
-                align-items: flex-start;
-                flex-wrap: wrap;
+        .project-cards-container {
+            height: 100%;
+            .project-header {
+                background-color: $color-surface;
+                border-bottom: 1px solid $color-border;
+                display: grid;
+                grid-template-columns: 2fr 1fr 1fr 1fr;
+                padding: 15px 15px;
             }
-        }
-        .bottom-section {
-            justify-content: center;
+            .projects-list {
+                height: 100%;
+                overflow-y: auto;
+                padding-bottom: 100px;
+            }
         }
     }
 }

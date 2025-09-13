@@ -1,15 +1,15 @@
-<div class="project-card" (click)="openProject(project())">
-    <span class="project-title">{{ project().projectName }}</span>
+<div class="project-card">
+    <span class="project-title" (click)="openProject(project())">{{ project().projectName }}</span>
     <div class="labelled-content">
-        <span class="label">Created On &nbsp;:&nbsp;</span>
+        <span class="label">Created On:&nbsp;</span>
         <span class="text">{{ project().createdAt | date }}</span>
     </div>
     <div class="labelled-content">
-        <span class="label">Updated On :&nbsp;</span>
+        <span class="label">Updated On:&nbsp;</span>
         <span class="text">{{ project().updatedAt | date }}</span>
     </div>
-    <div class="labelled-content vertical">
-        <span class="label">Description :</span>
-        <span class="text">{{ project().description }}</span>
+    <div class="labelled-content delete">
+        <icon-button icon="delete" (onclick)="onDeleteButtonClick()"/>
     </div>
+
 </div>

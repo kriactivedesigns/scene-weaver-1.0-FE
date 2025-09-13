@@ -21,7 +21,6 @@ export class ProjectState {
     
     // Computed selectors
     readonly openedProjectId = computed(() => this._openedProject()?.id);
-    readonly currentProject = computed(() => this.projects().find(project => project.id === this._openedProject()?.id));
     readonly hasProjects = computed(() => this.projects().length > 0);
 
     constructor() {
@@ -50,7 +49,7 @@ export class ProjectState {
         );
 
         // Update current project if it's the one being updated
-        if (this.currentProject()?.id === id) {
+        if (this.openedProject()?.id === id) {
             this._openedProject.update(current => 
                 current ? { ...current, ...updates, updatedAt: new Date() } : current
             );
@@ -65,7 +64,6 @@ export class ProjectState {
         try {
             this.fetchProjectById(projectMetadata.id).subscribe(
                 pipe((project: Project) => {
-                    console.log(project);
                     this._openedProject.set(project);
                     this.setLocalPersistentProjectState(projectMetadata);
                 })
@@ -113,6 +111,25 @@ export class ProjectState {
             return true;
         }
         return false;
+    }
+
+    updateOpenedProject(id: string, updates: Partial<Project>): void {
+        this._projects.update(projects =>
+            projects.map(p => p.id === id 
+                ? { ...p, ...updates, updatedAt: new Date() }
+                : p
+            )
+        );
+
+        // Safely update the opened project
+       this._openedProject.update(currentProject => {
+         if (!currentProject || currentProject.id !== id) {
+           return currentProject;
+         }
+
+         // 2. Safe Update: Now that TypeScript knows currentProject is not null,
+         return { ...currentProject, ...updates, updatedAt: new Date() };
+       });
     }
     
 }

@@ -1,4 +1,4 @@
-@use '../../../styles/variables' as *;
+@use '../../../styles/theme' as *;
 
 .main-bg-container {
   width: 100%;
@@ -6,12 +6,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: $color-bg-primary;
+  background-color: $color-background;
   .main-container {
     width: 1200px;
     height: 600px;
     display: flex;
     box-shadow: $shadow;
+    flex-direction: row;
     .login-left {
       width: 50%;
       background-color: $color-surface;
@@ -28,7 +29,7 @@
           margin: 20px;
         }
         .login-welcome-message {
-          color: $color-text-secondary;
+          color: $color-text-dark;
         }
         .sign-in-buttons-container {
           height: 50px;
@@ -41,8 +42,8 @@
     }
     .login-right {
       width: 50%;
-      background-color: $color-primary;
-      color: $color-text-inverse;
+      background-color: $color-primary-base;
+      color: $color-text-white;
       text-align: center;
       display: flex;
       flex-direction: column;

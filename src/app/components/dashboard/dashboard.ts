@@ -4,6 +4,7 @@ import { NewProjectPopup } from "../../shared/components/new-project-popup/new-p
 import { ProjectMetadata } from "../../shared/models/project-metadata.model";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
 import { Pages } from "../../shared/enums/pages.enum";
+import { IconButton } from "../../shared/components/icon-button/icon-button";
 
 @Component({
     selector: 'app-dashboard',
@@ -33,11 +34,10 @@ export class Dashboard extends BaseComponent {
     }
     
     handleCreateProjectOpenChange(value: boolean) {
-        console.log(value);
         this.openPopup.set(value);
     }
     
-    handleCreateProjectOutput(project: ProjectMetadata) {
+    handleCreateProjectOutput(project: any) {
         console.log(project);
         this.openPopup.set(false);
         this.projectState.addProject(project);
@@ -48,6 +48,10 @@ export class Dashboard extends BaseComponent {
             return;
 
         this.projectState.openProject(project);
+    }
+
+    deleteProject(id: string): void {
+        this.projectState.deleteProject(id);
     }
 
 }

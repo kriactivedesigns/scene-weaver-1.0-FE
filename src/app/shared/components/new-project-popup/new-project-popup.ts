@@ -13,7 +13,7 @@ import { ProjectMetadata } from "../../models/project-metadata.model";
 export class NewProjectPopup implements OnInit {
     open = input.required<boolean>();
     openChange = output<boolean>();
-    onProjectCreate = output<ProjectMetadata>();
+    onProjectCreate = output<Partial<ProjectMetadata>>();
 
     public form! : FormGroup;
     private fb = inject(FormBuilder);
@@ -24,18 +24,13 @@ export class NewProjectPopup implements OnInit {
                 Validators.required,
                 Validators.minLength(5)
             ]),
-            width: new FormControl<number | null>(1920, [
+            aspectRatio: new FormControl<number | null>(1080, [
                 Validators.required,
                 Validators.maxLength(5)
             ]),
-            height: new FormControl<number | null>(1080, [
+            visualStyle: new FormControl<number | null>(1080, [
                 Validators.required,
                 Validators.maxLength(5)
-            ]),
-            unit: new FormControl('px', [
-                Validators.required,
-                Validators.minLength(2),
-                Validators.maxLength(2),
             ]),
             description: new FormControl('', [
                 Validators.required,
@@ -49,13 +44,12 @@ export class NewProjectPopup implements OnInit {
             this.form.markAllAsTouched();
             return;
         }
-        const project: ProjectMetadata = {
+        const project: Partial<ProjectMetadata> = {
             id: '',
-            projectName: this.form.value.projectName || '',
-            width: this.form.value.width || 0,
-            height: this.form.value.height || 0,
-            unit: this.form.value.unit || '',
-            description: this.form.value.description || '',
+            projectName: this.form.value.projectName,
+            aspectRatio: this.form.value.aspectRatio,
+            visualStyle: this.form.value.aspectRatio,
+            description: this.form.value.description,
         }
         this.form.reset();
         this.onProjectCreate.emit(project);

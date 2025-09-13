@@ -12,8 +12,8 @@
     "characters": [
         {
             "id": "c01a2e9d-4f3b-4b57-b78a-9bde3f5d8f01",
-            "projectId": "p1001",
-            "characterName": "Arin Swiftblade",
+            "projectId": "a1c23fd0-5e11-4bda-8b95-9201dfa67c25",
+            "name": "Arin Swiftblade",
             "age": 29,
             "height": "6",
             "appearanceDescription": "Tall, slender with sharp green eyes, wears a leather jacket and boots.",
@@ -25,7 +25,7 @@
         {
             "id": "d84f0b2c-7829-4dbb-bd57-30a1e2c4f3c9",
             "projectId": "p1001",
-            "characterName": "Mira Goldheart",
+            "name": "Mira Goldheart",
             "age": 24,
             "height": "5",
             "appearanceDescription": "Short hair with golden curls, bright blue eyes, wearing royal attire.",
@@ -37,7 +37,7 @@
         {
             "id": "f7e5c962-3f4a-4b3a-8f6e-12f12bf4c9c3",
             "projectId": "p1002",
-            "characterName": "Dax Ironforge",
+            "name": "Dax Ironforge",
             "age": 38,
             "height": "59",
             "appearanceDescription": "Broad-shouldered, dark beard, clad in heavy armor.",
@@ -49,7 +49,7 @@
         {
             "id": "a39bcf50-21a4-4297-bdf1-3fcd2e6e6297",
             "projectId": "p1003",
-            "characterName": "Zara Nightshade",
+            "name": "Zara Nightshade",
             "age": 27,
             "height": "57",
             "appearanceDescription": "Slim figure, dark cloak with hood, piercing violet eyes.",
@@ -61,7 +61,7 @@
         {
             "id": "b1279d7a-588e-4b12-90f0-75dd336f1932",
             "projectId": "p1002",
-            "characterName": "Kai Stormrider",
+            "name": "Kai Stormrider",
             "age": 21,
             "height": "511",
             "appearanceDescription": "Athletic build, windswept hair, wears casual armor and scarf.",

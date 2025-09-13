@@ -14,7 +14,7 @@
         } @else {
             <div class="breadcrumb-container">
                 <div class="project-title">
-                    <span>{{projectState.currentProject()?.projectName}}</span>
+                    <span>{{projectState.openedProject()?.projectName}}</span>
                 </div>
                 <div class="breadcrumbs">
                     <div class="page" [class.active]="globalState.currentPage() === Pages.Realm">
@@ -52,9 +52,12 @@
             <img src="profile.png" alt="img">
         </div>
         <div class="profile-dropdown-container">
-            <profile-dropdown [open]="isDropdownOpen()"
-                            [user]="loginState.user()" (onclick)="onMenuItemClick($event)"
-                            [isProjectOpened]="isProjectOpened()"/>
+            <profile-dropdown 
+                [open]="isDropdownOpen()"
+                [user]="loginState.user()"
+                (onclick)="onMenuItemClick($event)"
+                [isProjectOpened]="isProjectOpened()"
+            />
         </div>
     </div>
 </div>

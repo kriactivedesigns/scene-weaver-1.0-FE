@@ -1,0 +1,52 @@
+@use '../../../../styles/theme' as *;
+
+:host {
+}
+
+.character-card-container {
+    width: 100%;
+    // background-color: $color-surface;
+    padding: 8px;
+    display: grid;
+    grid-template-columns: min-content auto;
+    border-radius: 8px;
+    border: 1px solid $color-border;
+    margin: 10px 0;
+    .character-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 8px;
+        img {
+            height: 100%;
+            width: 100%;
+        }
+    }
+    .details-icon {
+        display: flex;
+        flex-direction: column;
+        .name-button {
+            display: grid;
+            grid-template-columns: auto min-content;
+            margin-bottom: 8px;
+        }
+        .name,
+        .description {
+            span {
+                font-size: 1.1rem;
+                font-weight: 600;
+            }
+            div {
+                margin: 6px 0;
+            }
+        }
+        .description-edit {
+            height: 100%;
+            display: grid;
+            grid-template-columns: auto min-content;
+            .edit {
+                align-self: flex-end;
+            }
+        }
+    }
+}

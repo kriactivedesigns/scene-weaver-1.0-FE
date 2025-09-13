@@ -1,15 +1,15 @@
-@use '../../../../styles/variables' as *;
+@use '../../../../styles/theme' as *;
 
 .new-project-popup {
     .popup-content-container {
-        background-color: $color-bg-secondary;
+        background-color: $color-background;
         border-radius: 6px;
         width: 500px;
         padding: 15px;
         .container {
             position: relative;
             border-radius: 6px;
-            border: 1px solid $light-border;
+            border: 1px solid $color-border;
             padding: 40px 60px;
             display: flex;
             flex-direction: column;
@@ -20,8 +20,8 @@
                 right: 0;
                 padding: 5px;
                 cursor: pointer;
-                &:hover {
-                    color: $error;
+                &:hover svg path{
+                    fill: $color-error;
                 }
             }
             h3 {

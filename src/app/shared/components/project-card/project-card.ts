@@ -1,22 +1,29 @@
 import { Component, input, output } from "@angular/core";
 import { ProjectMetadata } from "../../models/project-metadata.model";
 import { DatePipe } from "@angular/common";
+import { IconButton } from "../icon-button/icon-button";
 
 @Component({
     selector: 'app-project-card',
     templateUrl: './project-card.html',
     styleUrls: ['./project-card.scss'],
     imports: [
-        DatePipe
+        DatePipe,
+        IconButton
     ]
 })
 export class ProjectCard {
     
-    onOpenProject = output<ProjectMetadata>();
+    onopenproject = output<ProjectMetadata>();
+    ondelete = output<string>();
     public project = input.required<ProjectMetadata>();
 
     openProject(data: ProjectMetadata): void {
-        this.onOpenProject.emit(data);
+        this.onopenproject.emit(data);
+    }
+
+    onDeleteButtonClick() {
+        this.ondelete.emit(this.project().id);
     }
     
 }

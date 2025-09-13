@@ -1,17 +1,18 @@
 // world-bible.state.ts
 import { Injectable, signal, computed, effect, inject } from '@angular/core';
 import { Character } from '../models/character.model';
-import { WorldSetting } from '../models/world-setting.model';
+import { World } from '../models/world.model';
 import { ProjectState } from './project.state';
+import { Project } from '../models/project.model';
 
 @Injectable({ providedIn: 'root' })
-export class WorldBibleState {
+export class RealmState {
   
   // Dependency Injection
   private projectState = inject(ProjectState);
 
   private _characters = signal<Character[]>([]);
-  private _worldSettings = signal<WorldSetting[]>([]);
+  private _worldSettings = signal<World[]>([]);
   private _visualStyle = signal<string | null>(null);
 
   // Expose readonly signals
@@ -28,7 +29,7 @@ export class WorldBibleState {
     }, {} as Record<string, Character>);
   });
 
-  readonly characterNames = computed(() => this.characters().map(c => c.characterName));
+  readonly characterNames = computed(() => this.characters().map(c => c.name));
 
   constructor() {
     effect(() => {
@@ -39,16 +40,23 @@ export class WorldBibleState {
 
   addCharacter(character: Character): void {
     this._characters.update(chars => [...chars, character]);
+    this.updateProject(character.id, { characters: this._characters()});
   }
 
   updateCharacter(id: string, updates: Partial<Character>): void {
-    this._characters.update(chars =>
+    console.log(updates)
+    console.log(this.characters())
+    this._characters.update(chars => 
       chars.map(char => char.id === id ? { ...char, ...updates } : char)
     );
+    console.log(this.characters())
+    if (updates.projectId)
+      this.updateProject(updates.projectId, { characters: this._characters()});
   }
 
   deleteCharacter(id: string): void {
     this._characters.update(chars => chars.filter(c => c.id != id));
+    this.updateProject(id, { characters: this._characters()});
   }
 
   setVisualStyle(style: string): void {
@@ -61,7 +69,12 @@ export class WorldBibleState {
     this._visualStyle.set(null);
   }
 
-  setWorldSettings(settings: WorldSetting[]): void {
+  setWorlds(settings: World[]): void {
     this._worldSettings.set(settings);
   }
+
+  private updateProject(id: string, updates: Partial<Project>): void {
+    this.projectState.updateOpenedProject(id, updates);
+  }
+  
 }

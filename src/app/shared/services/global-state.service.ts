@@ -1,7 +1,6 @@
 import { Injectable, signal, inject, effect } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
-import { ProjectState } from '../state/project.state';
 import { Pages } from '../enums/pages.enum';
 
 @Injectable({ providedIn: 'root' })

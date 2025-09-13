@@ -1,0 +1,34 @@
+@use '../../../../styles/theme' as *;
+button.icon-button {
+    background: none;
+    border: none;
+    color: $color-text-dark;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+    text-transform: uppercase;
+    margin: 0 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    .icon {
+        &.margin {
+            margin-bottom: 8px;
+        }
+        .delete-icon {
+            &:hover svg path{
+                fill: $color-error;
+            }
+        }
+    }
+    .text {
+        margin-top: 10px;
+    }
+    &[disabled] {
+        color: $color-text-light;
+        cursor: not-allowed;
+        svg path {
+            fill: $color-text-light
+        }
+    }
+}

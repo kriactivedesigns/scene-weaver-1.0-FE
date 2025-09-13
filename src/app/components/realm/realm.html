@@ -1,38 +1,69 @@
 <div class="main-container">
+  <div class="upper-section">
+  </div>
   <div class="content-container">
-    <div class="upper-section">
-      <div class="character-world-switch">
-        <div class="toggle-button-container">
-          <toggle-buttons
-            [buttonNames]="['Characters', 'World']"
-            (onclick)="onButtonToggle()"
-            [selectedSide]="selectedButton()"
-          />
+    <div class="left">
+      <icon-button text="Previous" icon="left" (onclick)="navigateToNextPage()" [disabled]="true"/>
+    </div>
+    <div class="middle">
+      <div class="character-world-container">
+        <div class="cards-container">
+          <div class="header">
+            <div class="label">
+              Characters
+            </div>
+            <div class="button">
+              <button class="text-only-button" (click)="openPopup('character', 'add')">
+                + Add New Character
+              </button>
+            </div>
+          </div>
+          <div class="content">
+            @for (character of realmState.characters(); track $index) {
+              <character-world-card
+                [character]="character"
+                (ondelete)="deleteCharacter($event)"
+                aspectRatio="4:5"
+                (onedit)="openPopup('character', 'update', character)"
+              />
+            }
+         </div>
+        </div>
+        <div class="cards-container">
+          <div class="header">
+            <div class="label">
+              Worlds
+            </div>
+            <div class="button">
+              <button class="text-only-button" (click)="openPopup('world', 'add')">
+                + Add New World
+              </button>
+            </div>
+          </div>
+          <div class="content">
+            @for (world of realmState.characters(); track $index) {
+                <character-world-card
+                  [character]="world"
+                  (ondelete)="deleteCharacter($event)"
+                  aspectRatio="16:9"
+                  (onedit)="openPopup('world', 'update', world)"
+              />
+            }
+          </div>
         </div>
       </div>
-      <div class="cards-container">
-        @if (selectedTab() === 'character') { 
-          @for (character of worldBibleState.characters(); track $index) {
-            <character-card
-              [character]="character"
-              (onsubmit)="generateCharacterImage($event)"
-              (ondelete)="deleteCharacter($event)"
-            />
-          } 
-        } @else {
-          <character-card />
-        }
-      </div>
     </div>
-    <div class="bottom-section">
-      <div class="buttons-container">
-        <button class="text-only-button" (click)="onCreate()">
-          {{ selectedTab() === 'character' ? '+ Create a New Character' : '+ Create a New World' }}
-        </button>
-        <button class="primary-button button" (click)="navigateToNextPage()">
-          CANVAS<span>&#10148;</span>
-        </button>
-      </div>
+    <div class="right">
+      <icon-button text="Next" icon="right" (onclick)="navigateToNextPage()"/>
     </div>
   </div>
 </div>
+<new-character-world-popup
+        [type]="popupType()"
+        [method]="popupMethod()"
+        [open]="isPopupOpen()"
+        (openChange)="handlePopupOpenChange($event)"
+        (oncreate)="onCreate($event)"
+        (ongenerate)="onGenerate($event)"
+        [data]="popupData()"
+/>

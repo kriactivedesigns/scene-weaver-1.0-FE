@@ -1,15 +1,31 @@
 <div class="main-container">
+    <div class="upper-section">
+        <button class="text-only-button" (click)="createProject()">+ Create a New Project</button>
+    </div>
     <div class="content-container">
-        <div class="upper-section">
+        <div class="left"></div>
+        <div class="middle">
             <div class="project-cards-container">
-                @for (project of projectState.projects(); track $index) {
-                    <app-project-card [project]="project" (onOpenProject)="handleOpenProjectOutput($event)"/>
-                }
+                <div class="project-header">
+                    <div class="column">
+                        Project Name
+                    </div>
+                    <div class="column">
+                        Created On
+                    </div>
+                    <div class="column">
+                        Updated On
+                    </div>
+                    <div class="coulumn"></div>
+                </div>
+                <div class="projects-list">
+                    @for (project of projectState.projects(); track $index) {
+                        <app-project-card [project]="project" (onopenproject)="handleOpenProjectOutput($event)" (ondelete)="deleteProject($event)"/>
+                    }
+                </div>
             </div>
         </div>
-        <div class="bottom-section">
-            <button class="text-only-button" (click)="createProject()">+ Create a New Project</button>
-        </div>
+        <div class="right"></div>
     </div>
-    <new-project-popup [open]="openPopup()" (openChange)="handleCreateProjectOpenChange($event)" (onProjectCreate)="handleCreateProjectOutput($event)"/>
 </div>
+<new-project-popup [open]="openPopup()" (openChange)="handleCreateProjectOpenChange($event)" (onProjectCreate)="handleCreateProjectOutput($event)"/>
