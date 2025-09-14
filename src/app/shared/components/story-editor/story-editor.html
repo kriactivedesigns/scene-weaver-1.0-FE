@@ -1,13 +1,21 @@
 <div class="story-editor-container">
     
     <ngx-editor-floating-menu [editor]="editor">
-        <ngx-editor-menu [editor]="editor" [toolbar]="toolbar" [customMenuRef]="saveButton" />
+        <ngx-editor-menu [editor]="editor" [toolbar]="toolbar" />
     </ngx-editor-floating-menu>
     <!-- Editable content area -->
     <ngx-editor [editor]="editor" [formControl]="contentControl" placeholder="Start writing your story here..." />
     <!-- Toolbar -->
 </div>
 
-<ng-template #saveButton>
-    <icon-button class="save-icon"  textIcon="aistar" icon="aistar"  [disabled]="contentControl.invalid" />
-</ng-template>
+@if (isPromptVisible) {
+    <div
+        class="floating-prompt-wrapper"
+        [style.top]="floatingMenuPosition.top"
+        [style.left]="floatingMenuPosition.left">
+        <app-floating-prompt 
+            (promptSubmit)="handlePromptSubmit($event)"
+            (close)="isPromptVisible = false"
+        />
+    </div>
+}

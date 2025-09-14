@@ -10,6 +10,11 @@
     margin-bottom: 10px;
 }
 
+.floating-prompt-wrapper {
+  position: absolute;
+  z-index: 1001; /* Must be higher than the editor's z-index */
+}
+
 :host ::ng-deep {
     .save-icon {
         display: flex;
@@ -30,5 +35,17 @@
         font-family: inherit;
         border-radius: 5px 5px 5px 5px;
         border: 1px solid $color-border;
+    }
+    .fake-selection {
+        background-color: $color-primary-light; 
+        color: $color-text-dark;
+    }
+    ::selection {
+        background-color: $color-primary-light; 
+        color: $color-text-dark;
+    }
+    ::-moz-selection {
+        background-color: $color-primary-light; 
+        color: $color-text-dark;
     }
 }

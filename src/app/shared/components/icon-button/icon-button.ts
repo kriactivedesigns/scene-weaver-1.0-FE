@@ -10,6 +10,7 @@ export class IconButton {
     icon = input.required<ButtonIconType>();
     textIcon = input<ButtonIconType>();
     text = input<string>();
-    onclick = output();
+    onclick = output<MouseEvent | void>();
+    onmousedown = output<MouseEvent>();
     disabled = input<boolean>();
 }

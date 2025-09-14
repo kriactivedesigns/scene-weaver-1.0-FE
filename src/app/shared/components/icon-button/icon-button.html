@@ -1,4 +1,4 @@
-<button class="icon-button" (click)="onclick.emit()" [disabled]="disabled()">
+<button class="icon-button" (click)="onclick.emit($event)" (mousedown)="onmousedown.emit($event)" [disabled]="disabled()">
     <div class="icon">
         @if (icon() == 'right') {
             <svg width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
