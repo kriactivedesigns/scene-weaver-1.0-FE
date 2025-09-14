@@ -28,6 +28,11 @@
     "@angular/forms": "^20.2.0",
     "@angular/platform-browser": "^20.2.0",
     "@angular/router": "^20.2.0",
+    "ngx-editor": "^19.0.0-beta.1",
+    "prosemirror-model": "^1.25.3",
+    "prosemirror-schema-list": "^1.5.1",
+    "prosemirror-state": "^1.4.3",
+    "prosemirror-view": "^1.41.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

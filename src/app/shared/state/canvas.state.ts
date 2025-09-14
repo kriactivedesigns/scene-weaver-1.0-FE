@@ -1,7 +1,5 @@
 // world-bible.state.ts
 import { Injectable, signal, computed, effect, inject } from '@angular/core';
-import { CharacterModel } from '../models/character.model';
-import { WorldModel } from '../models/world.model';
 import { ProjectState } from './project.state';
 import { ProjectModel } from '../models/project.model';
 import { StoryThreadModel } from '../models/story-thread.model';

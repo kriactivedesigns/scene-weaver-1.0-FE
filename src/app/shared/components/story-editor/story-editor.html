@@ -1,0 +1,13 @@
+<div class="story-editor-container">
+    
+    <ngx-editor-floating-menu [editor]="editor">
+        <ngx-editor-menu [editor]="editor" [toolbar]="toolbar" [customMenuRef]="saveButton" />
+    </ngx-editor-floating-menu>
+    <!-- Editable content area -->
+    <ngx-editor [editor]="editor" [formControl]="contentControl" placeholder="Start writing your story here..." />
+    <!-- Toolbar -->
+</div>
+
+<ng-template #saveButton>
+    <icon-button class="save-icon"  textIcon="aistar" icon="aistar"  [disabled]="contentControl.invalid" />
+</ng-template>

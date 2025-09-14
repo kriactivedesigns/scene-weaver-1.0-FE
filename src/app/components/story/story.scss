@@ -1,6 +1,26 @@
 @use '../../../styles/theme' as *;
 
-.header {
-    justify-content: space-between;
-    align-items: center;
+.main-container {
+    .content-container {
+        .middle {
+            .header {
+                justify-content: space-between;
+                align-items: center;
+                .button-indicator {
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                    :host ::ng-deep {
+
+                    }
+                }
+            }
+            .content {
+                .story-text-area {
+                    height: 100%;
+                    padding-bottom: 10px;
+                }
+            }
+        }
+    }
 }
