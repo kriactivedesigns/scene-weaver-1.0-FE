@@ -1,8 +1,10 @@
-import { Character } from "./character.model";
-import { ProjectMetadata } from "./project-metadata.model";
-import { World } from "./world.model";
+import { CharacterModel } from "./character.model";
+import { ProjectMetadataModel } from "./project-metadata.model";
+import { StoryThreadModel } from "./story-thread.model";
+import { WorldModel } from "./world.model";
 
-export interface Project extends ProjectMetadata {
-  characters: Character[];
-  worlds: World[];
+export interface ProjectModel extends ProjectMetadataModel {
+  characters: CharacterModel[];
+  worlds: WorldModel[];
+  threads: StoryThreadModel[]
 }

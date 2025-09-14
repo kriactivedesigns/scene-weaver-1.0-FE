@@ -1,7 +1,7 @@
 import { Component, computed, effect, inject, input, OnInit, output } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { Character } from "../../models/character.model";
-import { World } from "../../models/world.model";
+import { CharacterModel } from "../../models/character.model";
+import { WorldModel } from "../../models/world.model";
 import { CommonService } from "../../services/common.service";
 
 export type PopupTypes = 'character' | 'world';
@@ -23,8 +23,8 @@ export class NewCharacterWorld implements OnInit {
     method = input.required<PopupMethods>();
     open = input.required<boolean>();
     openChange = output<boolean>();
-    oncreate = output<Partial<Character> | Partial<World>>();
-    ongenerate = output<Partial<Character> | Partial<World>>();
+    oncreate = output<Partial<CharacterModel> | Partial<WorldModel>>();
+    ongenerate = output<Partial<CharacterModel> | Partial<WorldModel>>();
     data = input<any>();
 
     height: number = 0;
@@ -83,8 +83,8 @@ export class NewCharacterWorld implements OnInit {
         this.ongenerate.emit(this.getData());
     }
 
-    private getData(): Partial<Character | World> {
-        const newData: Partial<Character | World> = {};
+    private getData(): Partial<CharacterModel | WorldModel> {
+        const newData: Partial<CharacterModel | WorldModel> = {};
         if (this.data()) {
             Object.assign(newData, {...this.data()})
         }

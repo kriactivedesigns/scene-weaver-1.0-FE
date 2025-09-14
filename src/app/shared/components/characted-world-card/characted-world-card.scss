@@ -5,13 +5,12 @@
 
 .character-card-container {
     width: 100%;
-    // background-color: $color-surface;
     padding: 8px;
     display: grid;
     grid-template-columns: min-content auto;
     border-radius: 8px;
     border: 1px solid $color-border;
-    margin: 10px 0;
+    margin-bottom: 8px;
     .character-image {
         display: flex;
         justify-content: center;

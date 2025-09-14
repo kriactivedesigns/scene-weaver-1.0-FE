@@ -1,13 +1,13 @@
-@use '../../../../styles/variables' as *;
+@use '../../../../styles/theme' as *;
 
 .toggle-buttons-container {
   height: 100%;
   position: relative;
   display: flex;
-  background: $color-bg-secondary;
+  background: $color-background;
   border-radius: 8px;
   box-sizing: border-box;
-  border: 1px solid $light-border;
+  border: 1px solid $color-divider;
   .tab {
     z-index: 2;
     flex: 1 1 50%;
@@ -15,13 +15,13 @@
     background: transparent;
     border: none;
     outline: none;
-    color: $color-text-secondary;
+    color: $color-text-medium;
     font-size: 1rem;
     height: 100%;
     cursor: pointer;
     transition: color 0.2s;
     &.active {
-      color: $color-text-primary;
+      color: $color-text-medium;
     }
   }
   .tab-bg {
@@ -33,7 +33,6 @@
     height: 100%;
     background: #fff;
     border-radius: 8px;
-    box-shadow: $shadow;
     transition: transform 0.3s cubic-bezier(0.47, 1.64, 0.41, 0.8);
     will-change: transform;
   }

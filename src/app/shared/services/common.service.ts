@@ -20,6 +20,10 @@ export class CommonService {
             console.error('Could not parse aspect ratio');
             return height;
         }
-}
+    }
+
+    generateId(): string {
+        return Date.now().toString(36) + Math.random().toString(36).substring(2);
+    }
 
 }

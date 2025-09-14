@@ -23,17 +23,23 @@
       text-align: center;
       flex-direction: column;
       .login-form-container {
-        width: 330px;
+        width: 360px;
         padding-top: 50px;
+        margin-bottom: 15px;
         .login-welcome-header {
-          margin: 20px;
+          margin-bottom: 5px;
         }
         .login-welcome-message {
           color: $color-text-dark;
+          margin-bottom: 50px;
+          font-size: 1rem;
         }
         .sign-in-buttons-container {
-          height: 50px;
-          margin-bottom: 20px;
+          height: 55px;
+          margin-bottom: 15px;
+        }
+        .login-button {
+          margin-top: 15px;
         }
       }
       .copyright-message {

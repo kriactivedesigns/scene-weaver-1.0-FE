@@ -1,12 +1,40 @@
 <div class="main-container">
+  <div class="upper-section"></div>
   <div class="content-container">
-    <div class="upper-section"></div>
-    <div class="bottom-section">
-      <div class="buttons-container right">
-        <button class="primary-button button" (click)="navigateToNextPage()">
-          SCREENPLAY<span>&#10148;</span>
-        </button>
+    <div class="left">
+      <icon-button text="Previous" icon="left" (onclick)="navigateTo(Pages.Canvas)"/>
+    </div>
+    <div class="middle">
+      <div class="header">
+        <div class="label">
+          Here is your story generated, feel free to add your imaginations...
+        </div>
+        <div class="saved-indicator" [class.saving]="isSaving()">
+            @if (saveFailed) {
+                <div class="failed">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="7" cy="7" r="7" fill="#EF5350"/>
+                        <path d="M3 7L6.5 9.5L11.5 4" stroke="white"/>
+                    </svg>
+                </div>
+            } @else {
+                <div class="success">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="7" cy="7" r="7" fill="#6CC4A1"/>
+                        <path d="M3 7L6.5 9.5L11.5 4" stroke="white"/>
+                    </svg>
+                </div>
+            }
+        </div>
       </div>
+      <div class="content">
+        <div class="story-text-area">
+          
+        </div>
+      </div>
+    </div>
+    <div class="right">
+      <icon-button textIcon="aistar" text="Generate" icon="right" (onclick)="navigateTo(Pages.Screenplay)"/>
     </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-export interface StoryboardImage {
+export interface StoryboardImageModel {
   id: string;              // Primary Key (UUID)
   projectId: string;         // Foreign Key to Project
   aspectRatio: string;

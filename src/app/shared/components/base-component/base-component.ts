@@ -5,17 +5,19 @@ import { GlobalState } from "../../services/global-state.service";
 import { ProjectState } from "../../state/project.state";
 import { Pages } from "../../enums/pages.enum";
 import { RealmState } from "../../state/realm.state";
+import { CanvasState } from "../../state/canvas.state";
 
 export abstract class BaseComponent {
 
     public Pages = Pages;
-    protected loginState = inject(LoginState);
-    protected globalState = inject(GlobalState);
-    protected router = inject(Router);
+    protected readonly loginState = inject(LoginState);
+    protected readonly globalState = inject(GlobalState);
+    protected readonly router = inject(Router);
 
     // Stage wise state slices inject
-    protected projectState = inject(ProjectState);
-    protected realmState = inject(RealmState);
+    protected readonly projectState = inject(ProjectState);
+    protected readonly realmState = inject(RealmState);
+    protected readonly canvasState = inject(CanvasState);
 
     protected goTo(page: string): void {
         this.router.navigateByUrl(page);

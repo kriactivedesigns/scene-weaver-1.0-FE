@@ -23,6 +23,13 @@ button.icon-button {
     }
     .text {
         margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        .icon {
+
+        }
     }
     &[disabled] {
         color: $color-text-light;

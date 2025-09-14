@@ -1,6 +1,6 @@
 import { Component, inject, input, OnInit, output } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { ProjectMetadata } from "../../models/project-metadata.model";
+import { ProjectMetadataModel } from "../../models/project-metadata.model";
 
 @Component({
     selector: 'new-project-popup',
@@ -13,7 +13,7 @@ import { ProjectMetadata } from "../../models/project-metadata.model";
 export class NewProjectPopup implements OnInit {
     open = input.required<boolean>();
     openChange = output<boolean>();
-    onProjectCreate = output<Partial<ProjectMetadata>>();
+    onProjectCreate = output<Partial<ProjectMetadataModel>>();
 
     public form! : FormGroup;
     private fb = inject(FormBuilder);
@@ -44,7 +44,7 @@ export class NewProjectPopup implements OnInit {
             this.form.markAllAsTouched();
             return;
         }
-        const project: Partial<ProjectMetadata> = {
+        const project: Partial<ProjectMetadataModel> = {
             id: '',
             projectName: this.form.value.projectName,
             aspectRatio: this.form.value.aspectRatio,

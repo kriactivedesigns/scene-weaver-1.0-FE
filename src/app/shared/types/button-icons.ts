@@ -1,1 +1,1 @@
-export type ButtonIconType = 'left' | 'right' | 'delete' | 'edit';
+export type ButtonIconType = 'left' | 'right' | 'delete' | 'edit' | 'aistar';

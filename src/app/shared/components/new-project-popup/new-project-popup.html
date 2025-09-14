@@ -11,30 +11,28 @@
                 <form [formGroup]="form" class="login-form input-form" (ngSubmit)="onSubmit()">
                     <div class="input-container">
                         <div class="input-label-container">
-                            <input maxlength="128" class="input" type="text" id="projectName" placeholder=" " formControlName="projectName" required/>
                             <label for="projectName">Project Name</label>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <div class="input-container">
-                            <div class="input-label-container">
-                                <input maxlength="5" class="input" type="text"
-                                        id="aspectRatio" placeholder=" " formControlName="aspectRatio" required/>
-                                <label for="aspectRatio">aspectRatio</label>
-                            </div>
-                        </div>
-                        <div class="input-container">
-                            <div class="input-label-container">
-                                <input maxlength="5" class="input" type="text"
-                                        id="visualStyle" placeholder=" " formControlName="visualStyle" required/>
-                                <label for="visualStyle">Visual Style</label>
-                            </div>
+                            <input maxlength="128" class="input" type="text" id="projectName" placeholder=" " formControlName="projectName" required/>
                         </div>
                     </div>
                     <div class="input-container">
                         <div class="input-label-container">
-                            <input maxlength="128" class="input" type="text" id="description" placeholder=" " formControlName="description" required/>
+                            <label for="aspectRatio">aspectRatio</label>
+                            <input maxlength="5" class="input" type="text"
+                                    id="aspectRatio" placeholder=" " formControlName="aspectRatio" required/>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <div class="input-label-container">
+                            <label for="visualStyle">Visual Style</label>
+                            <input maxlength="5" class="input" type="text"
+                                    id="visualStyle" placeholder=" " formControlName="visualStyle" required/>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <div class="input-label-container">
                             <label for="description">Description</label>
+                            <textarea maxlength="128" class="input" type="text" id="description" placeholder=" " formControlName="description" required></textarea>
                         </div>
                     </div>
                     <button class="primary-button" [disabled]="form.invalid" type="submit">

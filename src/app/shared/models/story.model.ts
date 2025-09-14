@@ -1,4 +1,4 @@
-export interface Story {
+export interface StoryModel {
   id: string;              // Primary Key (UUID)
   projectId: string;         // Foreign Key to Project
   title: string;             // The title of the story

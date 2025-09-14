@@ -1,5 +1,5 @@
 import { Component, input, output } from "@angular/core";
-import { ProjectMetadata } from "../../models/project-metadata.model";
+import { ProjectMetadataModel } from "../../models/project-metadata.model";
 import { DatePipe } from "@angular/common";
 import { IconButton } from "../icon-button/icon-button";
 
@@ -14,11 +14,11 @@ import { IconButton } from "../icon-button/icon-button";
 })
 export class ProjectCard {
     
-    onopenproject = output<ProjectMetadata>();
+    onopenproject = output<ProjectMetadataModel>();
     ondelete = output<string>();
-    public project = input.required<ProjectMetadata>();
+    public project = input.required<ProjectMetadataModel>();
 
-    openProject(data: ProjectMetadata): void {
+    openProject(data: ProjectMetadataModel): void {
         this.onopenproject.emit(data);
     }
 

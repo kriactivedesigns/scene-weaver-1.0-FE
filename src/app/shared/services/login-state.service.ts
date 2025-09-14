@@ -1,5 +1,5 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { User } from '../models/user.model';
+import { UserModel } from '../models/user.model';
 import { Pages } from '../enums/pages.enum';
 import { Router } from '@angular/router';
 import { StorageKeys } from '../enums/storagekeys.enum';
@@ -10,7 +10,7 @@ export class LoginState {
   // Dependency injections
   private router = inject(Router);
   // Use signals for reactive state (Angular 16+)
-  private _user = signal<User | null>(null);
+  private _user = signal<UserModel | null>(null);
   private _isLoggedIn = signal<boolean>(false);
 
   // Public readonly signals
@@ -22,7 +22,7 @@ export class LoginState {
     this.user()?.name || this.user()?.email || 'Anonymous'
   );
 
-  login(user: User): void {
+  login(user: UserModel): void {
     this._user.set(user);
     this._isLoggedIn.set(true);
     sessionStorage.setItem(StorageKeys.LoggedInUser, JSON.stringify(user));

@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, input, OnInit, output } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { Character } from "../../models/character.model";
+import { CharacterModel } from "../../models/character.model";
 import { IconButton } from "../icon-button/icon-button";
 import { CommonService } from "../../services/common.service";
 
@@ -17,7 +17,7 @@ export class CharacterWorldCard implements OnInit {
 
     commonService = inject(CommonService);
     
-    character = input<Character>();
+    character = input<CharacterModel>();
     ondelete = output<string>();
     onedit = output<string>();
     calculatedWidth: number = 0;

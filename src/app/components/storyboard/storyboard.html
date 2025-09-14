@@ -1,12 +1,15 @@
 <div class="main-container">
+  <div class="upper-section"></div>
   <div class="content-container">
-    <div class="upper-section"></div>
-    <div class="bottom-section">
-      <div class="buttons-container right">
-        <button class="primary-button button" (click)="navigateToNextPage()">
-          ANIMATICS<span>&#10148;</span>
-        </button>
-      </div>
+    <div class="left">
+      <icon-button text="Previous" icon="left" (onclick)="navigateTo(Pages.Screenplay)"/>
+    </div>
+    <div class="middle">
+      <div class="header"></div>
+      <div class="content"></div>
+    </div>
+    <div class="right">
+      <icon-button textIcon="aistar" text="Generate" icon="right" (onclick)="navigateTo(Pages.Animatics)"/>
     </div>
   </div>
 </div>

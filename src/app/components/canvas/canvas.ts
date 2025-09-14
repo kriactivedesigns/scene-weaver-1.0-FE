@@ -1,15 +1,35 @@
-import { Component, effect } from "@angular/core";
+import { Component, effect, signal } from "@angular/core";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
 import { Pages } from "../../shared/enums/pages.enum";
+import { IconButton } from "../../shared/components/icon-button/icon-button";
+import { StoryThread } from "../../shared/components/story-thread/story-thread";
+import { StoryThreadModel } from "../../shared/models/story-thread.model";
 
 @Component({
     selector: 'app-canvas',
     templateUrl: './canvas.html',
     styleUrls: ['./canvas.scss'],
-    standalone: true
+    standalone: true,
+    imports: [
+        IconButton,
+        StoryThread
+    ]
 })
 export class Canvas extends BaseComponent {
-   navigateToNextPage() {
-    this.goTo(Pages.Story);
-   }
+
+    addNewSnippet() {
+        const newThread: Omit<StoryThreadModel, 'id' | 'projectId' | 'createdAt' | 'updatedAt'> = {
+            content: '',
+            order: this.canvasState.threads().length,
+        }
+        this.canvasState.addThread(newThread);
+    }
+
+    deleteSnippet(thread: StoryThreadModel) {
+        this.canvasState.deleteThread(thread.id);
+    }
+    
+    navigateTo(page: Pages) {
+        this.goTo(page);
+    }
 }

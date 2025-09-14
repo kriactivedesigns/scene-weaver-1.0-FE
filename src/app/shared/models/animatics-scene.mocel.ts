@@ -1,4 +1,4 @@
-export interface AnimaticScene {
+export interface AnimaticSceneModel {
   id: string;              // Primary Key (UUID)
   projectId: string;         // Foreign Key to Project
   sceneId: string;           // Foreign Key to ScreenplayScene

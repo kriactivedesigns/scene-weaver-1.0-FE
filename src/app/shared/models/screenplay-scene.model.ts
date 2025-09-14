@@ -1,4 +1,4 @@
-export interface ScreenplayScene {
+export interface ScreenplaySceneModel {
   id: string;              // Primary Key (UUID)
   projectId: string;         // Foreign Key to Project
   sceneNumber: number;       // For ordering the scenes

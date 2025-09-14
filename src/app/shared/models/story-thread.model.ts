@@ -1,4 +1,4 @@
-export interface StoryThread {
+export interface StoryThreadModel {
   id: string;              // Primary Key (UUID)
   projectId: string;         // Foreign Key to Project
   content: string;           // The text of the thread

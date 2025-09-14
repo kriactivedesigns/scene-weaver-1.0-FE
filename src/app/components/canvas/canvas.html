@@ -1,12 +1,29 @@
 <div class="main-container">
+  <div class="upper-section">
+  </div>
   <div class="content-container">
-    <div class="upper-section"></div>
-    <div class="bottom-section">
-      <div class="buttons-container right">
-        <button class="primary-button button" (click)="navigateToNextPage()">
-          STORY<span>&#10148;</span>
-        </button>
+    <div class="left">
+      <icon-button text="Previous" icon="left" (onclick)="navigateTo(Pages.Realm)"/>
+    </div>
+    <div class="middle">
+      <div class="header">
+        <div class="label">
+          Add your story snippets here...
+        </div>
+        <div class="button">
+          <button class="text-only-button" (click)="addNewSnippet()">
+            + Add New Snippet
+          </button>
+        </div>
       </div>
+      <div class="content">
+        @for (thread of canvasState.threads(); track $index) {
+          <story-thread [data]="thread" (ondelete)="deleteSnippet($event)" />
+        }
+      </div>
+    </div>
+    <div class="right">
+      <icon-button textIcon="aistar" text="Generate" icon="right" (onclick)="navigateTo(Pages.Story)"/>
     </div>
   </div>
 </div>

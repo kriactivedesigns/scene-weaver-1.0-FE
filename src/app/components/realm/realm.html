@@ -3,7 +3,6 @@
   </div>
   <div class="content-container">
     <div class="left">
-      <icon-button text="Previous" icon="left" (onclick)="navigateToNextPage()" [disabled]="true"/>
     </div>
     <div class="middle">
       <div class="character-world-container">
@@ -41,10 +40,10 @@
             </div>
           </div>
           <div class="content">
-            @for (world of realmState.characters(); track $index) {
+            @for (world of realmState.worlds(); track $index) {
                 <character-world-card
                   [character]="world"
-                  (ondelete)="deleteCharacter($event)"
+                  (ondelete)="deleteWorld($event)"
                   aspectRatio="16:9"
                   (onedit)="openPopup('world', 'update', world)"
               />
@@ -54,7 +53,7 @@
       </div>
     </div>
     <div class="right">
-      <icon-button text="Next" icon="right" (onclick)="navigateToNextPage()"/>
+      <icon-button text="Next" icon="right" (onclick)="navigateTo(Pages.Canvas)"/>
     </div>
   </div>
 </div>

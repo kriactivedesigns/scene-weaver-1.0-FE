@@ -1,0 +1,52 @@
+@use '../../../../styles/theme' as *;
+
+.thread-container {
+    display: grid;
+    width: 100%;
+    grid-template-rows: min-content auto;
+    padding: 8px;
+    border: 1px solid $color-border;
+    user-select: none;
+    border-radius: 8px;
+    min-width: 320px;
+    .title {
+        display: grid;
+        grid-template-columns: auto 25px;
+        margin-bottom: 8px;
+        .thread-order {
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .delete-button {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            button.delete-icon-button {
+                margin: 0 !important;
+                &:hover {
+                    svg path {
+                        fill: $color-error;
+                    }
+                }
+            }
+        }
+    }
+    .story-thread-content {
+        display: grid;
+        grid-template-columns: auto 25px;
+        height: 100%;
+        .text-input {
+            height: 100%;
+            .input-container {
+                margin: 0;
+            }
+            .text {
+                height: 100%;
+                cursor: pointer;
+            }
+        }
+    }
+}

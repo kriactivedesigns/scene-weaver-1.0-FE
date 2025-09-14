@@ -1,19 +1,21 @@
 import { computed, inject, Injectable, signal } from "@angular/core";
-import { ProjectMetadata } from "../models/project-metadata.model";
+import { ProjectMetadataModel } from "../models/project-metadata.model";
 import { HttpClient } from "@angular/common/http";
-import { Project } from "../models/project.model";
+import { ProjectModel } from "../models/project.model";
 import { StorageKeys } from "../enums/storagekeys.enum";
-import { Observable, pipe } from "rxjs";
+import { map, Observable, pipe } from "rxjs";
+import { CommonService } from "../services/common.service";
 
 @Injectable({ providedIn: 'root' })
 export class ProjectState {
 
     // Dependency Injections
     private http = inject(HttpClient);
+    private commonService = inject(CommonService);
 
     // Private states
-    private _projects = signal<ProjectMetadata[]>([]);
-    private _openedProject = signal<Project | null>(null);
+    private _projects = signal<ProjectMetadataModel[]>([]);
+    private _openedProject = signal<ProjectModel | null>(null);
     
     // Public readonly access
     readonly projects = this._projects.asReadonly();
@@ -28,10 +30,10 @@ export class ProjectState {
     }
 
     // Projects Management
-    addProject(project: Omit<ProjectMetadata, 'id' | 'createdAt' | 'updatedAt'>): ProjectMetadata {
-        const newProject: ProjectMetadata = {
+    addProject(project: Omit<ProjectMetadataModel, 'id' | 'createdAt' | 'updatedAt'>): ProjectMetadataModel {
+        const newProject: ProjectMetadataModel = {
             ...project,
-            id: this.generateId(),
+            id: this.commonService.generateId(),
             createdAt: new Date(),
             updatedAt: new Date()
         };
@@ -40,7 +42,7 @@ export class ProjectState {
         return newProject;
     }
 
-    updateProject(id: string, updates: Partial<ProjectMetadata>): void {
+    updateProject(id: string, updates: Partial<ProjectMetadataModel>): void {
         this._projects.update(projects =>
         projects.map(p => p.id === id 
             ? { ...p, ...updates, updatedAt: new Date() }
@@ -60,12 +62,14 @@ export class ProjectState {
         this._projects.update(projects => projects.filter(p => p.id !== id));
     }
     
-    async openProject(projectMetadata: ProjectMetadata) {
+    async openProject(projectMetadata: ProjectMetadataModel) {
         try {
             this.fetchProjectById(projectMetadata.id).subscribe(
-                pipe((project: Project) => {
-                    this._openedProject.set(project);
-                    this.setLocalPersistentProjectState(projectMetadata);
+                pipe((project: ProjectModel | undefined) => {
+                    if (project) {
+                        this._openedProject.set(project);
+                        this.setLocalPersistentProjectState(projectMetadata);
+                    }
                 })
             );
         } catch (error) {
@@ -73,7 +77,7 @@ export class ProjectState {
         }
     }
 
-    private setLocalPersistentProjectState(projectMetadata: ProjectMetadata) {
+    private setLocalPersistentProjectState(projectMetadata: ProjectMetadataModel) {
         localStorage.setItem(StorageKeys.OpenedProject,JSON.stringify(projectMetadata));
     }
 
@@ -82,12 +86,8 @@ export class ProjectState {
         localStorage.removeItem(StorageKeys.OpenedProject);
     }
     
-    private generateId(): string {
-        return Date.now().toString(36) + Math.random().toString(36).substring(2);
-    }
-    
     fetchProjects(): void {
-        this.http.get<Array<ProjectMetadata>>('/mock-data/projects.json').subscribe({
+        this.http.get<Array<ProjectMetadataModel>>('/mock-data/projects_metadata.json').subscribe({
             next: (projects) => {
                 this._projects.set(projects);
             },
@@ -97,8 +97,10 @@ export class ProjectState {
         });
     }
 
-    private fetchProjectById(projectId: string): Observable<Project> {
-        return this.http.get<Project>('/mock-data/project.json');
+    private fetchProjectById(projectId: string): Observable<ProjectModel | undefined> {
+        return this.http.get<Array<ProjectModel>>('/mock-data/projects.json').pipe(
+            map(projects => projects.find(project => project.id === projectId))
+        );
     }
 
     isProjectOpen(): boolean {
@@ -113,9 +115,9 @@ export class ProjectState {
         return false;
     }
 
-    updateOpenedProject(id: string, updates: Partial<Project>): void {
+    updateOpenedProject(projectId: string, updates: Partial<ProjectModel>): void {
         this._projects.update(projects =>
-            projects.map(p => p.id === id 
+            projects.map(p => p.id === projectId 
                 ? { ...p, ...updates, updatedAt: new Date() }
                 : p
             )
@@ -123,7 +125,7 @@ export class ProjectState {
 
         // Safely update the opened project
        this._openedProject.update(currentProject => {
-         if (!currentProject || currentProject.id !== id) {
+         if (!currentProject || currentProject.id !== projectId) {
            return currentProject;
          }
 

@@ -3,7 +3,7 @@
 .login-input-container {
     position: relative;
     display: grid;
-    height: 55px;
+    height: 65px;
     border-radius: 8px;
     box-sizing: border-box;
     border: 1px solid $color-border;
@@ -29,10 +29,11 @@
             height: 100%;
             border: none;
             outline: none;
-            padding-top: 15px;
+            padding-top: 25px;
             border-radius: 8px;
             padding-left: 10px;
             background: $color-surface;
+            font-size: 1.1rem;
             &:focus + label,
             &:not(:placeholder-shown) + label,
             &:-webkit-autofill,
@@ -41,7 +42,7 @@
             &:-webkit-autofill:active {
                 top: 8px;
                 transform: translateY(0);
-                font-size: 0.7rem;
+                font-size: 1rem;
                 color: $color-text-dark;
                 -webkit-box-shadow: 0 0 0px 1000px $color-surface inset !important;
             }
@@ -124,6 +125,14 @@ button.primary-button.outlined {
     }
 }
 
+button {
+    transition: all 350ms ease-in-out;
+    &:hover:not([disabled]) {
+        letter-spacing: 0.1rem;
+        font-weight: 600;
+    }
+}
+
 button.secondary-button,
 button.secondary-button.outlined {
     width: 100%;
@@ -141,7 +150,6 @@ button.secondary-button.outlined {
     align-items: center;
     justify-content: center;
     gap: 25px;
-    transition: all 350ms ease-in-out;
     &.outlined {
         background-color: transparent;
         border: 1px solid $color-secondary-base;
@@ -153,7 +161,6 @@ button.secondary-button.outlined {
         }
     }
     &:hover {
-        letter-spacing: 0.2rem;
         background-color: $color-secondary-dark;
         font-weight: 600;
     }

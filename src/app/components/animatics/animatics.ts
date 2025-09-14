@@ -1,10 +1,21 @@
 import { Component } from "@angular/core";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
+import { Pages } from "../../shared/enums/pages.enum";
+import { IconButton } from "../../shared/components/icon-button/icon-button";
 
 @Component({
     selector: 'app-animatics',
     templateUrl: './animatics.html',
     styleUrls: ['./animatics.scss'],
-    standalone: true
+    standalone: true,
+    imports: [
+        IconButton
+    ]
 })
-export class Animatics extends BaseComponent { }
+export class Animatics extends BaseComponent {
+
+    navigateTo(page: Pages) {
+        this.goTo(page);
+    }
+    
+}

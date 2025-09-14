@@ -1,4 +1,4 @@
-<div class="dropdown-menu" [class.open]="open()">
+<div class="dropdown-menu" [class.open]="open()" (clickOutside)="handleClickOutside()">
     <div class="dropdown-content" [class.open]="open()">
         <div class="profile">
             <img src="profile.png" alt="profile">

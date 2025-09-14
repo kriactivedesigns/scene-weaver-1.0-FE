@@ -2,10 +2,10 @@ import { Component, computed, signal } from "@angular/core";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
 import { Pages } from "../../shared/enums/pages.enum";
 import { CharacterWorldCard } from "../../shared/components/characted-world-card/characted-world-card";
-import { Character } from "../../shared/models/character.model";
+import { CharacterModel } from "../../shared/models/character.model";
 import { IconButton } from "../../shared/components/icon-button/icon-button";
 import { NewCharacterWorld, PopupMethods, PopupTypes } from "../../shared/components/new-character-world-popup/new-character-world-popup";
-import { World } from "../../shared/models/world.model";
+import { WorldModel } from "../../shared/models/world.model";
 
 type Types = 'character' | 'world'
 @Component({
@@ -24,33 +24,38 @@ export class Realm extends BaseComponent {
     popupType = signal<PopupTypes>('character');
     popupMethod = signal<PopupMethods>('add');
     isPopupOpen = signal<boolean>(false);
-    popupData = signal<Partial<Character | World | null>>(null)
+    popupData = signal<Partial<CharacterModel | WorldModel | null>>(null)
     
-    navigateToNextPage() {
-        this.goTo(Pages.Canvas);
+    navigateTo(page: Pages) {
+        this.goTo(page);
     }
-   
-    onCreate(data: Partial<Character | World>) {
-        if (this.popupMethod() === 'add') {
-            console.log('add create', data)
-        } else if (this.popupMethod() === 'update') {
-            console.log('update create', data)
-            if (data.projectId && data.id) {
-                this.realmState.updateCharacter(data.id, data)
-            this.isPopupOpen.set(false);
-        } 
+
+    onCreate(data: any) {
+        switch(this.popupType()) {
+            case 'character': 
+                if (this.popupMethod() === 'add')
+                    this.createCharacter(data);
+                else 
+                    this.updateCharacter(data);
+                break;
+            case 'world': 
+                if (this.popupMethod() === 'add')
+                    this.createworld(data);
+                else 
+                    this.updateworld(data);
+                break;
         }
     }
-
-    onGenerate(data: Partial<Character | World>) {
-        this.generateCharacterImage(data);
-    }
-
+   
     deleteCharacter(id: string) {
         this.realmState.deleteCharacter(id)
     }
     
-    openPopup(type: PopupTypes, method: PopupMethods, data: Character | World | null = null) {
+    deleteWorld(id: string) {
+        this.realmState.deleteWorld(id)
+    }
+    
+    openPopup(type: PopupTypes, method: PopupMethods, data: CharacterModel | WorldModel | null = null) {
         this.popupType.set(type);
         this.popupMethod.set(method);
         this.popupData.set(data);
@@ -61,15 +66,51 @@ export class Realm extends BaseComponent {
         this.popupData.set(null);
         this.isPopupOpen.set(value);
     }
+
+    onGenerate(data: Partial<CharacterModel | WorldModel>) {
+        if (this.popupType() == 'character') {
+            this.generateCharacterImage(data);
+        } else if (this.popupType() == 'world') {
+            this.generateWorldImage(data);
+        }
+    }
+
+    private createCharacter(data: Omit<CharacterModel, 'id'>) {
+        this.realmState.addCharacter(data);
+        this.isPopupOpen.set(false);
+    }
     
-    private generateCharacterImage(character: Partial<Character>) {
+    private updateCharacter(data: Partial<CharacterModel>) {
+        if (!data.projectId || !data.id)
+            return
+        this.realmState.updateCharacter(data.id, data);
+        this.isPopupOpen.set(false);
+    }
+    
+    private createworld(data: Omit<WorldModel, 'id'>) {
+        this.realmState.addWorld(data);
+        this.isPopupOpen.set(false);
+    }
+    
+    private updateworld(data: Partial<WorldModel>) {
+        if (!data.projectId || !data.id)
+            return
+        this.realmState.updateWorld(data.id, data);
+        this.isPopupOpen.set(false);
+    }
+
+    private generateCharacterImage(character: Partial<CharacterModel>) {
         Object.assign(character, { imagePath: 'https://picsum.photos/200/400' })
         this.popupData.update(() => {
             return character;
         })
     }
     
-    private generateWorldImage(character: Partial<World>) {
-        console.log(character)
+    private generateWorldImage(world: Partial<WorldModel>) {
+        Object.assign(world, { imagePath: 'https://picsum.photos/200/500' })
+        this.popupData.update(() => {
+            return world;
+        })
     }
+
 }

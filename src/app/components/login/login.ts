@@ -1,7 +1,7 @@
 import { Component, computed, signal } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { customEmailValidator } from "../../shared/extras/customValidators";
-import { User } from "../../shared/models/user.model";
+import { UserModel } from "../../shared/models/user.model";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
 import { ToggleButtons } from "../../shared/components/toggle-buttons/toggle-buttons";
 
@@ -40,7 +40,7 @@ export class Login extends BaseComponent {
             this.form.markAllAsTouched();
             return;
         }
-        const user: User = {
+        const user: UserModel = {
             id: '',
             email: this.email?.value || '',
             name: 'John Doe'

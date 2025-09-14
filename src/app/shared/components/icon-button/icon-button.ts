@@ -8,6 +8,7 @@ import { ButtonIconType } from "../../types/button-icons";
 })
 export class IconButton {
     icon = input.required<ButtonIconType>();
+    textIcon = input<ButtonIconType>();
     text = input<string>();
     onclick = output();
     disabled = input<boolean>();
