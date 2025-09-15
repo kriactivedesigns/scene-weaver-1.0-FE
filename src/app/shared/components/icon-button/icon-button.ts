@@ -7,7 +7,7 @@ import { ButtonIconType } from "../../types/button-icons";
     styleUrl: './icon-button.scss'
 })
 export class IconButton {
-    icon = input.required<ButtonIconType>();
+    icon = input<ButtonIconType>();
     textIcon = input<ButtonIconType>();
     text = input<string>();
     onclick = output<MouseEvent | void>();

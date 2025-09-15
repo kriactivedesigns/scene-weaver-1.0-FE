@@ -1,7 +1,5 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
 import { ProjectState } from './project.state';
-import { StoryModel } from '../models/story.model';
-import { CommonService } from '../services/common.service';
 import { ProjectModel } from '../models/project.model';
 import { delay, of } from 'rxjs';
 import { ScreenplaySceneModel } from '../models/screenplay-scene.model';
@@ -9,7 +7,6 @@ import { ScreenplaySceneModel } from '../models/screenplay-scene.model';
 @Injectable({ providedIn: 'root' })
 export class ScreenplayState {
     private readonly projectState = inject(ProjectState);
-    private readonly commonService = inject(CommonService);
 
     private _screenplay = signal<Array<ScreenplaySceneModel>>([]);
 

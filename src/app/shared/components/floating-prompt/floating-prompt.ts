@@ -27,9 +27,14 @@ export class FloatingPrompt implements AfterViewInit {
         setTimeout(() => this.inputElement.nativeElement.focus(), 0);
     }
 
-    onSubmit(): void {
+    onSubmit(event: any): void {
+        
+        event.stopPropagation();
+        event.preventDefault();
         if (this.promptText.trim()) {
             this.promptSubmit.emit(this.promptText);
+        } else {
+            this.close.emit();
         }
     }
 

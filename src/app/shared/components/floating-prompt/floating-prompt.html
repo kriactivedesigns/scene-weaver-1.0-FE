@@ -4,7 +4,7 @@
         type="text"
         class="prompt-input"
         [(ngModel)]="promptText"
-        (keydown.enter)="onSubmit()"
+        (keydown.enter)="onSubmit($event)"
         (keydown.escape)="onCancel()"
         (blur)="onCancel()"
         (clickOutside)="onCancel()"

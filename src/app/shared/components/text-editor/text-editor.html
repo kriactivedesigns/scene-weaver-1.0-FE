@@ -1,7 +1,7 @@
 <div class="story-editor-container">
     
     <ngx-editor-floating-menu [editor]="editor">
-        <ngx-editor-menu [editor]="editor" [toolbar]="toolbar" />
+        <ngx-editor-menu [editor]="editor" [toolbar]="toolbar" [customMenuRef]="aimenu"/>
     </ngx-editor-floating-menu>
     <!-- Editable content area -->
     <ngx-editor [editor]="editor" [formControl]="contentControl" placeholder="Start writing your story here..." />
@@ -19,3 +19,7 @@
         />
     </div>
 }
+
+<ng-template #aimenu>
+  <icon-button textIcon="aistar" (onclick)="openAIPrompt()"/>
+</ng-template>
