@@ -2,27 +2,26 @@ import { CommonModule } from "@angular/common";
 import { AfterViewInit, ChangeDetectorRef, Component, effect, inject, input, OnDestroy } from "@angular/core";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { Editor, NgxEditorModule, Toolbar, Validators } from 'ngx-editor';
-import { IconButton } from "../icon-button/icon-button";
 import { StoryModel } from "../../models/story.model";
 import { FloatingPrompt } from "../floating-prompt/floating-prompt";
 import { selectionPlugin } from "../../extras/selection-plugin";
+import { ScreenplaySceneModel } from "../../models/screenplay-scene.model";
 
 @Component({
-    selector: 'story-editor',
-    templateUrl: './story-editor.html',
-    styleUrl: './story-editor.scss',
+    selector: 'text-editor',
+    templateUrl: './text-editor.html',
+    styleUrl: './text-editor.scss',
     standalone: true,
     imports: [
     CommonModule,
     ReactiveFormsModule,
     NgxEditorModule,
-    IconButton,
     FloatingPrompt
 ]
 })
-export class StoryEditor implements OnDestroy, AfterViewInit {
+export class TextEditorComponent implements OnDestroy, AfterViewInit {
 
-    data = input.required<StoryModel | null>();
+    data = input.required<StoryModel | ScreenplaySceneModel | null>();
     cdr = inject(ChangeDetectorRef);
 
     // Initialize editor instance
@@ -69,28 +68,28 @@ export class StoryEditor implements OnDestroy, AfterViewInit {
     // method to open AI Prompt input
     handleSelectionChange(): void {
 
-        this.editor.view.focus();
+        // this.editor.view.focus();
         
-        const { state } = this.editor.view;
-        const { from, to } = state.selection;
+        // const { state } = this.editor.view;
+        // const { from, to } = state.selection;
 
-        if (from === to) {
-            if (this.isPromptVisible) {
-                this.isPromptVisible = false;
-                // 2. Tell Angular to check for changes
-                this.cdr.markForCheck(); 
-            }
-            return;
-        }
+        // if (from === to) {
+        //     if (this.isPromptVisible) {
+        //         this.isPromptVisible = false;
+        //         // 2. Tell Angular to check for changes
+        //         this.cdr.markForCheck(); 
+        //     }
+        //     return;
+        // }
 
-        const start = this.editor.view.coordsAtPos(from);
+        // const start = this.editor.view.coordsAtPos(from);
         
-        this.floatingMenuPosition = {
-            top: `${start.bottom + 10}px`,
-            left: `${start.left}px`
-        };
-        this.isPromptVisible = true;
-        this.cdr.markForCheck();
+        // this.floatingMenuPosition = {
+        //     top: `${start.bottom + 10}px`,
+        //     left: `${start.left}px`
+        // };
+        // this.isPromptVisible = true;
+        // this.cdr.markForCheck();
     }
 
     handlePromptSubmit(prompt: string): void {

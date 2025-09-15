@@ -2,7 +2,7 @@ import { Component, signal, ViewChild } from "@angular/core";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
 import { Pages } from "../../shared/enums/pages.enum";
 import { IconButton } from "../../shared/components/icon-button/icon-button";
-import { StoryEditor } from "../../shared/components/story-editor/story-editor";
+import { TextEditorComponent } from "../../shared/components/text-editor/text-editor";
 
 @Component({
     selector: 'app-story',
@@ -11,12 +11,12 @@ import { StoryEditor } from "../../shared/components/story-editor/story-editor";
     standalone: true,
     imports: [
         IconButton,
-        StoryEditor
+        TextEditorComponent
     ]
 })
 export class Story extends BaseComponent {
 
-    @ViewChild(StoryEditor) private storyEditor!: StoryEditor;
+    @ViewChild(TextEditorComponent) private storyEditor!: TextEditorComponent;
 
     isSaving = signal<boolean>(false);
     saveFailed: boolean = false;

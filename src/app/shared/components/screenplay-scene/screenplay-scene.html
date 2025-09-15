@@ -1,0 +1,36 @@
+<div class="screenplay-scene-container">
+    <div class="screenplay-scene-header">
+        <div class="screenplay-scene-header-left">
+            <div class="scene-number">
+                Scene #{{scene()?.sceneNumber}}
+            </div>
+            <div class="scene-duration">
+                <div class="duration-text">Duration:</div>
+                <div class="duration-time">{{scene()?.duration | timeFormat}}</div>
+            </div>
+        </div>
+        <div class="screenplay-scene-header-right">
+            <icon-button class="save-icon" icon="save" (onclick)="getStoryContentAndSave()"/>
+            <div class="saved-indicator" [class.saving]="isSaving()">
+                @if (saveFailed) {
+                    <div class="failed">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="7" cy="7" r="7" fill="#EF5350"/>
+                            <path d="M3 7L6.5 9.5L11.5 4" stroke="white"/>
+                        </svg>
+                    </div>
+                } @else {
+                    <div class="success">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="7" cy="7" r="7" fill="#6CC4A1"/>
+                            <path d="M3 7L6.5 9.5L11.5 4" stroke="white"/>
+                        </svg>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="screenplay-scene-content">
+        <text-editor [data]="scene() ?? null" />
+    </div>
+</div>

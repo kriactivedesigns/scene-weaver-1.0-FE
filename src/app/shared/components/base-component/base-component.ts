@@ -7,6 +7,7 @@ import { Pages } from "../../enums/pages.enum";
 import { RealmState } from "../../state/realm.state";
 import { CanvasState } from "../../state/canvas.state";
 import { StoryState } from "../../state/story.state";
+import { ScreenplayState } from "../../state/screenplay.state";
 
 export abstract class BaseComponent {
 
@@ -20,6 +21,7 @@ export abstract class BaseComponent {
     protected readonly realmState = inject(RealmState);
     protected readonly canvasState = inject(CanvasState);
     protected readonly storyState = inject(StoryState);
+    protected readonly screenplayState = inject(ScreenplayState);
 
     protected goTo(page: string): void {
         this.router.navigateByUrl(page);

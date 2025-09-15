@@ -7,7 +7,7 @@
     <div class="middle">
       <div class="header">
         <div class="label">
-          Here is your story generated, feel free to add your imaginations...
+          Here is your Story generated, feel free to add your imaginations...
         </div>
         <div class="button-indicator">
           <icon-button class="save-icon" icon="save" (onclick)="getStoryContentAndSave()"/>
@@ -32,7 +32,7 @@
       </div>
       <div class="content">
         <div class="story-text-area">
-          <story-editor [data]="storyState.story()" />
+          <text-editor [data]="storyState.story()" />
         </div>
       </div>
     </div>
