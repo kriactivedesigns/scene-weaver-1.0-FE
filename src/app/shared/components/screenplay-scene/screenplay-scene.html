@@ -10,6 +10,7 @@
             </div>
         </div>
         <div class="screenplay-scene-header-right">
+            <icon-button icon="delete" (onclick)="deleteScene()"/>
             <icon-button class="save-icon" icon="save" (onclick)="getStoryContentAndSave()"/>
             <div class="saved-indicator" [class.saving]="isSaving()">
                 @if (saveFailed) {

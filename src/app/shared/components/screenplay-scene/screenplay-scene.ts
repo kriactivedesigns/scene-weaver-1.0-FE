@@ -33,7 +33,7 @@ export class ScreenplaySceneComponent {
                 ...currentScreenplayScene,
                 content: screenplayText
             }
-            this.screenplayState.addOrUpdateScreenplay(updatedScreenplay)
+            this.screenplayState.updateScreenplay(updatedScreenplay)
                 ?.subscribe({
                     next: () => {
                         this.isSaving.set(false);
@@ -45,6 +45,12 @@ export class ScreenplaySceneComponent {
                     }
                 })
         }
+    }
+
+    deleteScene() {
+        const currentScene = this.scene();
+        if (currentScene)
+            this.screenplayState.deleteScene(currentScene);
     }
     
 }

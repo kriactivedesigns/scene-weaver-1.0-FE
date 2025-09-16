@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { ElementRef, Injectable, QueryList } from "@angular/core";
 
 @Injectable({ providedIn: "root" })
 export class CommonService {
@@ -24,6 +24,13 @@ export class CommonService {
 
     generateId(): string {
         return Date.now().toString(36) + Math.random().toString(36).substring(2);
+    }
+
+    scrollToLastItem(sceneItems: QueryList<ElementRef<any>>) {
+        const lastItem = sceneItems.last;
+        if (lastItem) {
+            lastItem.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
     }
 
 }

@@ -8,6 +8,7 @@ import { RealmState } from "../../state/realm.state";
 import { CanvasState } from "../../state/canvas.state";
 import { StoryState } from "../../state/story.state";
 import { ScreenplayState } from "../../state/screenplay.state";
+import { CommonService } from "../../services/common.service";
 
 export abstract class BaseComponent {
 
@@ -15,6 +16,7 @@ export abstract class BaseComponent {
     protected readonly loginState = inject(LoginState);
     protected readonly globalState = inject(GlobalState);
     protected readonly router = inject(Router);
+    protected readonly commonService = inject(CommonService);
 
     // Stage wise state slices inject
     protected readonly projectState = inject(ProjectState);

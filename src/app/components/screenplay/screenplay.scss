@@ -1,2 +1,43 @@
 @use '../../../styles/theme' as *;
 
+/* Provides a grabbing cursor when hovering over a draggable item */
+.drag-handle {
+  border-color: $color-border;
+  border-width: 1px 1px 0px 1px;
+  border-style: dotted;
+  border-radius: 3px;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 0.7rem;
+  &:hover {
+    cursor: grab;
+  }
+}
+
+/* Styles applied to the item as it is being dragged */
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+/* A subtle drop placeholder indicator */
+.cdk-drop-list-dragging .cdk-drag {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* The item that is being dragged is temporarily removed from the DOM,
+   and this placeholder is left in its place. */
+.cdk-drag-placeholder {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  opacity: 0.3;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}

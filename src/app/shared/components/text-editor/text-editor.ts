@@ -42,7 +42,7 @@ export class TextEditorComponent implements OnDestroy {
     
     // Use a Formcontrol to manage the editor's content
     contentControl = new FormControl(
-        '<h2>Your Story Title</h2><p>Begin writing your story here...</p>',
+        '<p>Begin writing your story imaginations here...</p>',
         [Validators.required()]
     )
 

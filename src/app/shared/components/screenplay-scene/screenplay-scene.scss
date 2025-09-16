@@ -3,6 +3,7 @@
 .screenplay-scene-container {
     margin-bottom: 25px;
     .screenplay-scene-header {
+        user-select: none;
         display: flex;
         padding: 15px 15px;
         border-top: 1px solid $color-border;

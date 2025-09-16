@@ -9,13 +9,26 @@
         <div class="label">
           Here is your Screenplay generated, feel free to add your imaginations...
         </div>
+        <div class="header-buttons">
+          <button class="text-only-button" (click)="addNewScene()">
+            + Add New Snippet
+          </button>
+        </div>
       </div>
-      <div class="content">
-        @for (scene of screenplayState.screenplay(); track $index) {
-          <div class="scene-container">
-            <screenplay-scene [scene]="scene" />
-          </div>
-        }
+      <div class="content" cdkDropList (cdkDropListDropped)="drop($event)">
+          @for (scene of scenes(); track $index) {
+            <div class="cdk-drag" cdkDrag>
+              <div class="drag-handle" cdkDragHandle>
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M3,15H5V13H3V15M3,19H5V17H3V19M3,11H5V9H3V11M3,5V7H5V5H3M7,5V7H9V5H7M11,5V7H13V5H11M15,5V7H17V5H15M19,5V7H21V5H19M7,9V11H9V9H7M11,9V11H13V9H11M15,9V11H17V9H15M19,9V11H21V9H19M7,13V15H9V13H7M11,13V15H13V13H11M15,13V15H17V13H15M19,13V15H21V13H19M7,17V19H9V17H7M11,17V19H13V17H11M15,17V19H17V17H15M19,17V19H21V17H19Z"></path>
+                </svg>
+                <div class="drag-text">Click and drag to change order</div>
+              </div>
+              <div class="scene-container">
+                <screenplay-scene [scene]="scene" #sceneItem/>
+              </div>
+            </div>
+          }
       </div>
     </div>
     <div class="right">
