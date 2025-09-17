@@ -73,6 +73,10 @@ export class ScreenplayState {
         this.updateProject()
     }
 
+    getSceneByID(sceneId: string): ScreenplaySceneModel | undefined {
+        return this._screenplay().find(scene => scene.id === sceneId)
+    }
+
     private updateProject(): void {
         const currentProject = this.projectState.openedProject();
         if (!currentProject)

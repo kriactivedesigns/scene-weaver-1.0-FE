@@ -1,2 +1,28 @@
 @use '../../../styles/theme' as *;
 
+.main-container {
+    .content-container {
+        .middle {
+            .content {
+                padding: 0;
+                display: flex;
+                .storyboard-stip {
+                    display: flex;
+                    flex-direction: column;
+                    border-right: 1px solid $color-border;
+                    padding: 8px;
+                    gap: 10px;
+                    height: 100%;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                }
+                .storyboard-main {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin: auto;
+                }
+            }
+        }
+    }
+}

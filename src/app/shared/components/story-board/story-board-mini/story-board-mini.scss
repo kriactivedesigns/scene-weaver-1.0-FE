@@ -1,0 +1,38 @@
+@use '../../../../../styles/theme' as *;
+
+.storyboard-mini-container {
+    border: 1px solid $color-divider;
+    padding: 3px 5px;
+    border-radius: 3px;
+    transition: all 0.3s ease-in-out;
+    display: inline-block;
+    cursor: pointer;
+    &.active,
+    &:hover {
+        box-shadow: $shadow;
+        border-color: $color-secondary-base;
+        border-width: 2px;
+        background-color: rgba($color-primary-light, $alpha: 0.4);
+        .storyboard-mini-content img {
+            border: 1px solid $color-secondary-base;
+        }
+    }
+    &.active {
+        background-color: rgba($color-primary-light, $alpha: 0.2);
+    }
+    .storyboard-mini-header {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 5px;
+        align-items: center;
+        .storyboard-mini-header-text {
+            font-weight: 600;
+            padding: 3px 0;
+        }
+    }
+    .storyboard-mini-content {
+        img {
+            width: 100%;
+        }
+    }
+}

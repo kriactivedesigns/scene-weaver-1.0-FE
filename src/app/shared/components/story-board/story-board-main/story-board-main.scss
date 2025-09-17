@@ -1,0 +1,36 @@
+@use '../../../../../styles/theme' as *;
+
+.storyboard-main-root {
+    border: 1px solid $color-border;
+    padding: 10px 10px 0 10px;
+    border-radius: 5px;
+    box-shadow: $shadow;
+    .storyboard-main-image {}
+    .storyboard-main-info{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        padding: 2px 10px;
+        .scene-number {
+            width: 50%;
+            font-weight: 600;
+        }
+        .scene-duration {
+            display: flex;
+            align-items: center;
+            width: 50%;
+            .duration-text {
+                font-weight: 600;
+                margin-right: 15px;
+            }
+            .duration-time {
+                letter-spacing: 0.1rem;
+            }
+        }
+    }
+    .storyboard-main-prompt-input {
+        label {
+            font-size: 0.8rem;
+        }
+    }
+}

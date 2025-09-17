@@ -1,0 +1,8 @@
+<div class="storyboard-mini-container" [class.active]="isSelected()" (click)="selectImage()">
+    <div class="storyboard-mini-header">
+        <div class="storyboard-mini-header-text">{{`Scene #${image?.scene?.sceneNumber}`}}</div>
+    </div>
+    <div class="storyboard-mini-content" [style.width.px]="width()" [style.height.px]="height">
+        <img [src]="storyboardImage().imagePath" alt="">
+    </div>
+</div>

@@ -1,7 +1,11 @@
-import { Component } from "@angular/core";
+import { Component, effect, signal } from "@angular/core";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
 import { Pages } from "../../shared/enums/pages.enum";
 import { IconButton } from "../../shared/components/icon-button/icon-button";
+import { StoryboardMiniComponent } from "../../shared/components/story-board/story-board-mini/story-board-mini";
+import { StoryboardMainComponent } from "../../shared/components/story-board/story-board-main/story-board-main";
+import { StoryboardImageModel } from "../../shared/models/storyboard-image.model";
+import { StoryboardImageMetadataModel } from "../../shared/models/storyboard-image-metadata.model";
 
 @Component({
     selector: 'app-storyboard',
@@ -9,10 +13,41 @@ import { IconButton } from "../../shared/components/icon-button/icon-button";
     styleUrls: ['./storyboard.scss'],
     standalone: true,
     imports: [
-        IconButton
-    ]
+    IconButton,
+    StoryboardMiniComponent,
+    StoryboardMainComponent
+]
 })
 export class Storyboard extends BaseComponent {
+
+    storyboard = this.storyboardState.storyboard;
+    selectedImage = signal<StoryboardImageMetadataModel | null>(null)
+
+    constructor() {
+        super();
+        effect(() => {
+            console.log(this.storyboard())
+            if (this.storyboard().length)
+                this.selectStoryboardImage(this.storyboard()[0]);
+        })
+    }
+
+    selectStoryboardImage(storyboardImage: StoryboardImageModel) {
+        const scene = this.screenplayState.getSceneByID(storyboardImage.sceneId);
+        if(scene) {
+            this.selectedImage.set({
+                ...storyboardImage,
+                scene: scene
+            })
+        }
+    }
+
+    submitPrompt(prompt: string) {
+        const selectedImageId = this.selectedImage()?.id;
+        if (!selectedImageId)
+            return;
+        this.storyboardState.updateImageWithPrompt(prompt,selectedImageId)
+    }
 
     navigateTo(page: Pages) {
         this.goTo(page);

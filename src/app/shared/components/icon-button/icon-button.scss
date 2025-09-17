@@ -21,6 +21,12 @@ button.icon-button {
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: all 0.3s ease-in-out;
+        &.delete:hover {
+            svg path {
+                fill: $color-error;
+            }
+        }
         &.margin {
             margin-bottom: 8px;
         }
