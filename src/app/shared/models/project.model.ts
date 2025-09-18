@@ -1,3 +1,4 @@
+import { AnimaticSceneModel } from "./animatics-scene.model";
 import { CharacterModel } from "./character.model";
 import { ProjectMetadataModel } from "./project-metadata.model";
 import { ScreenplaySceneModel } from "./screenplay-scene.model";
@@ -13,4 +14,5 @@ export interface ProjectModel extends ProjectMetadataModel {
   story: StoryModel;
   screenplay: ScreenplaySceneModel[];
   storyboard: StoryboardImageModel[];
+  animatics: AnimaticSceneModel[];
 }

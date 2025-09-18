@@ -455,6 +455,96 @@
         "createdAt": "2025-02-15T11:20:00Z",
         "updatedAt": "2025-09-01T18:00:00Z"
       }
+    ],
+    "animatics": [
+      {
+        "id": "scene-an-01",
+        "projectId": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "aspectRatio": "16:9",
+        "sceneId": "scene-cw-01",
+        "prompt": "",
+        "videoPath": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+        "version": 1,
+        "createdAt": "2025-02-15T11:20:00Z",
+        "updatedAt": "2025-09-01T18:00:00Z"
+      },
+      {
+        "id": "scene-an-02",
+        "projectId": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "aspectRatio": "16:9",
+        "sceneId": "scene-cw-02",
+        "prompt": "",
+        "videoPath": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+        "version": 1,
+        "createdAt": "2025-02-15T11:20:00Z",
+        "updatedAt": "2025-09-01T18:00:00Z"
+      },
+      {
+        "id": "scene-an-03",
+        "projectId": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "aspectRatio": "16:9",
+        "sceneId": "scene-cw-03",
+        "prompt": "",
+        "videoPath": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+        "version": 1,
+        "createdAt": "2025-02-15T11:20:00Z",
+        "updatedAt": "2025-09-01T18:00:00Z"
+      },
+      {
+        "id": "scene-an-04",
+        "projectId": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "aspectRatio": "16:9",
+        "sceneId": "scene-cw-04",
+        "prompt": "",
+        "videoPath": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+        "version": 1,
+        "createdAt": "2025-02-15T11:20:00Z",
+        "updatedAt": "2025-09-01T18:00:00Z"
+      },
+      {
+        "id": "scene-an-05",
+        "projectId": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "aspectRatio": "16:9",
+        "sceneId": "scene-cw-05",
+        "prompt": "",
+        "videoPath": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+        "version": 1,
+        "createdAt": "2025-02-15T11:20:00Z",
+        "updatedAt": "2025-09-01T18:00:00Z"
+      },
+      {
+        "id": "scene-an-06",
+        "projectId": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "aspectRatio": "16:9",
+        "sceneId": "scene-cw-06",
+        "prompt": "",
+        "videoPath": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+        "version": 1,
+        "createdAt": "2025-02-15T11:20:00Z",
+        "updatedAt": "2025-09-01T18:00:00Z"
+      },
+      {
+        "id": "scene-an-07",
+        "projectId": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "aspectRatio": "16:9",
+        "sceneId": "scene-cw-07",
+        "prompt": "",
+        "videoPath": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+        "version": 1,
+        "createdAt": "2025-02-15T11:20:00Z",
+        "updatedAt": "2025-09-01T18:00:00Z"
+      },
+      {
+        "id": "scene-an-08",
+        "projectId": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "aspectRatio": "16:9",
+        "sceneId": "scene-cw-08",
+        "prompt": "",
+        "videoPath": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+        "version": 1,
+        "createdAt": "2025-02-15T11:20:00Z",
+        "updatedAt": "2025-09-01T18:00:00Z"
+      }
     ]
   },
   {

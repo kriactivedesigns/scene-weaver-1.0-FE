@@ -15,7 +15,7 @@ export class StoryboardMiniComponent {
     private readonly screenplayState = inject(ScreenplayState);
     storyboardImage = input.required<StoryboardImageModel>();
     isSelected = input<boolean>(false);
-    onselect = output<StoryboardImageModel>();
+    onselect = output<string>();
 
     height: number = 0;
     width = computed(() => {
@@ -45,7 +45,7 @@ export class StoryboardMiniComponent {
     }
 
     selectImage() {
-        this.onselect.emit(this.storyboardImage());
+        this.onselect.emit(this.storyboardImage().sceneId);
     }
     
 }

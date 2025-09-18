@@ -10,6 +10,7 @@ import { StoryState } from "../../state/story.state";
 import { ScreenplayState } from "../../state/screenplay.state";
 import { CommonService } from "../../services/common.service";
 import { StoryboardState } from "../../state/storyboard.state";
+import { AnimaticsState } from "../../state/animatics.state";
 
 export abstract class BaseComponent {
 
@@ -26,6 +27,7 @@ export abstract class BaseComponent {
     protected readonly storyState = inject(StoryState);
     protected readonly screenplayState = inject(ScreenplayState);
     protected readonly storyboardState = inject(StoryboardState);
+    protected readonly animaticState = inject(AnimaticsState);
 
     protected goTo(page: string): void {
         this.router.navigateByUrl(page);

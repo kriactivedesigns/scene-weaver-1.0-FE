@@ -52,6 +52,10 @@ export class StoryboardState {
         this.updateProject();
     }
 
+    getStoryboardImageBySceneID(sceneId: string): StoryboardImageModel | undefined {
+        return this._storyboard().find(image => image.sceneId === sceneId)
+    }
+
     private updateProject(): void {
         const currentProject = this.projectState.openedProject();
         if (!currentProject)

@@ -1,0 +1,22 @@
+<div class="storyboard-main-root">
+    <div class="storyboard-main-image">
+        <video-player [src]="animaticScene()?.videoPath || ''" />
+    </div>
+    <div class="storyboard-main-info">
+        <div class="scene-number">
+            {{`Scene #${animaticScene()?.scene?.sceneNumber}`}}
+        </div>
+        <div class="scene-duration">
+            <span class="duration-text">Duration: </span>
+            <span class="duration-time">{{animaticScene()?.scene?.duration | timeFormat}}</span>
+        </div>
+    </div>
+    <div class="storyboard-main-prompt-input">
+        <div class="input-container">
+            <div class="input-label-container">
+                <label for="prompt">Prompt</label>
+                <textarea maxlength="1024" class="input" type="text" id="prompt" placeholder="Type your prompt and press Enter" [(ngModel)]="prompt" (keydown.enter)="onPromptSubmit($event)"></textarea>
+            </div>
+        </div>
+    </div>
+</div>

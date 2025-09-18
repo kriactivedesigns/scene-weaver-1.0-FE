@@ -5,8 +5,23 @@
       <icon-button text="Previous" icon="left" (onclick)="navigateTo(Pages.Storyboard)"/>
     </div>
     <div class="middle">
-      <div class="header"></div>
-      <div class="content"></div>
+      <div class="header">
+        <div class="label">
+          Here is your Storyboard generated, feel free to add your imaginations...
+        </div>
+      </div>
+      <div class="content">
+        <div class="storyboard-stip">
+          @for (image of storyboard(); track $index) {
+            <story-board-mini [storyboardImage]="image" (onselect)="selectAnimaticScene($event)" [isSelected]="image.sceneId === selectedAnimatics()?.scene?.id"/>
+          }
+        </div>
+          <div class="storyboard-main">
+            @if (selectedAnimatics()) {
+              <animatics-video [animaticScene]="selectedAnimatics()" (onpromptsubmit)="submitPrompt($event)"/>
+            }
+        </div>
+      </div>
     </div>
     <div class="right">
     </div>

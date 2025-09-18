@@ -35,6 +35,9 @@ button.icon-button {
                 fill: $color-error;
             }
         }
+        &.pause {
+            transform: translateX(-5px);
+        }
     }
     .text {
         display: flex;

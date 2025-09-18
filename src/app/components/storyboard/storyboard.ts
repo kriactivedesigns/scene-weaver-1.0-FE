@@ -28,13 +28,14 @@ export class Storyboard extends BaseComponent {
         effect(() => {
             console.log(this.storyboard())
             if (this.storyboard().length)
-                this.selectStoryboardImage(this.storyboard()[0]);
+                this.selectStoryboardImage(this.storyboard()[0].sceneId);
         })
     }
 
-    selectStoryboardImage(storyboardImage: StoryboardImageModel) {
-        const scene = this.screenplayState.getSceneByID(storyboardImage.sceneId);
-        if(scene) {
+    selectStoryboardImage(sceneId: string) {
+        const scene = this.screenplayState.getSceneByID(sceneId);
+        const storyboardImage = this.storyboardState.getStoryboardImageBySceneID(sceneId);
+        if(scene && storyboardImage) {
             this.selectedImage.set({
                 ...storyboardImage,
                 scene: scene
