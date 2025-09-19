@@ -9,6 +9,7 @@
   video {
     width: 100%;
     display: block;
+    cursor: pointer;
   }
   
   .controls {
@@ -29,10 +30,12 @@
     color: $color-text-dark;
     font-weight: 600;
     text-align: center;
+    user-select: none;
   }
   
   .progress-slider {
     flex-grow: 1;
+    cursor: pointer;
   }
 }
 

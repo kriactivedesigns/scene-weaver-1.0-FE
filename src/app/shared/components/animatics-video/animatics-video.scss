@@ -5,6 +5,7 @@
     padding: 10px 10px 0 10px;
     border-radius: 5px;
     box-shadow: $shadow;
+    user-select: none;
     .storyboard-main-image {}
     .storyboard-main-info{
         display: flex;

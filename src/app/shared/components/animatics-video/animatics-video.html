@@ -1,6 +1,6 @@
 <div class="storyboard-main-root">
     <div class="storyboard-main-image">
-        <video-player [src]="animaticScene()?.videoPath || ''" />
+        <video-player [src]="animaticScene()?.videoPath || ''" [duration]="animaticScene()?.duration || 0" />
     </div>
     <div class="storyboard-main-info">
         <div class="scene-number">

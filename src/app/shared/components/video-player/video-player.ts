@@ -17,12 +17,12 @@ export class VideoPlayerComponent {
 
     private commonService = inject(CommonService);
     src = input.required<string>();
+    duration = input.required<number>();
 
     private videoPlayerRef = viewChild.required<ElementRef<HTMLVideoElement>>('videoPlayer');
 
     isPlaying = signal<boolean>(false);
     currentTime = signal<number>(0);
-    duration = signal<number>(0);
 
     height: number = 0;
     width = computed(() => {

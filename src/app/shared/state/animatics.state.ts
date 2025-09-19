@@ -2,10 +2,12 @@ import { effect, inject, Injectable, signal } from '@angular/core';
 import { ProjectState } from './project.state';
 import { delay, of } from 'rxjs';
 import { AnimaticSceneModel } from '../models/animatics-scene.model';
+import { ScreenplayState } from './screenplay.state';
 
 @Injectable({ providedIn: 'root' })
 export class AnimaticsState {
     private readonly projectState = inject(ProjectState);
+    private readonly screenplayState = inject(ScreenplayState);
 
     private _animatics = signal<Array<AnimaticSceneModel>>([]);
 
@@ -14,6 +16,11 @@ export class AnimaticsState {
     constructor() {
         effect(() => {
             const animatics = this.projectState.openedProject()?.animatics;
+            if (animatics) {
+                animatics.forEach(anim => {
+                    anim.duration = this.screenplayState.getSceneByID(anim.sceneId)?.duration || 0;
+                })
+            }
             this._animatics.set(animatics ? animatics : []);
         })
     }
