@@ -1,14 +1,14 @@
 <div class="storyboard-main-root">
     <div class="storyboard-main-image">
-        <img [src]="storyboardImage()?.imagePath" alt="" [style.width.px]="width()" [style.height.px]="height">
+        <img [src]="storyboardImage().imagePath" alt="" [style.width.px]="width()" [style.height.px]="height">
     </div>
     <div class="storyboard-main-info">
         <div class="scene-number">
-            {{`Scene #${storyboardImage()?.scene?.sceneNumber}`}}
+            {{`Scene #${scene()?.sceneNumber}`}}
         </div>
         <div class="scene-duration">
             <span class="duration-text">Duration: </span>
-            <span class="duration-time">{{storyboardImage()?.scene?.duration | timeFormat}}</span>
+            <span class="duration-time">{{scene()?.duration | timeFormat}}</span>
         </div>
     </div>
     <div class="storyboard-main-prompt-input">

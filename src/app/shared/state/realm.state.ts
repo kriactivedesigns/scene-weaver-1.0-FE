@@ -5,13 +5,17 @@ import { WorldModel } from '../models/world.model';
 import { ProjectState } from './project.state';
 import { ProjectModel } from '../models/project.model';
 import { CommonService } from '../services/common.service';
+import { firstValueFrom, map, Observable, pipe } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class RealmState {
   
   // Dependency Injection
-  private projectState = inject(ProjectState);
-  private commonService = inject(CommonService);
+  private readonly projectState = inject(ProjectState);
+  private readonly commonService = inject(CommonService);
+  private readonly http = inject(HttpClient);
 
   private _characters = signal<CharacterModel[]>([]);
   private _worlds = signal<WorldModel[]>([]);
@@ -20,88 +24,130 @@ export class RealmState {
   readonly characters = this._characters.asReadonly();
   readonly worlds = this._worlds.asReadonly();
 
-  // Computed selectors for quick lookup
-  readonly characterMap = computed(() => {
-    const chars = this.characters();
-    return chars.reduce((map, character) => {
-      map[character.id] = character;
-      return map;
-    }, {} as Record<string, CharacterModel>);
-  });
-
   readonly characterNames = computed(() => this.characters().map(c => c.name));
 
-  constructor() {
-    effect(() => {
-      const characters = this.projectState.openedProject()?.characters;
-      this._characters.set(characters ? characters : []);
-      const worlds = this.projectState.openedProject()?.worlds;
-      this._worlds.set(worlds ? worlds : []);
-    })
+  async addCharacter(character: Omit<CharacterModel, 'id' | 'projectId' | 'createdAt' | 'updatedAt' | 'imagePath'>): Promise<CharacterModel> {
+    try {
+      const pid = this.projectState.openedProject()?.id;
+      if (!pid)
+        throw new Error("Invalid project id");
+      const char = await firstValueFrom(this.http.post<CharacterModel>(`${environment.apiBaseUrl}/projects/${pid}/characters`, character));
+      this._characters.update(chars => [...chars, char]);
+      return char;
+    } catch (error) {
+      throw new Error("Failed to create a new Character")
+    }
   }
 
-  addCharacter(character: Omit<CharacterModel, 'id' | 'projectId' | 'createdAt' | 'updatedAt'>): void {
-    const pid = this.projectState.openedProject()?.id;
-    if (pid) {
-      const newCharacter = {
-        ...character,
-        id: this.commonService.generateId(),
-        projectId: pid,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-      this._characters.update(chars => [...chars, newCharacter]);
-      this.updateProject(pid, { characters: this._characters()});
+  getCharacterById(charId: string): CharacterModel | undefined {
+    return this._characters().find(c => c.id === charId)
+  }
+  
+  async addWorld(world: Omit<WorldModel, 'id' | 'projectId' | 'createdAt' | 'updatedAt' | 'imagePath'>): Promise<WorldModel> {
+    try {
+      const pid = this.projectState.openedProject()?.id;
+      if (!pid)
+        throw new Error("Invalid project id");
+      const wrld = await firstValueFrom(this.http.post<WorldModel>(`${environment.apiBaseUrl}/projects/${pid}/worlds`, world));
+      this._worlds.update(wrlds => [...wrlds, wrld]);
+      return wrld;
+    } catch (error) {
+      throw new Error("Failed to create a new world")
+    }
+  }
+
+  async updateCharacter(updatedCharacter: Partial<CharacterModel>): Promise<void> {
+    try {
+      const pid = this.projectState.openedProject()?.id;
+      if (!pid)
+        throw new Error("Invalid project id");
+      const char = await firstValueFrom(this.http.put<CharacterModel>(`${environment.apiBaseUrl}/characters/${updatedCharacter.id}`, updatedCharacter));
+      this._characters.update((currentChracters: Array<CharacterModel>) => {
+        const index = currentChracters.findIndex(ch => ch.id == char.id);
+        currentChracters[index] = char;
+        return [...currentChracters];
+      });
+    } catch (error) {
+      throw new Error("Failed to update Character")
+    }
+  }
+
+  async updateWorld(updatedWorld: Partial<WorldModel>): Promise<void> {
+    try {
+      const pid = this.projectState.openedProject()?.id;
+      if (!pid)
+        throw new Error("Invalid project id");
+      const wrld = await firstValueFrom(this.http.put<WorldModel>(`${environment.apiBaseUrl}/worlds/${updatedWorld.id}`, updatedWorld));
+      this._worlds.update((currentWorlds: Array<WorldModel>) => {
+        const index = currentWorlds.findIndex(w => w.id == wrld.id);
+        currentWorlds[index] = wrld;
+        return [...currentWorlds];
+      });
+    } catch (error) {
+      throw new Error("Failed to update World")
+    }
+  }
+
+  getWorldById(worldId: string): WorldModel | undefined {
+    return this._worlds().find(w => w.id === worldId)
+  }
+
+  async deleteCharacter(id: string): Promise<void> {
+    try {
+      const pid = this.projectState.openedProject()?.id;
+      if (!pid)
+        throw new Error("Invalid project id");
+      await firstValueFrom(this.http.delete(`${environment.apiBaseUrl}/characters/${id}`));
+      this._characters.update(chars => chars.filter(c => c.id != id));
+    } catch (error) {
+      throw new Error("Failed to delete world")
+    }
+  }
+
+  async deleteWorld(id: string): Promise<void> {
+    try {
+      const pid = this.projectState.openedProject()?.id;
+      if (!pid)
+        throw new Error("Invalid project id");
+      await firstValueFrom(this.http.delete(`${environment.apiBaseUrl}/worlds/${id}`));
+      this._worlds.update(worlds => worlds.filter(w => w.id != id));
+    } catch (error) {
+      throw new Error("Failed to delete world")
+    }
+  }
+
+  async generateCharacterImage(characterId: string, prompt: string): Promise<void> {
+    try {
+      const pid = this.projectState.openedProject()?.id;
+      if (!pid)
+        throw new Error("Invalid project id");
+      const char = await firstValueFrom(this.http.post<CharacterModel>(`${environment.apiBaseUrl}/characters/${characterId}/generate-image`, { prompt: prompt }));
+      this._characters.update((currentChracters: Array<CharacterModel>) => {
+        const index = currentChracters.findIndex(ch => ch.id == char.id);
+        currentChracters[index] = char;
+        return [...currentChracters];
+      });
+    } catch (error) {
+      throw new Error("Failed to generate character image")
+    }
+  }
+
+  async generateWorldImage(worldId: string, prompt: string): Promise<void> {
+    try {
+      const pid = this.projectState.openedProject()?.id;
+      if (!pid)
+        throw new Error("Invalid project id");
+      const wrld = await firstValueFrom(this.http.post<WorldModel>(`${environment.apiBaseUrl}/worlds/${worldId}/generate-image`, { prompt: prompt }));
+      this._worlds.update((currentWorlds: Array<WorldModel>) => {
+        const index = currentWorlds.findIndex(w => w.id == wrld.id);
+        currentWorlds[index] = wrld;
+        return [...currentWorlds];
+      });
+    } catch (error) {
+      throw new Error("Failed to generate world image")
     }
   }
   
-  addWorld(world: Omit<WorldModel, 'id' | 'projectId' | 'createdAt' | 'updatedAt'>): void {
-    const pid = this.projectState.openedProject()?.id;
-    if (pid) {
-      const newWorld: WorldModel = {
-        ...world,
-        projectId: pid,
-        id: this.commonService.generateId(),
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-      this._worlds.update(wrlds => [...wrlds, newWorld]);
-      this.updateProject(pid, { worlds: this._worlds()});
-    }
-  }
-
-  updateCharacter(id: string, updates: Partial<CharacterModel>): void {
-    this._characters.update(chars => 
-      chars.map(char => char.id === id ? { ...char, ...updates } : char)
-    );
-    let pid = this.projectState.openedProjectId();
-      if (pid)
-      this.updateProject(pid, { characters: this._characters()});
-  }
-
-  updateWorld(id: string, updates: Partial<WorldModel>): void {
-    this._worlds.update(worlds => 
-      worlds.map(world => world.id === id ? { ...world, ...updates } : world)
-    );
-    let pid = this.projectState.openedProjectId();
-      if (pid)
-        this.updateProject(pid, { worlds: this._worlds()});
-  }
-
-  deleteCharacter(id: string): void {
-    this._characters.update(chars => chars.filter(c => c.id != id));
-    let pid = this.projectState.openedProjectId();
-    if (pid)
-      this.updateProject(pid, { characters: this._characters()});
-  }
-
-  deleteWorld(id: string): void {
-    this._worlds.update(worlds => worlds.filter(w => w.id != id));
-    let pid = this.projectState.openedProjectId();
-    if (pid)
-      this.updateProject(pid, { worlds: this._worlds()});
-  }
-
   clearWorldBible(): void {
     this._characters.set([]);
     this._worlds.set([]);
@@ -111,8 +157,34 @@ export class RealmState {
     this._worlds.set(settings);
   }
 
-  private updateProject(pid: string, updates: Partial<ProjectModel>): void {
-    this.projectState.updateOpenedProject(pid, updates);
+  async getCharactersByProjectId(pid: string): Promise<CharacterModel[]> {
+    try {
+      const characters = await firstValueFrom(
+        this.http.get<Array<CharacterModel>>(`${environment.apiBaseUrl}/projects/${this.projectState.openedProject()?.id}/characters`).
+          pipe(characters => characters)
+      )
+      this._characters.set(characters)
+      return characters;
+    } catch (error) {
+      throw new Error('Error fetching worlds and character data')
+    }
   }
+
+  async getWorldsByProjectId(pid: string): Promise<WorldModel[]> {
+    try {
+      if (!this.projectState.openedProject()?.id)
+        throw new Error('No Project opened.')
+      
+      const worlds = await firstValueFrom(
+        this.http.get<Array<WorldModel>>(`${environment.apiBaseUrl}/projects/${this.projectState.openedProject()?.id}/worlds`).
+          pipe(worlds => worlds)
+      )
+      this._worlds.set(worlds)
+      return worlds
+    } catch (error) {
+      throw new Error('Error fetching worlds and character data')
+    }
+  }
+  
   
 }

@@ -1,13 +1,16 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
 import { ProjectState } from './project.state';
-import { delay, of } from 'rxjs';
+import { delay, map, Observable, of, pipe } from 'rxjs';
 import { AnimaticSceneModel } from '../models/animatics-scene.model';
 import { ScreenplayState } from './screenplay.state';
+import { HttpClient } from '@angular/common/http';
+import { ProjectModel } from '../models/project.model';
 
 @Injectable({ providedIn: 'root' })
 export class AnimaticsState {
     private readonly projectState = inject(ProjectState);
     private readonly screenplayState = inject(ScreenplayState);
+    private readonly http = inject(HttpClient);
 
     private _animatics = signal<Array<AnimaticSceneModel>>([]);
 
@@ -15,13 +18,14 @@ export class AnimaticsState {
 
     constructor() {
         effect(() => {
-            const animatics = this.projectState.openedProject()?.animatics;
-            if (animatics) {
-                animatics.forEach(anim => {
-                    anim.duration = this.screenplayState.getSceneByID(anim.sceneId)?.duration || 0;
-                })
-            }
-            this._animatics.set(animatics ? animatics : []);
+            // const pid = this.projectState.openedProject()?.id;
+            // if (pid) {
+            //     this.getScreenplayScenesByProjectId(pid).subscribe(
+            //         pipe((animatics: Array<AnimaticSceneModel>) => {
+            //             this._animatics.set(animatics);
+            //         })
+            //     );
+            // }
         })
     }
 
@@ -67,7 +71,12 @@ export class AnimaticsState {
         const currentProject = this.projectState.openedProject();
         if (!currentProject)
             return
-        this.projectState.updateOpenedProject(currentProject.id, { animatics: this._animatics() });
+    }
+
+    private getScreenplayScenesByProjectId(pid: string): Observable<Array<AnimaticSceneModel>> {
+        return this.http.get<Array<ProjectModel>>('/mock-data/projects.json').pipe(
+            map((projects: any[]) => projects.find(p => p.id === pid).animatics)
+        )
     }
     
 }

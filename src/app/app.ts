@@ -10,6 +10,6 @@ import { BaseComponent } from './shared/components/base-component/base-component
   imports: [
     RouterOutlet,
     Header
-  ]
+]
 })
-export class App extends BaseComponent { }
+export class App extends BaseComponent {}

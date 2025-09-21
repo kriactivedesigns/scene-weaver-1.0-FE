@@ -3,11 +3,8 @@ import { BaseComponent } from "../../shared/components/base-component/base-compo
 import { Pages } from "../../shared/enums/pages.enum";
 import { IconButton } from "../../shared/components/icon-button/icon-button";
 import { StoryboardMiniComponent } from "../../shared/components/story-board/story-board-mini/story-board-mini";
-import { StoryboardMainComponent } from "../../shared/components/story-board/story-board-main/story-board-main";
-import { AnimaticSceneMetadataModel } from "../../shared/models/animatics-scene-metadata.model";
 import { AnimaticsVideoComponent } from "../../shared/components/animatics-video/animatics-video";
 import { AnimaticSceneModel } from "../../shared/models/animatics-scene.model";
-import { StoryboardImageModel } from "../../shared/models/storyboard-image.model";
 
 @Component({
     selector: 'app-storyboard',
@@ -24,7 +21,7 @@ export class Animatics extends BaseComponent {
 
     animatics = this.animaticState.animatics;
     storyboard = this.storyboardState.storyboard;
-    selectedAnimatics = signal<AnimaticSceneMetadataModel | null>(null)
+    selectedAnimatics = signal<AnimaticSceneModel>(this.animatics()[0])
 
     constructor() {
         super();
@@ -38,10 +35,7 @@ export class Animatics extends BaseComponent {
         const selectedAnimatics = this.animaticState.getAnimaticsBySceneID(sceneId)
         const scene = this.screenplayState.getSceneByID(sceneId);
         if(scene && selectedAnimatics) {
-            this.selectedAnimatics.set({
-                ...selectedAnimatics,
-                scene: scene
-            })
+            this.selectedAnimatics.set({ ...selectedAnimatics })
         }
     }
 

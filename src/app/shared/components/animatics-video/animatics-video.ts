@@ -1,9 +1,11 @@
-import { Component, computed, effect, inject, input, output } from "@angular/core";
+import { Component, computed, inject, input, output } from "@angular/core";
 import { TimeFormatPipe } from "../../pipe/time-format.pipe";
 import { FormsModule } from "@angular/forms";
 import { CommonService } from "../../services/common.service";
-import { AnimaticSceneMetadataModel } from "../../models/animatics-scene-metadata.model";
 import { VideoPlayerComponent } from "../video-player/video-player";
+import { AnimaticSceneModel } from "../../models/animatics-scene.model";
+import { ScreenplayState } from "../../state/screenplay.state";
+import { ScreenplaySceneModel } from "../../models/screenplay-scene.model";
 
 @Component({
     selector: 'animatics-video',
@@ -18,7 +20,19 @@ import { VideoPlayerComponent } from "../video-player/video-player";
 export class AnimaticsVideoComponent {
     
     private readonly commonService = inject(CommonService);
-    animaticScene = input<AnimaticSceneMetadataModel | null>();
+    private readonly screenplayState = inject(ScreenplayState);
+    
+    animaticScene = input.required<AnimaticSceneModel>();
+    scene= computed<ScreenplaySceneModel | null>(() => {
+        const sceneId = this.animaticScene()?.sceneId;
+        const scene = this.screenplayState.getSceneByID(sceneId);
+        if(!scene) {
+            return null
+        } else {
+            return scene
+        }
+        
+    });
     onpromptsubmit = output<string>();
     prompt: string ='';
 

@@ -4,14 +4,16 @@ import { ProjectState } from './project.state';
 import { ProjectModel } from '../models/project.model';
 import { StoryThreadModel } from '../models/story-thread.model';
 import { CommonService } from '../services/common.service';
-import { delay, Observable, of } from 'rxjs';
+import { delay, map, Observable, of, pipe } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class CanvasState {
   
   // Dependency Injection
-  private projectState = inject(ProjectState);
-  private commonService = inject(CommonService);
+  private readonly projectState = inject(ProjectState);
+  private readonly commonService = inject(CommonService);
+  private readonly http = inject(HttpClient);
 
   private _threads = signal<StoryThreadModel[]>([]);
 
@@ -29,8 +31,14 @@ export class CanvasState {
 
   constructor() {
     effect(() => {
-      const threads = this.projectState.openedProject()?.threads;
-      this._threads.set(threads ? threads : []);
+      // const pid = this.projectState.openedProject()?.id;
+      //   if (pid) {
+      //       this.getStoryThreadsByProjectId(pid).subscribe(
+      //           pipe((threads: Array<StoryThreadModel>) => {
+      //               this._threads.set(threads);
+      //           })
+      //       );
+      //   }
     })
   }
 
@@ -45,7 +53,6 @@ export class CanvasState {
           updatedAt: new Date()
         }
         this._threads.update(thrds => [...thrds, newThread ]);
-        this.updateProject(pid, { threads: this._threads()});
     }
   }
 
@@ -53,22 +60,17 @@ export class CanvasState {
     this._threads.update(thrds => 
       thrds.map(thrd => thrd.id === updates.id ? { ...thrd, ...updates } : thrd)
     );
-    let pid = this.projectState.openedProjectId();
-      if (pid)
-      this.updateProject(pid, { threads: this._threads()});
-
     return of(true).pipe(delay(3000));
   }
 
   deleteThread(id: string): void {
     this._threads.update(threads => threads.filter(t => t.id != id));
-    let pid = this.projectState.openedProjectId();
-    if (pid)
-      this.updateProject(pid, { threads: this._threads()});
   }
 
-  private updateProject(id: string, updates: Partial<ProjectModel>): void {
-    this.projectState.updateOpenedProject(id, updates);
-  }
+  private getStoryThreadsByProjectId(pid: string): Observable<Array<StoryThreadModel>> {
+        return this.http.get<Array<ProjectModel>>('/mock-data/projects.json').pipe(
+            map((projects: any[]) => projects.find(p => p.id === pid).threads)
+          )
+    }
   
 }

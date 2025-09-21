@@ -1,20 +1,19 @@
-import { computed, inject, Injectable, signal } from "@angular/core";
+import { computed, CSP_NONCE, inject, Injectable, signal } from "@angular/core";
 import { ProjectMetadataModel } from "../models/project-metadata.model";
 import { HttpClient } from "@angular/common/http";
 import { ProjectModel } from "../models/project.model";
 import { StorageKeys } from "../enums/storagekeys.enum";
-import { map, Observable, pipe } from "rxjs";
-import { CommonService } from "../services/common.service";
+import { firstValueFrom, lastValueFrom, map, Observable, pipe, tap } from "rxjs";
+import { environment } from "../../../environments/environment";
 
 @Injectable({ providedIn: 'root' })
 export class ProjectState {
 
     // Dependency Injections
     private http = inject(HttpClient);
-    private commonService = inject(CommonService);
 
     // Private states
-    private _projects = signal<ProjectMetadataModel[]>([]);
+    private _projects = signal<ProjectModel[]>([]);
     private _openedProject = signal<ProjectModel | null>(null);
     
     // Public readonly access
@@ -25,24 +24,20 @@ export class ProjectState {
     readonly openedProjectId = computed(() => this._openedProject()?.id);
     readonly hasProjects = computed(() => this.projects().length > 0);
 
-    constructor() {
-        this.fetchProjects(); 
-    }
-
     // Projects Management
-    addProject(project: Omit<ProjectMetadataModel, 'id' | 'createdAt' | 'updatedAt'>): ProjectMetadataModel {
-        const newProject: ProjectMetadataModel = {
-            ...project,
-            id: this.commonService.generateId(),
-            createdAt: new Date(),
-            updatedAt: new Date()
-        };
-        
-        this._projects.update(projects => [...projects, newProject]);
-        return newProject;
+    addProject(project: ProjectMetadataModel): void {
+        this.http.post<ProjectModel>(`${environment.apiBaseUrl}/projects`, project)
+        .subscribe({
+            next: (newProject: ProjectModel) => {
+                this._projects.update(projects => [...projects, newProject]);
+            },
+            error: (err) => {
+                console.error('Error creating a project')
+            }
+        })
     }
 
-    updateProject(id: string, updates: Partial<ProjectMetadataModel>): void {
+    updateProject(id: string, updates: ProjectModel): void {
         this._projects.update(projects =>
         projects.map(p => p.id === id 
             ? { ...p, ...updates, updatedAt: new Date() }
@@ -59,26 +54,32 @@ export class ProjectState {
     }
 
     deleteProject(id: string): void {
-        this._projects.update(projects => projects.filter(p => p.id !== id));
+        this.http.delete<void>(`${environment.apiBaseUrl}/projects/${id}`).subscribe({
+            next: value => {
+                this._projects.update(projects => projects.filter(p => p.id !== id));
+            },
+            error: err => {
+                console.error(err)
+            }
+        })
     }
     
-    async openProject(projectMetadata: ProjectMetadataModel) {
+    openProject(projectId: string) {
         try {
-            this.fetchProjectById(projectMetadata.id).subscribe(
-                pipe((project: ProjectModel | undefined) => {
-                    if (project) {
-                        this._openedProject.set(project);
-                        this.setLocalPersistentProjectState(projectMetadata);
-                    }
-                })
-            );
+            const project = this._projects().find(projects => projects.id === projectId);
+            if (project) {
+                this._openedProject.set(project);
+                this.setLocalPersistentProjectState(project);
+            } else {
+                throw new Error("Error opening a project")
+            }
         } catch (error) {
-            
+            throw error
         }
     }
 
-    private setLocalPersistentProjectState(projectMetadata: ProjectMetadataModel) {
-        localStorage.setItem(StorageKeys.OpenedProject,JSON.stringify(projectMetadata));
+    private setLocalPersistentProjectState(project: ProjectModel) {
+        localStorage.setItem(StorageKeys.OpenedProject,project.id);
     }
 
     closeProject() {
@@ -86,33 +87,28 @@ export class ProjectState {
         localStorage.removeItem(StorageKeys.OpenedProject);
     }
     
-    fetchProjects(): void {
-        this.http.get<Array<ProjectMetadataModel>>('/mock-data/projects_metadata.json').subscribe({
-            next: (projects) => {
-                this._projects.set(projects);
-            },
-            error: (error) => {
-                console.error('Error fetching projects:', error);
-            }
-        });
+    fetchProjects(): Promise<Array<ProjectModel>> {
+        if (this.hasProjects()) {
+            return Promise.resolve(this._projects())
+        }
+
+        const projects$ = this.http.get<Array<ProjectModel>>(`${environment.apiBaseUrl}/projects`).pipe(
+            tap((projects: Array<ProjectModel>) => {
+                this._projects.set(projects)
+            })
+        )
+        return lastValueFrom(projects$);
     }
 
-    private fetchProjectById(projectId: string): Observable<ProjectModel | undefined> {
-        return this.http.get<Array<ProjectModel>>('/mock-data/projects.json').pipe(
-            map(projects => projects.find(project => project.id === projectId))
-        );
+    private fetchProjectById(projectId: string): Observable<ProjectModel> {
+        return this.http.get<ProjectModel>(`${environment.apiBaseUrl}/projects/${projectId}`);
     }
 
     isProjectOpen(): boolean {
-        if (this.openedProject())
-            return true;
         const storedProject = localStorage.getItem(StorageKeys.OpenedProject);
-        if (storedProject) {
-            const projectMetadata = JSON.parse(storedProject);
-            this.openProject(projectMetadata);
-            return true;
-        }
-        return false;
+        if (!storedProject || !this.openedProject())
+            return false
+        return true;
     }
 
     updateOpenedProject(projectId: string, updates: Partial<ProjectModel>): void {

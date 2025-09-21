@@ -1,25 +1,33 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
 import { ProjectState } from './project.state';
 import { ProjectModel } from '../models/project.model';
-import { delay, map, of } from 'rxjs';
+import { delay, map, Observable, of, pipe } from 'rxjs';
 import { ScreenplaySceneModel } from '../models/screenplay-scene.model';
 import { CommonService } from '../services/common.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class ScreenplayState {
 
     private readonly projectState = inject(ProjectState);
     private readonly commonService = inject(CommonService);
+    private readonly http = inject(HttpClient);
 
     private _screenplay = signal<Array<ScreenplaySceneModel>>([]);
 
     readonly screenplay = this._screenplay.asReadonly();
 
     constructor() {
-        effect(() => {
-            const screenplay = this.projectState.openedProject()?.screenplay;
-            this._screenplay.set(screenplay ? screenplay : []);
-        })
+        // effect(() => {
+        //     const pid = this.projectState.openedProject()?.id;
+        //     if (pid) {
+        //         this.getScreenplayScenesByProjectId(pid).subscribe(
+        //             pipe((screenplayScenes: Array<ScreenplaySceneModel>) => {
+        //                 this._screenplay.set(screenplayScenes);
+        //             })
+        //         );
+        //     }
+        // })
     }
 
     updateScreenplay(data: ScreenplaySceneModel) {
@@ -36,7 +44,6 @@ export class ScreenplayState {
                 updatedAt: new Date(),
             }
             this._screenplay.update((screenPlay) => screenPlay.map(scene => scene.id == data.id ? { ...scene, ...data } : scene));
-            this.updateProject()
         }
         return of(true).pipe(delay(3000));
     }
@@ -55,13 +62,11 @@ export class ScreenplayState {
             updatedAt: new Date(),
         }
         this._screenplay.update((scenes) => [...scenes, newScene])
-        this.updateProject();
     }
 
     deleteScene(scene: ScreenplaySceneModel): void {
         this._screenplay.update((scenes) => scenes.filter(s => s.id != scene.id));
         this._screenplay.update((scenes) => scenes.filter((s, index) => s.sceneNumber = index + 1));
-        this.updateProject();
     }
 
     updateSceneOrder(newlyOrderedScenes: Array<ScreenplaySceneModel>): void {
@@ -70,18 +75,16 @@ export class ScreenplayState {
             return
         newlyOrderedScenes.forEach(s => s.updatedAt = new Date());
         this._screenplay.set(newlyOrderedScenes);
-        this.updateProject()
     }
 
     getSceneByID(sceneId: string): ScreenplaySceneModel | undefined {
         return this._screenplay().find(scene => scene.id === sceneId)
     }
 
-    private updateProject(): void {
-        const currentProject = this.projectState.openedProject();
-        if (!currentProject)
-            return
-        this.projectState.updateOpenedProject(currentProject.id, { screenplay: this._screenplay() });
+    private getScreenplayScenesByProjectId(pid: string): Observable<Array<ScreenplaySceneModel>> {
+        return this.http.get<Array<ProjectModel>>('/mock-data/projects.json').pipe(
+            map((projects: any[]) => projects.find(p => p.id === pid).screenplay)
+         )
     }
     
 }

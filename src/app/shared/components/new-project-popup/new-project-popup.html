@@ -12,30 +12,28 @@
                     <div class="input-container">
                         <div class="input-label-container">
                             <label for="projectName">Project Name</label>
-                            <input maxlength="128" class="input" type="text" id="projectName" placeholder=" " formControlName="projectName" required/>
+                            <input class="input" type="text" id="projectName" placeholder=" " formControlName="projectName" required autocomplete="off"/>
                         </div>
                     </div>
                     <div class="input-container">
                         <div class="input-label-container">
                             <label for="aspectRatio">aspectRatio</label>
-                            <input maxlength="5" class="input" type="text"
-                                    id="aspectRatio" placeholder=" " formControlName="aspectRatio" required/>
+                            <input class="input" type="text" id="aspectRatio" placeholder=" " formControlName="aspectRatio" readonly tabindex="-1" autocomplete="off"/>
                         </div>
                     </div>
                     <div class="input-container">
                         <div class="input-label-container">
                             <label for="visualStyle">Visual Style</label>
-                            <input maxlength="5" class="input" type="text"
-                                    id="visualStyle" placeholder=" " formControlName="visualStyle" required/>
+                            <input class="input" type="text" id="visualStyle" placeholder=" " formControlName="visualStyle" readonly tabindex="-1" autocomplete="off"/>
                         </div>
                     </div>
                     <div class="input-container">
                         <div class="input-label-container">
                             <label for="description">Description</label>
-                            <textarea maxlength="128" class="input" type="text" id="description" placeholder=" " formControlName="description" required></textarea>
+                            <textarea class="input" type="text" id="description" placeholder=" " formControlName="description" required autocomplete="off"></textarea>
                         </div>
                     </div>
-                    <button class="primary-button" [disabled]="form.invalid" type="submit">
+                    <button class="primary-button" [disabled]="!form.valid" type="submit">
                         Create
                     </button>
                 </form>

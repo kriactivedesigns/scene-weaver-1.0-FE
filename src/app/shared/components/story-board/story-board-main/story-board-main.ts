@@ -1,8 +1,10 @@
 import { Component, computed, inject, input, output } from "@angular/core";
-import { StoryboardImageMetadataModel } from "../../../models/storyboard-image-metadata.model";
 import { TimeFormatPipe } from "../../../pipe/time-format.pipe";
 import { FormsModule } from "@angular/forms";
 import { CommonService } from "../../../services/common.service";
+import { StoryboardImageModel } from "../../../models/storyboard-image.model";
+import { ScreenplaySceneModel } from "../../../models/screenplay-scene.model";
+import { ScreenplayState } from "../../../state/screenplay.state";
 
 @Component({
     selector: 'story-board-main',
@@ -16,7 +18,19 @@ import { CommonService } from "../../../services/common.service";
 export class StoryboardMainComponent {
     
     private readonly commonService = inject(CommonService);
-    storyboardImage = input<StoryboardImageMetadataModel | null>();
+    private readonly screenplayState = inject(ScreenplayState);
+    
+    storyboardImage = input.required<StoryboardImageModel>();
+    scene= computed<ScreenplaySceneModel | null>(() => {
+        const sceneId = this.storyboardImage()?.sceneId;
+        const scene = this.screenplayState.getSceneByID(sceneId);
+        if(!scene) {
+            return null
+        } else {
+            return scene
+        }
+    
+    });
     onpromptsubmit = output<string>();
     prompt: string ='';
 

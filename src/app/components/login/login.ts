@@ -47,11 +47,9 @@ export class Login extends BaseComponent {
         }
         if(this.selectedTab() === 'signin') {
             // Handle sign-in logic
-            console.log('Signining In');
             this.loginState.login(user)
         } else {
             // Handle sign-up logic
-            console.log('Signining Up');
             this.loginState.login(user)
         }
     }

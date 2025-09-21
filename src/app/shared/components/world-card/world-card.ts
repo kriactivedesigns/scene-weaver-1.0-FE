@@ -3,21 +3,23 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { CharacterModel } from "../../models/character.model";
 import { IconButton } from "../icon-button/icon-button";
 import { CommonService } from "../../services/common.service";
+import { WorldModel } from "../../models/world.model";
 
 @Component({
-    selector: 'character-world-card',
-    templateUrl: 'characted-world-card.html',
-    styleUrl: 'characted-world-card.scss',
+    selector: 'world-card',
+    templateUrl: 'world-card.html',
+    styleUrl: 'world-card.scss',
     imports: [
     ReactiveFormsModule,
     IconButton
 ]
 })
-export class CharacterWorldCard implements OnInit {
+export class WorldCard implements OnInit {
 
     commonService = inject(CommonService);
     
-    character = input<CharacterModel>();
+    world = input<WorldModel>();
+    imageUrl = computed(() => `http://127.0.0.1:8000${this.world()?.imagePath}?timestamp=${new Date().getTime()}`);
     ondelete = output<string>();
     onedit = output<string>();
     calculatedWidth: number = 0;
@@ -36,25 +38,25 @@ export class CharacterWorldCard implements OnInit {
 
     ngOnInit(): void {
         this.form = this.fb.group({
-            characterName: new FormControl(this.character()?.name, [
+            worldName: new FormControl(this.world()?.name, [
                 Validators.required,
                 Validators.minLength(3)
             ]),
-            characterDescription: new FormControl(this.character()?.description, [
+            worldDescription: new FormControl(this.world()?.description, [
                 Validators.required,
                 Validators.minLength(5)
             ]),
         })
     }
     
-    deleteCharacter() {
-        const id = this.character()?.id;
+    deleteWorld() {
+        const id = this.world()?.id;
         if(id)
             this.ondelete.emit(id);
     }
 
     editItem() {
-        const id = this.character()?.id;
+        const id = this.world()?.id;
         if(id)
             this.onedit.emit(id);
     }

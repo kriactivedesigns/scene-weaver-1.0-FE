@@ -1,10 +1,10 @@
-import { Component, effect, signal } from "@angular/core";
+import { Component, effect, OnInit, signal } from "@angular/core";
 import { ProjectCard } from "../../shared/components/project-card/project-card";
 import { NewProjectPopup } from "../../shared/components/new-project-popup/new-project-popup";
-import { ProjectMetadataModel } from "../../shared/models/project-metadata.model";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
 import { Pages } from "../../shared/enums/pages.enum";
-import { IconButton } from "../../shared/components/icon-button/icon-button";
+import { ProjectModel } from "../../shared/models/project.model";
+import { StorageKeys } from "../../shared/enums/storagekeys.enum";
 
 @Component({
     selector: 'app-dashboard',
@@ -20,15 +20,6 @@ export class Dashboard extends BaseComponent {
 
     openPopup = signal<boolean>(false);
 
-    constructor() {
-        super();
-        effect(() => {
-            if(this.projectState.openedProject()) {
-                this.goTo(Pages.Realm);
-            }
-        })
-    }
-
     createProject() {
         this.openPopup.set(true);
     }
@@ -38,16 +29,13 @@ export class Dashboard extends BaseComponent {
     }
     
     handleCreateProjectOutput(project: any) {
-        console.log(project);
         this.openPopup.set(false);
         this.projectState.addProject(project);
     }
 
-    handleOpenProjectOutput(project: ProjectMetadataModel): void {
-        if(!project.id)
-            return;
-
-        this.projectState.openProject(project);
+    async handleOpenProjectOutput(project: ProjectModel) {
+        await this.projectState.openProject(project.id);
+        this.router.navigateByUrl(Pages.Realm);
     }
 
     deleteProject(id: string): void {

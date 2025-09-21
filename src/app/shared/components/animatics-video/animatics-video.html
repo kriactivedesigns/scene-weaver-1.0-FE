@@ -1,14 +1,14 @@
 <div class="storyboard-main-root">
     <div class="storyboard-main-image">
-        <video-player [src]="animaticScene()?.videoPath || ''" [duration]="animaticScene()?.duration || 0" />
+        <video-player [src]="animaticScene().videoPath" [duration]="animaticScene().duration" />
     </div>
     <div class="storyboard-main-info">
         <div class="scene-number">
-            {{`Scene #${animaticScene()?.scene?.sceneNumber}`}}
+            {{`Scene #${scene()?.sceneNumber}`}}
         </div>
         <div class="scene-duration">
             <span class="duration-text">Duration: </span>
-            <span class="duration-time">{{animaticScene()?.scene?.duration | timeFormat}}</span>
+            <span class="duration-time">{{scene()?.duration | timeFormat}}</span>
         </div>
     </div>
     <div class="storyboard-main-prompt-input">

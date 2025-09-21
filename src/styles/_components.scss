@@ -245,6 +245,11 @@ button.text-only-button {
             -webkit-appearance: none;
             margin: 0;
         }
+        &:read-only {
+            cursor: not-allowed;
+            user-select: none;
+            background-color: rgba($color-primary-dark, 0.1);
+        }
     }
     textarea {
         height: 90px;

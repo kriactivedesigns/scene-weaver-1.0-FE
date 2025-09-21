@@ -1,5 +1,6 @@
 import { Component, inject, input, OnInit, output } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { ProjectModel } from "../../models/project.model";
 import { ProjectMetadataModel } from "../../models/project-metadata.model";
 
 @Component({
@@ -13,7 +14,7 @@ import { ProjectMetadataModel } from "../../models/project-metadata.model";
 export class NewProjectPopup implements OnInit {
     open = input.required<boolean>();
     openChange = output<boolean>();
-    onProjectCreate = output<Partial<ProjectMetadataModel>>();
+    onProjectCreate = output<Partial<ProjectModel>>();
 
     public form! : FormGroup;
     private fb = inject(FormBuilder);
@@ -24,13 +25,11 @@ export class NewProjectPopup implements OnInit {
                 Validators.required,
                 Validators.minLength(5)
             ]),
-            aspectRatio: new FormControl<number | null>(1080, [
-                Validators.required,
-                Validators.maxLength(5)
+            aspectRatio: new FormControl<string | null>('16:9', [
+                Validators.minLength(2)
             ]),
-            visualStyle: new FormControl<number | null>(1080, [
-                Validators.required,
-                Validators.maxLength(5)
+            visualStyle: new FormControl<string | null>('Tonal Storyboards (Grayscale)', [
+                Validators.minLength(2)
             ]),
             description: new FormControl('', [
                 Validators.required,
@@ -44,11 +43,8 @@ export class NewProjectPopup implements OnInit {
             this.form.markAllAsTouched();
             return;
         }
-        const project: Partial<ProjectMetadataModel> = {
-            id: '',
+        const project: ProjectMetadataModel = {
             projectName: this.form.value.projectName,
-            aspectRatio: this.form.value.aspectRatio,
-            visualStyle: this.form.value.aspectRatio,
             description: this.form.value.description,
         }
         this.form.reset();

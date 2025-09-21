@@ -1,50 +1,44 @@
-import { Component, computed, signal } from "@angular/core";
+import { Component, computed, effect, OnInit, signal } from "@angular/core";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
 import { Pages } from "../../shared/enums/pages.enum";
-import { CharacterWorldCard } from "../../shared/components/characted-world-card/characted-world-card";
+import { CharacterCard } from "../../shared/components/characted-card/characted-card";
 import { CharacterModel } from "../../shared/models/character.model";
 import { IconButton } from "../../shared/components/icon-button/icon-button";
-import { NewCharacterWorld, PopupMethods, PopupTypes } from "../../shared/components/new-character-world-popup/new-character-world-popup";
 import { WorldModel } from "../../shared/models/world.model";
+import { NewWorldPopup } from "../../shared/components/new-world-popup/new-world-popup";
+import { NewCharacterPopup } from "../../shared/components/new-character-popup/new-character-popup";
+import { WorldCard } from "../../shared/components/world-card/world-card";
 
-type Types = 'character' | 'world'
 @Component({
     selector: 'app-realm',
     templateUrl: './realm.html',
     styleUrls: ['./realm.scss'],
     standalone: true,
     imports: [
-        CharacterWorldCard,
-        IconButton,
-        NewCharacterWorld
-    ]
+    CharacterCard,
+    IconButton,
+    NewWorldPopup,
+    NewCharacterPopup,
+    WorldCard
+]
 })
-export class Realm extends BaseComponent {
+export class Realm extends BaseComponent implements OnInit {
 
-    popupType = signal<PopupTypes>('character');
-    popupMethod = signal<PopupMethods>('add');
-    isPopupOpen = signal<boolean>(false);
-    popupData = signal<Partial<CharacterModel | WorldModel | null>>(null)
+    isCharacterPopupOpen = signal<boolean>(false);
+    isWorldPopupOpen = signal<boolean>(false);
+    characterId = signal<string | null>(null)
+    worldId = signal<string | null>(null)
+
+    ngOnInit(): void {
+        const pid = this.projectState.openedProjectId();
+        if (pid) {
+            this.realmState.getCharactersByProjectId(pid)
+            this.realmState.getWorldsByProjectId(pid)
+        }
+    }
     
     navigateTo(page: Pages) {
         this.goTo(page);
-    }
-
-    onCreate(data: any) {
-        switch(this.popupType()) {
-            case 'character': 
-                if (this.popupMethod() === 'add')
-                    this.createCharacter(data);
-                else 
-                    this.updateCharacter(data);
-                break;
-            case 'world': 
-                if (this.popupMethod() === 'add')
-                    this.createworld(data);
-                else 
-                    this.updateworld(data);
-                break;
-        }
     }
    
     deleteCharacter(id: string) {
@@ -55,62 +49,32 @@ export class Realm extends BaseComponent {
         this.realmState.deleteWorld(id)
     }
     
-    openPopup(type: PopupTypes, method: PopupMethods, data: CharacterModel | WorldModel | null = null) {
-        this.popupType.set(type);
-        this.popupMethod.set(method);
-        this.popupData.set(data);
-        this.isPopupOpen.set(true);
+    openCharacterPopup(characterId: string | null = null) {
+        this.characterId.set(characterId);
+        this.isCharacterPopupOpen.set(true);
     }
     
-    handlePopupOpenChange(value: boolean) {
-        this.popupData.set(null);
-        this.isPopupOpen.set(value);
+    openWorldPopup(worldId: string | null = null) {
+        this.worldId.set(worldId);
+        this.isWorldPopupOpen.set(true);
     }
 
-    onGenerate(data: Partial<CharacterModel | WorldModel>) {
-        if (this.popupType() == 'character') {
-            this.generateCharacterImage(data);
-        } else if (this.popupType() == 'world') {
-            this.generateWorldImage(data);
-        }
+    onWorldPopupClose() {
+        this.worldId.set(null);
+        this.isWorldPopupOpen.set(false);
     }
 
-    private createCharacter(data: Omit<CharacterModel, 'id'>) {
-        this.realmState.addCharacter(data);
-        this.isPopupOpen.set(false);
+    onCharacterPopupClose() {
+        this.characterId.set(null);
+        this.isCharacterPopupOpen.set(false);
     }
     
-    private updateCharacter(data: Partial<CharacterModel>) {
-        if (!data.projectId || !data.id)
-            return
-        this.realmState.updateCharacter(data.id, data);
-        this.isPopupOpen.set(false);
+    generateCharacterImage(character: CharacterModel) {
+        this.characterId.set(character.id);
     }
     
-    private createworld(data: Omit<WorldModel, 'id'>) {
-        this.realmState.addWorld(data);
-        this.isPopupOpen.set(false);
-    }
-    
-    private updateworld(data: Partial<WorldModel>) {
-        if (!data.projectId || !data.id)
-            return
-        this.realmState.updateWorld(data.id, data);
-        this.isPopupOpen.set(false);
-    }
-
-    private generateCharacterImage(character: Partial<CharacterModel>) {
-        Object.assign(character, { imagePath: 'https://picsum.photos/200/400' })
-        this.popupData.update(() => {
-            return character;
-        })
-    }
-    
-    private generateWorldImage(world: Partial<WorldModel>) {
-        Object.assign(world, { imagePath: 'https://picsum.photos/200/500' })
-        this.popupData.update(() => {
-            return world;
-        })
+    generateWorldImage(world: WorldModel) {
+        this.worldId.set(world.id);
     }
 
 }

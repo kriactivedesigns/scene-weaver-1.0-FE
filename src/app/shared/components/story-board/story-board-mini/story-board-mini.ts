@@ -1,8 +1,8 @@
 import { Component, computed, effect, inject, input, output } from "@angular/core";
 import { StoryboardImageModel } from '../../../models/storyboard-image.model';
 import { ScreenplayState } from "../../../state/screenplay.state";
-import { StoryboardImageMetadataModel } from "../../../models/storyboard-image-metadata.model";
 import { CommonService } from "../../../services/common.service";
+import { ScreenplaySceneModel } from "../../../models/screenplay-scene.model";
 
 @Component({
     selector: 'story-board-mini',
@@ -13,7 +13,18 @@ export class StoryboardMiniComponent {
 
     private readonly commonService = inject(CommonService);
     private readonly screenplayState = inject(ScreenplayState);
+    
     storyboardImage = input.required<StoryboardImageModel>();
+    scene= computed<ScreenplaySceneModel | null>(() => {
+        const sceneId = this.storyboardImage()?.sceneId;
+        const scene = this.screenplayState.getSceneByID(sceneId);
+        if(!scene) {
+            return null
+        } else {
+            return scene
+        }
+
+    });
     isSelected = input<boolean>(false);
     onselect = output<string>();
 
@@ -22,27 +33,6 @@ export class StoryboardMiniComponent {
         this.height = 120;
         return this.commonService.updateWidth(this.height, "16:9");
     });
-
-    image?: StoryboardImageMetadataModel; 
-
-    constructor() {
-        effect(() => {
-
-            const sceneId = this.storyboardImage()?.sceneId;
-            if (!sceneId || !this.storyboardImage())
-                return;
-            
-            const scene = this.screenplayState.getSceneByID(sceneId);
-            if (!scene)
-                return;
-
-            this.image = {
-                ...this.storyboardImage(),
-                scene: scene
-            }
-            
-        })
-    }
 
     selectImage() {
         this.onselect.emit(this.storyboardImage().sceneId);

@@ -12,18 +12,18 @@
               Characters
             </div>
             <div class="button">
-              <button class="text-only-button" (click)="openPopup('character', 'add')">
+              <button class="text-only-button" (click)="openCharacterPopup()">
                 + Add New Character
               </button>
             </div>
           </div>
           <div class="content">
             @for (character of realmState.characters(); track $index) {
-              <character-world-card
+              <character-card
                 [character]="character"
                 (ondelete)="deleteCharacter($event)"
                 aspectRatio="4:5"
-                (onedit)="openPopup('character', 'update', character)"
+                (onedit)="openCharacterPopup(character.id)"
               />
             }
          </div>
@@ -34,18 +34,18 @@
               Worlds
             </div>
             <div class="button">
-              <button class="text-only-button" (click)="openPopup('world', 'add')">
+              <button class="text-only-button" (click)="openWorldPopup()">
                 + Add New World
               </button>
             </div>
           </div>
           <div class="content">
             @for (world of realmState.worlds(); track $index) {
-                <character-world-card
-                  [character]="world"
+                <world-card
+                  [world]="world"
                   (ondelete)="deleteWorld($event)"
                   aspectRatio="16:9"
-                  (onedit)="openPopup('world', 'update', world)"
+                  (onedit)="openWorldPopup(world.id)"
               />
             }
           </div>
@@ -57,12 +57,5 @@
     </div>
   </div>
 </div>
-<new-character-world-popup
-        [type]="popupType()"
-        [method]="popupMethod()"
-        [open]="isPopupOpen()"
-        (openChange)="handlePopupOpenChange($event)"
-        (oncreate)="onCreate($event)"
-        (ongenerate)="onGenerate($event)"
-        [data]="popupData()"
-/>
+<new-character-popup [open]="isCharacterPopupOpen()" [characterId]="characterId()" (onclose)="onCharacterPopupClose()" (onimagegenerate)="generateCharacterImage($event)"/>
+<new-world-popup [open]="isWorldPopupOpen()" [worldId]="worldId()" (onclose)="onWorldPopupClose()" (onimagegenerate)="generateWorldImage($event)"/>
