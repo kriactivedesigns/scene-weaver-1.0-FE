@@ -1,4 +1,4 @@
-import { Component, signal, ViewChild } from "@angular/core";
+import { Component, OnInit, signal, ViewChild } from "@angular/core";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
 import { Pages } from "../../shared/enums/pages.enum";
 import { IconButton } from "../../shared/components/icon-button/icon-button";
@@ -14,12 +14,16 @@ import { TextEditorComponent } from "../../shared/components/text-editor/text-ed
         TextEditorComponent
     ]
 })
-export class Story extends BaseComponent {
+export class Story extends BaseComponent implements OnInit {
 
     @ViewChild(TextEditorComponent) private storyEditor!: TextEditorComponent;
 
     isSaving = signal<boolean>(false);
     saveFailed: boolean = false;
+
+    ngOnInit(): void {
+        this.storyState.getStory()
+    }
 
     navigateTo(page: Pages) {
         this.goTo(page);
@@ -27,19 +31,13 @@ export class Story extends BaseComponent {
 
     getStoryContentAndSave() {
         const storyText = this.storyEditor?.getContent();
-        if (storyText) {
+        const currentStory = this.storyState.story();
+        if (storyText && currentStory) {
             this.isSaving.set(true);
-            this.storyState.addOrUpdateStory({ content: storyText })
-                ?.subscribe({
-                    next: () => {
-                        this.isSaving.set(false);
-                        this.saveFailed = false;
-                    },
-                    error: () => {
-                        this.isSaving.set(false);
-                        this.saveFailed = true;
-                    }
-                })
+            this.storyState.updateStory({ 
+                ...currentStory,
+                content: storyText
+            })
         }
     }
     

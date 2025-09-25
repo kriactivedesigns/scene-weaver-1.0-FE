@@ -38,6 +38,14 @@ export class Canvas extends BaseComponent implements OnInit {
     }
     
     navigateTo(page: Pages) {
-        this.goTo(page);
+        if (page === Pages.Story) {
+            this.storyState.generateStory()
+                .then((story) => {
+                    console.log(story)
+                    this.goTo(page);
+                })
+        } else {
+            this.goTo(page);
+        }
     }
 }

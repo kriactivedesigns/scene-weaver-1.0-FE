@@ -3,8 +3,9 @@ import { ProjectState } from './project.state';
 import { StoryModel } from '../models/story.model';
 import { CommonService } from '../services/common.service';
 import { ProjectModel } from '../models/project.model';
-import { delay, map, Observable, of, pipe } from 'rxjs';
+import { delay, firstValueFrom, map, Observable, of, pipe } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class StoryState {
@@ -16,62 +17,46 @@ export class StoryState {
 
     readonly story = this._story.asReadonly();
 
-    constructor() {
-        // effect(() => {
-        //     const pid = this.projectState.openedProject()?.id;
-        //     if (pid) {
-        //         this.getStoryByProjectId(pid).subscribe(
-        //             pipe((story: StoryModel) => {
-        //                 this._story.set(story);
-        //             })
-        //         );
-        //     }
-        // })
-    }
-
-    addOrUpdateStory(data: Omit<StoryModel, 'id' | 'createdAt' | 'updatedAt' | 'projectId' | 'version' | 'title'>) {
-        const currentProject = this.projectState.openedProject();
-        const currentStory = this._story();
-        let story: StoryModel;
-
-        if (!currentProject)
-            return
-
-        if(currentStory) {
-            // Update existing story
-            story = {
-                ...currentStory,
-                content: data.content,
-                version: currentStory.version + 1,
-                updatedAt: new Date()
-            }
-        } else {
-            // add new story
-            story = {
-                ...data,
-                title: currentProject.projectName,
-                id: this.commonService.generateId(),
-                projectId: currentProject.id,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                version: 1
-            }
+    async generateStory(): Promise<StoryModel> {
+        try {
+            let pid = this.projectState.openedProjectId();
+            if (!pid)
+                throw new Error("invalid project id")
+            
+            const story = await firstValueFrom(this.http.post<StoryModel>(`${environment.apiBaseUrl}/projects/${pid}/generate-story`, null))
+            this._story.update(() => story);
+            return story;
+        } catch (error) {
+            throw new Error("Failed to generate a new story")
         }
-
-        this._story.update(() => story);
-        // this.updateProject(currentProject.id, { story: story })
-        return of(true).pipe(delay(3000));
-        
     }
 
-    private updateProject(pid: string, updates: Partial<ProjectModel>): void {
-        // this.projectState.updateOpenedProject(pid, updates);
+    async updateStory(updatedStory: StoryModel) {
+        try {
+            let pid = this.projectState.openedProjectId();
+            if (!pid)
+                throw new Error("invalid project id")
+            
+            const story = await firstValueFrom(this.http.put<StoryModel>(`${environment.apiBaseUrl}/stories/${updatedStory.id}`, updatedStory))
+            this._story.update(() => story);
+            return story;
+        } catch (error) {
+            throw new Error("Failed to generate a new story")
+        }
     }
 
-    private getStoryByProjectId(pid: string): Observable<StoryModel> {
-        return this.http.get<Array<ProjectModel>>('/mock-data/projects.json').pipe(
-            map((projects: any[]) => projects.find(p => p.id === pid).story)
-        )
+    async getStory(): Promise<StoryModel> {
+        try {
+            let pid = this.projectState.openedProjectId();
+            if (!pid)
+                throw new Error("invalid project id")
+            
+            const story = await firstValueFrom(this.http.get<StoryModel>(`${environment.apiBaseUrl}/projects/${pid}/story`))
+            this._story.update(() => story);
+            return story;
+        } catch (error) {
+            throw new Error("Failed to generate a new story")
+        }
     }
     
 }
