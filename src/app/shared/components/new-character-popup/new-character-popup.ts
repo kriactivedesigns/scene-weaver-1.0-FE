@@ -1,66 +1,66 @@
-import { Component, computed, effect, inject, input, output } from "@angular/core";
+import { Component, computed, effect, inject, input, output, signal } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { CharacterModel } from "../../models/character.model";
 import { CommonService } from "../../services/common.service";
 import { RealmState } from "../../state/realm.state";
+import { IconButton } from "../icon-button/icon-button";
 
 @Component({
     selector: 'new-character-popup',
     templateUrl: './new-character-popup.html',
     styleUrl: './new-character-popup.scss',
     imports: [
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        IconButton
     ]
 })
 export class NewCharacterPopup {
 
     private readonly realmState = inject(RealmState);
     private readonly commonService = inject(CommonService);
+    private fb = inject(FormBuilder);
+    form : FormGroup = this.fb.group({
+        name: new FormControl('', [
+            Validators.required,
+            Validators.minLength(3)
+        ]),
+        description: new FormControl('', [
+            Validators.required,
+            Validators.minLength(8)
+        ]),
+        prompt: new FormControl('', [
+            Validators.minLength(8)
+        ])
+    });;
     open = input.required<boolean>();
     onclose = output<void>();
-    onimagegenerate = output<CharacterModel>();
-
-    characterId = input<string | null>();
-    character = computed<CharacterModel | undefined>(() => {
-        const data = this.characterId();
-        if (!data)
-            return
-        const character = this.realmState.getCharacterById(data);
-        if (!character)
-            return
-
-        this.form.setValue({ 
-            name: character.name, 
-            description: character.description
-        })
-        return character;
-    })
+    oncreate = output<CharacterModel>();
+    character = input<CharacterModel | null>();
     imageUrl = computed<string>(() => {
         const path = `http://127.0.0.1:8000${this.character()?.imagePath}?timestamp=${new Date().getTime()}`
         return path
     })
 
-    height: number = 150;
+    height: number = 400;
     width = computed(() => {
-        this.height = 150;
-        return this.commonService.updateWidth(this.height, "4:5");
+        return this.commonService.updateWidth(this.height, "3:4");
     });
 
-    private fb = inject(FormBuilder);
-    public form : FormGroup = this.fb.group({
-        name: new FormControl('', [
-            Validators.required,
-            Validators.minLength(5)
-        ]),
-        description: new FormControl('', [
-            Validators.required,
-            Validators.minLength(8)
-        ])
-    });
+    constructor() {
+        effect(() => {
+            this.form.patchValue({
+                name: this.character()?.name,
+                description: this.character()?.description,
+                prompt: ''
+            })
+        })
+    }
 
     onSubmit() {
-        if (this.character()) {
+        const id = this.character()?.id;
+        if (id) {
             this.realmState.updateCharacter({
+                id: id,
                 name: this.form.value.name,
                 description: this.form.value.description
             })
@@ -68,24 +68,25 @@ export class NewCharacterPopup {
             this.realmState.addCharacter({
                 name: this.form.value.name,
                 description: this.form.value.description
-            }).then(value => {
-                this.onimagegenerate.emit(value);
-            })
-        }
-        const currentId = this.characterId();
-        const prompt = this.form.value.description;
-        if (currentId && prompt) {
-            this.onGenerateImage(currentId, prompt)
+            }).then(char => this.oncreate.emit(char))
         }
     }
 
-    onGenerateImage(characterId: string | null = null, prompt: string) {
-        if (characterId) {
-            this.realmState.generateCharacterImage(characterId, prompt)
-        }
+    onGenerateImage() {
+        if (!this.character())
+            return
+
+        const characterId = this.character()?.id;
+        const prompt = this.form.value.prompt;
+
+        if (!characterId || !prompt)
+            return
+
+        this.realmState.generateCharacterImage(characterId, prompt)
     }
 
     close() {
+        this.form.reset();
         this.onclose.emit();
     }
     

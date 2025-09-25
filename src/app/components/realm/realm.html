@@ -23,7 +23,7 @@
                 [character]="character"
                 (ondelete)="deleteCharacter($event)"
                 aspectRatio="4:5"
-                (onedit)="openCharacterPopup(character.id)"
+                (onedit)="openCharacterPopup(character)"
               />
             }
          </div>
@@ -45,7 +45,7 @@
                   [world]="world"
                   (ondelete)="deleteWorld($event)"
                   aspectRatio="16:9"
-                  (onedit)="openWorldPopup(world.id)"
+                  (onedit)="openWorldPopup(world)"
               />
             }
           </div>
@@ -57,5 +57,7 @@
     </div>
   </div>
 </div>
-<new-character-popup [open]="isCharacterPopupOpen()" [characterId]="characterId()" (onclose)="onCharacterPopupClose()" (onimagegenerate)="generateCharacterImage($event)"/>
-<new-world-popup [open]="isWorldPopupOpen()" [worldId]="worldId()" (onclose)="onWorldPopupClose()" (onimagegenerate)="generateWorldImage($event)"/>
+@if (isCharacterPopupOpen()) {
+  <new-character-popup [open]="isCharacterPopupOpen()" [character]="character()" (onclose)="onCharacterPopupClose()" (oncreate)="onCharacterCreate($event)"/>
+}
+<new-world-popup [open]="isWorldPopupOpen()" [world]="world()" (onclose)="onWorldPopupClose()" (oncreate)="onWorldCreate($event)"/>

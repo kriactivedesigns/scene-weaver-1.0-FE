@@ -26,8 +26,8 @@ export class Realm extends BaseComponent implements OnInit {
 
     isCharacterPopupOpen = signal<boolean>(false);
     isWorldPopupOpen = signal<boolean>(false);
-    characterId = signal<string | null>(null)
-    worldId = signal<string | null>(null)
+    character = signal<CharacterModel | null>(null)
+    world = signal<WorldModel | null>(null)
 
     ngOnInit(): void {
         const pid = this.projectState.openedProjectId();
@@ -45,36 +45,36 @@ export class Realm extends BaseComponent implements OnInit {
         this.realmState.deleteCharacter(id)
     }
     
+    openCharacterPopup(character: CharacterModel | null = null) {
+        this.character.set(character);
+        this.isCharacterPopupOpen.set(true);
+    }
+    
+    onCharacterPopupClose() {
+        this.character.set(null);
+        this.isCharacterPopupOpen.set(false);
+    }
+
+    onCharacterCreate(character: CharacterModel) {
+        this.character.set(character);
+    }
+    
     deleteWorld(id: string) {
         this.realmState.deleteWorld(id)
     }
     
-    openCharacterPopup(characterId: string | null = null) {
-        this.characterId.set(characterId);
-        this.isCharacterPopupOpen.set(true);
-    }
-    
-    openWorldPopup(worldId: string | null = null) {
-        this.worldId.set(worldId);
+    openWorldPopup(world: WorldModel | null = null) {
+        this.world.set(world);
         this.isWorldPopupOpen.set(true);
     }
 
     onWorldPopupClose() {
-        this.worldId.set(null);
+        this.world.set(null);
         this.isWorldPopupOpen.set(false);
     }
 
-    onCharacterPopupClose() {
-        this.characterId.set(null);
-        this.isCharacterPopupOpen.set(false);
-    }
-    
-    generateCharacterImage(character: CharacterModel) {
-        this.characterId.set(character.id);
-    }
-    
-    generateWorldImage(world: WorldModel) {
-        this.worldId.set(world.id);
+    onWorldCreate(world: WorldModel) {
+        this.world.set(world);
     }
 
 }

@@ -11,10 +11,8 @@
                 <div class="content">
                     @if (world()) {
                         <div class="image-container" [style.width.px]="width()" [style.height.px]="height">
-                            <img [src]="imageUrl()" alt="image">
+                            <img [src]="imageUrl()" alt="image" [style.width.px]="width()" [style.height.px]="height">
                         </div>
-                    } @else {
-                        <div [style.height.px]="height"></div>
                     }
                     <div class="form-container">
                         <form [formGroup]="form" class="login-form input-form" (ngSubmit)="onSubmit()">
@@ -30,12 +28,20 @@
                                     <textarea class="input" type="text" id="description" placeholder="Enter World Description" formControlName="description" required></textarea>
                                 </div>
                             </div>
+                            @if (world()) {
+                                <div class="input-container">
+                                    <div class="input-label-container">
+                                        <label for="prompt">Prompt</label>
+                                        <div class="prompt-button-container">
+                                            <textarea class="input" type="text" id="prompt" placeholder="Enter prompt to modify the current image" formControlName="prompt"></textarea>
+                                            <icon-button type="button" icon="aistar" text="AI" (onclick)="onGenerateImage()"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                             <div class="buttons-container">
                                 <button class="secondary-button outlined" (click)="close()" type="button">
-                                    Cancel
-                                </button>
-                                <button class="secondary-button" [disabled]="form.invalid || !world()" type="button" (click)="onGenerateImage(world()?.id, form.value.description)">
-                                    Generate
+                                    Close
                                 </button>
                                 <button class="primary-button" [disabled]="form.invalid" type="submit">
                                     {{`${ world() ? 'Update' : 'Create' }`}}

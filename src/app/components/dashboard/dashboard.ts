@@ -16,9 +16,13 @@ import { StorageKeys } from "../../shared/enums/storagekeys.enum";
         NewProjectPopup
     ]
 })
-export class Dashboard extends BaseComponent {
+export class Dashboard extends BaseComponent implements OnInit {
 
     openPopup = signal<boolean>(false);
+
+    ngOnInit(): void {
+        this.projectState.fetchProjects();
+    }
 
     createProject() {
         this.openPopup.set(true);

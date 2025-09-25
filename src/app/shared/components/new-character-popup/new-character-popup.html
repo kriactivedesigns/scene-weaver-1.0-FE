@@ -11,16 +11,14 @@
                 <div class="content">
                     @if (character()) {
                         <div class="image-container" [style.width.px]="width()" [style.height.px]="height">
-                            <img [src]="imageUrl()" alt="image">
+                            <img [src]="imageUrl()" alt="image" [style.width.px]="width()" [style.height.px]="height">
                         </div>
-                    } @else {
-                        <div [style.height.px]="height"></div>
                     }
                     <div class="form-container">
-                        <form [formGroup]="form" class="login-form input-form" (ngSubmit)="onSubmit()">
+                        <form [formGroup]="form" class="input-form" (ngSubmit)="onSubmit()">
                             <div class="input-container">
                                 <div class="input-label-container">
-                                    <label for="name">'Character Name'</label>
+                                    <label for="name">Character Name</label>
                                     <input maxlength="128" class="input" type="text" id="name" placeholder="Enter Character Name" formControlName="name" required/>
                                 </div>
                             </div>
@@ -30,15 +28,21 @@
                                     <textarea class="input" type="text" id="description" placeholder="Enter Character Description" formControlName="description" required></textarea>
                                 </div>
                             </div>
+                            @if (character()) {
+                                <div class="input-container">
+                                    <div class="input-label-container">
+                                        <label for="prompt">Prompt</label>
+                                        <div class="prompt-button-container">
+                                            <textarea class="input" type="text" id="prompt" placeholder="Enter prompt to modify the current image" formControlName="prompt"></textarea>
+                                            <icon-button type="button" text="AI" icon="aistar" (onclick)="onGenerateImage()"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                             <div class="buttons-container">
                                 <button class="secondary-button outlined" (click)="close()" type="button">
-                                    Cancel
+                                    Close
                                 </button>
-                                @if (character()) {
-                                    <button class="secondary-button" [disabled]="form.invalid || !character()" type="button" (click)="onGenerateImage(character()?.id, form.value.description)">
-                                        Generate
-                                    </button>
-                                }
                                 <button class="primary-button" [disabled]="form.invalid" type="submit">
                                     {{`${ character() ? 'Update' : 'Create'}`}}
                                 </button>

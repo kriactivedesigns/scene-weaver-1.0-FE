@@ -121,7 +121,7 @@ export class RealmState {
       const pid = this.projectState.openedProject()?.id;
       if (!pid)
         throw new Error("Invalid project id");
-      const char = await firstValueFrom(this.http.post<CharacterModel>(`${environment.apiBaseUrl}/characters/${characterId}/generate-image`, { prompt: prompt }));
+      const char = await firstValueFrom(this.http.put<CharacterModel>(`${environment.apiBaseUrl}/characters/${characterId}/update-image`, { prompt: prompt }));
       this._characters.update((currentChracters: Array<CharacterModel>) => {
         const index = currentChracters.findIndex(ch => ch.id == char.id);
         currentChracters[index] = char;
@@ -137,7 +137,7 @@ export class RealmState {
       const pid = this.projectState.openedProject()?.id;
       if (!pid)
         throw new Error("Invalid project id");
-      const wrld = await firstValueFrom(this.http.post<WorldModel>(`${environment.apiBaseUrl}/worlds/${worldId}/generate-image`, { prompt: prompt }));
+      const wrld = await firstValueFrom(this.http.put<WorldModel>(`${environment.apiBaseUrl}/worlds/${worldId}/update-image`, { prompt: prompt }));
       this._worlds.update((currentWorlds: Array<WorldModel>) => {
         const index = currentWorlds.findIndex(w => w.id == wrld.id);
         currentWorlds[index] = wrld;

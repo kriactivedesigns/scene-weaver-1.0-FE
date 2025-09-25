@@ -79,12 +79,12 @@ export class ProjectState {
     }
 
     private setLocalPersistentProjectState(project: ProjectModel) {
-        localStorage.setItem(StorageKeys.OpenedProject,project.id);
+        sessionStorage.setItem(StorageKeys.OpenedProject,project.id);
     }
 
     closeProject() {
         this._openedProject.set(null);
-        localStorage.removeItem(StorageKeys.OpenedProject);
+        sessionStorage.removeItem(StorageKeys.OpenedProject);
     }
     
     fetchProjects(): Promise<Array<ProjectModel>> {
@@ -105,7 +105,7 @@ export class ProjectState {
     }
 
     isProjectOpen(): boolean {
-        const storedProject = localStorage.getItem(StorageKeys.OpenedProject);
+        const storedProject = sessionStorage.getItem(StorageKeys.OpenedProject);
         if (!storedProject || !this.openedProject())
             return false
         return true;

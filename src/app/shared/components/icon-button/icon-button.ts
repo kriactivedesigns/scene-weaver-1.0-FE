@@ -7,6 +7,7 @@ import { ButtonIconType } from "../../types/button-icons";
     styleUrl: './icon-button.scss'
 })
 export class IconButton {
+    type = input<string>();
     icon = input<ButtonIconType>();
     textIcon = input<ButtonIconType>();
     text = input<string>();

@@ -211,6 +211,7 @@ button.text-only-button {
     position: relative;
     height: 100%;
     label {
+        font-size: 0.8rem;
         color: $color-text-medium;
         pointer-events: none;
         transition: all 0.2s ease-in-out;
