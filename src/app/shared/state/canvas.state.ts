@@ -4,8 +4,9 @@ import { ProjectState } from './project.state';
 import { ProjectModel } from '../models/project.model';
 import { StoryThreadModel } from '../models/story-thread.model';
 import { CommonService } from '../services/common.service';
-import { delay, map, Observable, of, pipe } from 'rxjs';
+import { delay, firstValueFrom, map, Observable, of, pipe } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class CanvasState {
@@ -29,48 +30,58 @@ export class CanvasState {
     }, {} as Record<string, StoryThreadModel>);
   });
 
-  constructor() {
-    effect(() => {
-      // const pid = this.projectState.openedProject()?.id;
-      //   if (pid) {
-      //       this.getStoryThreadsByProjectId(pid).subscribe(
-      //           pipe((threads: Array<StoryThreadModel>) => {
-      //               this._threads.set(threads);
-      //           })
-      //       );
-      //   }
-    })
-  }
-
-  addThread(thread: Omit<StoryThreadModel, 'id' | 'projectId' | 'createdAt' | 'updatedAt'>): void {
-    let pid = this.projectState.openedProjectId();
-    if (pid) {
-      const newThread: StoryThreadModel = {
-          ...thread,
-          projectId: pid,
-          id: this.commonService.generateId(),
-          createdAt: new Date(),
-          updatedAt: new Date()
-        }
-        this._threads.update(thrds => [...thrds, newThread ]);
+  async addThread(thread: Omit<StoryThreadModel, 'id' | 'projectId' | 'createdAt' | 'updatedAt'>): Promise<StoryThreadModel> {
+    try {
+      let pid = this.projectState.openedProjectId();
+      if (!pid)
+        throw new Error("invalid project id")
+      const thrd = await firstValueFrom(this.http.post<StoryThreadModel>(`${environment.apiBaseUrl}/projects/${pid}/storythreads`, thread))
+      this._threads.update(thrds => [...thrds, thrd ]);
+      return thrd;
+    } catch (error) {
+      throw new Error("Failed to create a new thread")
     }
   }
 
-  updateThread(updates: StoryThreadModel): Observable<boolean> {
-    this._threads.update(thrds => 
-      thrds.map(thrd => thrd.id === updates.id ? { ...thrd, ...updates } : thrd)
-    );
-    return of(true).pipe(delay(3000));
-  }
-
-  deleteThread(id: string): void {
-    this._threads.update(threads => threads.filter(t => t.id != id));
-  }
-
-  private getStoryThreadsByProjectId(pid: string): Observable<Array<StoryThreadModel>> {
-        return this.http.get<Array<ProjectModel>>('/mock-data/projects.json').pipe(
-            map((projects: any[]) => projects.find(p => p.id === pid).threads)
-          )
+  async updateThread(updatedThread: StoryThreadModel): Promise<void> {
+    try {
+      let pid = this.projectState.openedProjectId();
+      if (!pid)
+        throw new Error("invalid project id")
+      const thrd = await firstValueFrom(this.http.put<StoryThreadModel>(`${environment.apiBaseUrl}/storythreads/${updatedThread.id}`, updatedThread));
+      this._threads.update((currentThreads: Array<StoryThreadModel>) => {
+        const index = currentThreads.findIndex(ch => ch.id == thrd.id);
+        currentThreads[index] = thrd;
+        return [...currentThreads];
+      });
+    } catch (error) {
+      throw new Error("Failed to update thread")
     }
+  }
+
+  async deleteThread(id: string): Promise<void> {
+    try {
+      const pid = this.projectState.openedProject()?.id;
+      if (!pid)
+        throw new Error("Invalid project id");
+      await firstValueFrom(this.http.delete(`${environment.apiBaseUrl}/storythreads/${id}`));
+      this._threads.update(thrd => thrd.filter(c => c.id != id));
+    } catch (error) {
+      throw new Error("Failed to delete thread")
+    }
+  }
+
+  async getStoryThreadsByProjectId(pid: string): Promise<Array<StoryThreadModel>> {
+    try {
+      const threads = await firstValueFrom(
+        this.http.get<Array<StoryThreadModel>>(`${environment.apiBaseUrl}/projects/${this.projectState.openedProject()?.id}/storythreads`).
+          pipe(characters => characters)
+      )
+      this._threads.set(threads)
+      return threads;
+    } catch (error) {
+      throw new Error('Error fetching worlds and character data')
+    }
+  }
   
 }

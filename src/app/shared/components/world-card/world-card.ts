@@ -24,7 +24,7 @@ export class WorldCard implements OnInit {
     onedit = output<string>();
     calculatedWidth: number = 0;
     height: number = 200;
-    aspectRatio = input<string>('4:5');
+    aspectRatio = input<string>('16:9');
 
     private fb = inject(FormBuilder);
 

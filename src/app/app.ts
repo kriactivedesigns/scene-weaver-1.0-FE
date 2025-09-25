@@ -2,6 +2,7 @@ import { Component, computed, effect, inject, OnInit, signal } from '@angular/co
 import { RouterOutlet } from '@angular/router';
 import { Header } from './shared/components/header/header';
 import { BaseComponent } from './shared/components/base-component/base-component';
+import { LoaderComponent } from './shared/components/loader/loader';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,8 @@ import { BaseComponent } from './shared/components/base-component/base-component
   styleUrl: './app.scss',
   imports: [
     RouterOutlet,
-    Header
+    Header,
+    LoaderComponent
 ]
 })
 export class App extends BaseComponent {}

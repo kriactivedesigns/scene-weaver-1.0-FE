@@ -1,4 +1,4 @@
-import { Component, effect, signal } from "@angular/core";
+import { Component, effect, OnInit, signal } from "@angular/core";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
 import { Pages } from "../../shared/enums/pages.enum";
 import { IconButton } from "../../shared/components/icon-button/icon-button";
@@ -15,12 +15,20 @@ import { StoryThreadModel } from "../../shared/models/story-thread.model";
         StoryThread
     ]
 })
-export class Canvas extends BaseComponent {
+export class Canvas extends BaseComponent implements OnInit {
 
+    ngOnInit(): void {
+        // Get story threads on page load
+        const pid = this.projectState.openedProjectId();
+        if (pid)
+            this.canvasState.getStoryThreadsByProjectId(pid);
+    }
+    
     addNewSnippet() {
+        const order = this.canvasState.threads().length + 1
         const newThread: Omit<StoryThreadModel, 'id' | 'projectId' | 'createdAt' | 'updatedAt'> = {
             content: '',
-            order: this.canvasState.threads().length,
+            order: order
         }
         this.canvasState.addThread(newThread);
     }

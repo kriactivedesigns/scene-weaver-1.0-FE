@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, effect, ElementRef, inject, input, OnDestroy, OnInit, output, signal, ViewChild } from "@angular/core";
 import { StoryThreadModel } from "../../models/story-thread.model";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
-import { debounceTime, distinctUntilChanged, fromEvent, map, Observable, Subject, switchMap, takeUntil, tap } from "rxjs";
+import { catchError, debounceTime, distinctUntilChanged, from, fromEvent, map, Observable, of, Subject, switchMap, takeUntil, tap } from "rxjs";
 import { CanvasState } from "../../state/canvas.state";
 import { CommonModule } from "@angular/common";
 import { ClickOutsideDirective } from "../../directives/click-outside.directive";
@@ -70,7 +70,13 @@ export class StoryThread implements OnInit, OnDestroy {
             ...this.data(),
             content: value
         }
-        return this.canvasSatate.updateThread(updatedThread)
+        return from(this.canvasSatate.updateThread(updatedThread)).pipe(
+            map(() => true),
+            catchError((error) => {
+                console.error('Failed to save thread', error);
+                return of(false);
+            })
+        )
     }
 
     ngOnDestroy(): void {

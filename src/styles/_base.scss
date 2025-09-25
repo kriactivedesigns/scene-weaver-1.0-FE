@@ -1,7 +1,7 @@
 @use 'theme' as *;
 
 .main-container {
-    height: calc(100% - (90px + 30px));
+    height: calc(100% - (90px + 40px));
     background-color: $color-background;
     display: grid;
     grid-template-rows: min-content calc(100% - 75px);
@@ -95,7 +95,10 @@
 }
 
 footer.footer {
-    height: 30px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 button {

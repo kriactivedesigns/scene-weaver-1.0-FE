@@ -12,7 +12,6 @@ export class CommonService {
                 calculatedWidth = height; // Default to a 1:1 ratio on error
                 return calculatedWidth;
             }
-            console.log(ratioX, ratioY)
             calculatedWidth = height * (ratioX / ratioY);
             return calculatedWidth;
             

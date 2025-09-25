@@ -1,3 +1,6 @@
+@if (globalState.isLoading()) {
+    <loader />
+}
 <div class="root-container">
     @if (loginState.isLoggedIn()) {
         <app-header />

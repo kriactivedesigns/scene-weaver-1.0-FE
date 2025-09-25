@@ -10,12 +10,10 @@ export class LoaderService {
 
     show(): void {
         this._loaderCounter.update(count => count + 1);
-        console.log(this._loaderCounter());
     }
     
     hide(): void {
         this._loaderCounter.update(count => Math.max(0, count - 1));
-        console.log(this._loaderCounter())
     }
     
 }
