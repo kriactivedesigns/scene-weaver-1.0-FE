@@ -22,11 +22,7 @@ export class Story extends BaseComponent implements OnInit {
     saveFailed: boolean = false;
 
     ngOnInit(): void {
-        this.storyState.getStory()
-    }
-
-    navigateTo(page: Pages) {
-        this.goTo(page);
+        this.storyState.getProjectStory()
     }
 
     getStoryContentAndSave() {
@@ -38,6 +34,17 @@ export class Story extends BaseComponent implements OnInit {
                 ...currentStory,
                 content: storyText
             })
+        }
+    }
+
+    navigateTo(page: Pages) {
+        if (page === Pages.Screenplay) {
+            this.screenplayState.generateScreenplayScenes()
+                .then(() => {
+                    this.goTo(page);
+                })
+        } else {
+            this.goTo(page);
         }
     }
     

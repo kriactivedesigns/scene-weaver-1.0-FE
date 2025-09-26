@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, effect, ElementRef, QueryList, signal, ViewChildren } from "@angular/core";
+import { AfterViewInit, Component, effect, ElementRef, OnInit, QueryList, signal, ViewChildren } from "@angular/core";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
 import { Pages } from "../../shared/enums/pages.enum";
 import { IconButton } from "../../shared/components/icon-button/icon-button";
@@ -22,13 +22,17 @@ import { Subject, takeUntil } from "rxjs";
         CdkDragHandle
     ]
 })
-export class Screenplay extends BaseComponent implements AfterViewInit {
+export class Screenplay extends BaseComponent implements AfterViewInit, OnInit {
 
-    scenes = this.screenplayState.screenplay;
+    scenes = this.screenplayState.screenplayScenes;
     @ViewChildren('sceneItem', { read: ElementRef }) sceneItems!: QueryList<ElementRef>;
 
     private destroy$ = new Subject<void>();
     private previousSceneCount = 0;
+
+    ngOnInit(): void {
+        this.screenplayState.getProjectScenes()
+    }
 
     ngAfterViewInit(): void {
         this.sceneItems.changes
@@ -43,13 +47,17 @@ export class Screenplay extends BaseComponent implements AfterViewInit {
     }
 
     drop(event: CdkDragDrop<ScreenplaySceneModel[]>) {
-        const currentScenes = [...this.scenes()];
-        moveItemInArray(currentScenes, event.previousIndex, event.currentIndex);
-        const updatedScenes = currentScenes.map((scene, index) => ({
+        const originalScenes = [...this.scenes()];
+        const reorderedScenes = [...originalScenes];
+
+        moveItemInArray(reorderedScenes, event.previousIndex, event.currentIndex);
+
+        const updatedScenes = reorderedScenes.map((scene, index) => ({
             ...scene,
             sceneNumber: index + 1,
         }));
-        this.screenplayState.updateSceneOrder(updatedScenes);
+
+        this.screenplayState.updateSceneOrder(updatedScenes, originalScenes);
     }
 
     addNewScene() {

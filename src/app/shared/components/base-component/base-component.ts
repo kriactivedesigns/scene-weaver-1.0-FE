@@ -11,11 +11,13 @@ import { ScreenplayState } from "../../state/screenplay.state";
 import { CommonService } from "../../services/common.service";
 import { StoryboardState } from "../../state/storyboard.state";
 import { AnimaticsState } from "../../state/animatics.state";
+import { LoaderService } from "../../services/loader.service";
 
 export abstract class BaseComponent {
 
     public Pages = Pages;
     protected readonly loginState = inject(LoginState);
+    protected readonly loaderService = inject(LoaderService);
     protected readonly globalState = inject(GlobalState);
     protected readonly router = inject(Router);
     protected readonly commonService = inject(CommonService);

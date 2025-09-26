@@ -1,0 +1,20 @@
+.time-input-container {
+  display: flex;
+  align-items: center;
+//   font-family: monospace;
+  .time-segment {
+    width: 2ch; /* Set width to hold 2 characters */
+    border: none;
+    background: transparent;
+    font-size: inherit;
+    color: inherit;
+    text-align: center;
+    padding: 0;
+  }
+  
+  .time-segment:focus {
+    outline: none;
+    background-color: rgba(0, 123, 255, 0.1); /* Subtle focus indicator */
+  }
+}
+

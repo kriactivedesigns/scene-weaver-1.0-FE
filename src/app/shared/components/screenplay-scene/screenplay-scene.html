@@ -6,7 +6,8 @@
             </div>
             <div class="scene-duration">
                 <div class="duration-text">Duration:</div>
-                <div class="duration-time">{{scene()?.duration | timeFormat}}</div>
+                <!-- <div class="duration-time">{{scene()?.duration | timeFormat}}</div> -->
+                 <time-input [duration]="scene()?.duration ?? 0" (ondurationchange)="onDurationChange($event)" />
             </div>
         </div>
         <div class="screenplay-scene-header-right">

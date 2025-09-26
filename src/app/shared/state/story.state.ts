@@ -45,7 +45,7 @@ export class StoryState {
         }
     }
 
-    async getStory(): Promise<StoryModel> {
+    async getProjectStory(): Promise<StoryModel> {
         try {
             let pid = this.projectState.openedProjectId();
             if (!pid)

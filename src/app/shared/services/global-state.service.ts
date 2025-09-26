@@ -10,18 +10,12 @@ export class GlobalState {
 
   // Reactive signals for state
   private _currentPage = signal<string>('dashboard');
-  private _isLoading = signal<boolean>(false);
 
   // Public readonly access
   readonly currentPage = this._currentPage.asReadonly();
-  readonly isLoading = this._isLoading.asReadonly();
 
   constructor() {
     this.setupRouterListener();
-  }
-
-  setLoading(loading: boolean): void {
-    this._isLoading.set(loading);
   }
 
   // Private methods

@@ -1,0 +1,49 @@
+<div class="time-input-container">
+  <input
+    id="hoursInput"
+    type="text"
+    class="time-segment"
+    [value]="hours()"
+    (input)="onInputChange('h', $event.target.value)"
+    (keydown)="onKeyDown($event, 'h')"
+    (focus)="selectText($event)"
+    autocomplete="off"
+    maxlength="2"
+  />
+  <span>:</span>
+  <input
+    id="minuteInput"
+    type="text"
+    class="time-segment"
+    [value]="minutes()"
+    (input)="onInputChange('m', $event.target.value)"
+    (keydown)="onKeyDown($event, 'm')"
+    (focus)="selectText($event)"
+    autocomplete="off"
+    maxlength="2"
+  />
+  <span>:</span>
+  <input
+    id="secondInput"
+    type="text"
+    class="time-segment"
+    [value]="seconds()"
+    (input)="onInputChange('s', $event.target.value)"
+    (keydown)="onKeyDown($event, 's')"
+    (focus)="selectText($event)"
+    autocomplete="off"
+    maxlength="2"
+  />
+  <span>:</span>
+  <input
+    id="millisecondInput"
+    type="text"
+    class="time-segment"
+    [value]="milliseconds()"
+    (input)="onInputChange('ms', $event.target.value)"
+    (keydown)="onKeyDown($event, 'ms')"
+    (focus)="selectText($event)"
+    autocomplete="off"
+    maxlength="2"
+  />
+</div>
