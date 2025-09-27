@@ -48,6 +48,7 @@ export class StoryboardState {
     
     async generateStoryboards(): Promise<void> {
         if (this.status() === 'in-progress' || this.status() === 'starting') return
+        
         const pid = this.projectState.openedProjectId();
         const scenes = this.screenplayState.screenplayScenes();
         if (!pid || scenes.length == 0)

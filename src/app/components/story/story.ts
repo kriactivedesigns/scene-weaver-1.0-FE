@@ -40,8 +40,10 @@ export class Story extends BaseComponent implements OnInit {
 
     navigateTo(page: Pages) {
 
-        if (page !== Pages.Screenplay)
+        if (page !== Pages.Screenplay) {
             this.goTo(page);
+            return
+        }
 
         this.screenplayState.getProjectScreenplay()
         .then(screenplayScenes => {
