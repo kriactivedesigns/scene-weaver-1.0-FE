@@ -1,6 +1,6 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
 import { ProjectState } from './project.state';
-import { delay, map, Observable, of, pipe } from 'rxjs';
+import { delay, firstValueFrom, map, Observable, of, pipe } from 'rxjs';
 import { StoryboardImageModel } from '../models/storyboard-image.model';
 import { ProjectModel } from '../models/project.model';
 import { HttpClient } from '@angular/common/http';
@@ -15,18 +15,31 @@ export class StoryboardState {
 
     readonly storyboard = this._storyboard.asReadonly();
 
-    constructor() {
-        // effect(() => {
-        //     const pid = this.projectState.openedProject()?.id;
-        //     if (pid) {
-        //         this.getStoryboardByProjectId(pid).subscribe(
-        //             pipe((storyboard: Array<StoryboardImageModel>) => {
-        //                 this._storyboard.set(storyboard ? storyboard : []);
-        //             })
-        //         );
-        //     }
-        // })
-    }
+    async getProjectStoryboard(): Promise<Array<StoryboardImageModel>> {
+        try {
+            let pid = this.projectState.openedProjectId();
+            if (!pid)
+                throw new Error("invalid project id")
+            const storyboard = await firstValueFrom(this.http.get<Array<StoryboardImageModel>>('/mock-data/projects.json'));
+            this._storyboard.set(storyboard);
+            return storyboard;
+        } catch (error) {
+            throw new Error('Error fetching storyboard')
+        }
+    } 
+    
+    async generateStoryboard(): Promise<Array<StoryboardImageModel>> {
+        try {
+            let pid = this.projectState.openedProjectId();
+            if (!pid)
+                throw new Error("invalid project id")
+            const storyboard = await firstValueFrom(this.http.get<Array<StoryboardImageModel>>('/mock-data/projects.json'));
+            this._storyboard.set(storyboard);
+            return storyboard;
+        } catch (error) {
+            throw new Error('Error fetching storyboard')
+        }
+    } 
 
     updateStoryboard(data: StoryboardImageModel) {
         const currentProject = this.projectState.openedProject();
@@ -65,12 +78,6 @@ export class StoryboardState {
     getStoryboardImageBySceneID(sceneId: string): StoryboardImageModel | undefined {
         return this._storyboard().find(image => image.sceneId === sceneId)
     }
-
-    private getStoryboardByProjectId(pid: string): Observable<Array<StoryboardImageModel>> {
-        return this.http.get<Array<ProjectModel>>('/mock-data/projects.json').pipe(
-            map((projects: any[]) => projects.find(p => p.id === pid).storyboard)
-        )
-    } 
 
     private updateProject(): void {
         // const currentProject = this.projectState.openedProject();

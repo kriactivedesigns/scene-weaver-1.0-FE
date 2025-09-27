@@ -1,4 +1,4 @@
-import { Component, effect, signal } from "@angular/core";
+import { Component, effect, OnInit, signal } from "@angular/core";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
 import { Pages } from "../../shared/enums/pages.enum";
 import { IconButton } from "../../shared/components/icon-button/icon-button";
@@ -17,7 +17,7 @@ import { AnimaticSceneModel } from "../../shared/models/animatics-scene.model";
     AnimaticsVideoComponent
 ]
 })
-export class Animatics extends BaseComponent {
+export class Animatics extends BaseComponent implements OnInit {
 
     animatics = this.animaticState.animatics;
     storyboard = this.storyboardState.storyboard;
@@ -29,6 +29,10 @@ export class Animatics extends BaseComponent {
             if (this.animatics().length)
                 this.selectAnimaticScene(this.animatics()[0].sceneId);
         })
+    }
+
+    ngOnInit(): void {
+        this.animaticState.getProjectAnimatics();
     }
 
     selectAnimaticScene(sceneId: string) {

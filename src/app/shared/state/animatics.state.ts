@@ -1,6 +1,6 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
 import { ProjectState } from './project.state';
-import { delay, map, Observable, of, pipe } from 'rxjs';
+import { delay, firstValueFrom, map, Observable, of, pipe } from 'rxjs';
 import { AnimaticSceneModel } from '../models/animatics-scene.model';
 import { ScreenplayState } from './screenplay.state';
 import { HttpClient } from '@angular/common/http';
@@ -9,24 +9,36 @@ import { ProjectModel } from '../models/project.model';
 @Injectable({ providedIn: 'root' })
 export class AnimaticsState {
     private readonly projectState = inject(ProjectState);
-    private readonly screenplayState = inject(ScreenplayState);
     private readonly http = inject(HttpClient);
 
     private _animatics = signal<Array<AnimaticSceneModel>>([]);
 
     readonly animatics = this._animatics.asReadonly();
 
-    constructor() {
-        effect(() => {
-            // const pid = this.projectState.openedProject()?.id;
-            // if (pid) {
-            //     this.getScreenplayScenesByProjectId(pid).subscribe(
-            //         pipe((animatics: Array<AnimaticSceneModel>) => {
-            //             this._animatics.set(animatics);
-            //         })
-            //     );
-            // }
-        })
+    async getProjectAnimatics(): Promise<Array<AnimaticSceneModel>> {
+        try {
+            let pid = this.projectState.openedProjectId();
+            if (!pid)
+                throw new Error("invalid project id")
+            const animatics = await firstValueFrom(this.http.get<Array<AnimaticSceneModel>>('/mock-data/projects.json'));
+            this._animatics.set(animatics);
+            return animatics;
+        } catch (error) {
+            throw new Error('Error fetching animatics')
+        }
+    }
+    
+    async generateProjectAnimatics(): Promise<Array<AnimaticSceneModel>> {
+        try {
+            let pid = this.projectState.openedProjectId();
+            if (!pid)
+                throw new Error("invalid project id")
+            const animatics = await firstValueFrom(this.http.get<Array<AnimaticSceneModel>>('/mock-data/projects.json'));
+            this._animatics.set(animatics);
+            return animatics;
+        } catch (error) {
+            throw new Error('Error generating animatics')
+        }
     }
 
     updateStoryboard(data: AnimaticSceneModel) {
@@ -71,12 +83,6 @@ export class AnimaticsState {
         const currentProject = this.projectState.openedProject();
         if (!currentProject)
             return
-    }
-
-    private getScreenplayScenesByProjectId(pid: string): Observable<Array<AnimaticSceneModel>> {
-        return this.http.get<Array<ProjectModel>>('/mock-data/projects.json').pipe(
-            map((projects: any[]) => projects.find(p => p.id === pid).animatics)
-        )
     }
     
 }

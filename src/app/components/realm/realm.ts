@@ -30,11 +30,8 @@ export class Realm extends BaseComponent implements OnInit {
     world = signal<WorldModel | null>(null)
 
     ngOnInit(): void {
-        const pid = this.projectState.openedProjectId();
-        if (pid) {
-            this.realmState.getCharactersByProjectId(pid)
-            this.realmState.getWorldsByProjectId(pid)
-        }
+        this.realmState.getProjectCharacters()
+        this.realmState.getProjectWorlds()
     }
     
     navigateTo(page: Pages) {

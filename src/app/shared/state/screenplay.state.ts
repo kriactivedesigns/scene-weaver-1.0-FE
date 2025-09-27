@@ -18,7 +18,7 @@ export class ScreenplayState {
 
     readonly screenplayScenes = this._screenplayScenes.asReadonly();
 
-    async getProjectScenes(): Promise<Array<ScreenplaySceneModel>> {
+    async getProjectScreenplay(): Promise<Array<ScreenplaySceneModel>> {
         try {
             let pid = this.projectState.openedProjectId();
             if (!pid)
@@ -68,6 +68,37 @@ export class ScreenplayState {
         }
     }
 
+    async addNewScene() {
+        try {
+            let pid = this.projectState.openedProjectId();
+            if (!pid)
+                throw new Error("invalid project id")
+            
+            const screenplayScene = await firstValueFrom(this.http.post<ScreenplaySceneModel>(`${environment.apiBaseUrl}/projects/${pid}/screenplayscenes`,
+                {
+                    content: '',
+                    duration: 60
+                }
+            ));
+            this._screenplayScenes.update((currentScenes) => [...currentScenes, screenplayScene]);
+        } catch (error) {
+            throw new Error("Failed to generate a new story")
+        }
+    }
+
+    async deleteScene(scene: ScreenplaySceneModel): Promise<void> {
+        try {
+            let pid = this.projectState.openedProjectId();
+            if (!pid)
+                throw new Error("invalid project id")
+            
+            const screenplayScenes = await firstValueFrom(this.http.delete<Array<ScreenplaySceneModel>>(`${environment.apiBaseUrl}/screenplayscenes/${scene.id}`));
+            this._screenplayScenes.set(screenplayScenes);
+        } catch (error) {
+            throw new Error("Failed to generate a new story")
+        }
+    }
+
     updateSceneOrder(updatedScenes: Array<ScreenplaySceneModel>, originalScenes: Array<ScreenplaySceneModel>): void {
 
         this._screenplayScenes.set(updatedScenes);
@@ -107,39 +138,7 @@ export class ScreenplayState {
             throw new Error("Failed to generate a new story")
         }
     }
-
-    async deleteScene(scene: ScreenplaySceneModel): Promise<void> {
-        try {
-            let pid = this.projectState.openedProjectId();
-            if (!pid)
-                throw new Error("invalid project id")
-            
-            const screenplayScenes = await firstValueFrom(this.http.delete<Array<ScreenplaySceneModel>>(`${environment.apiBaseUrl}/screenplayscenes/${scene.id}`));
-            this._screenplayScenes.set(screenplayScenes);
-        } catch (error) {
-            throw new Error("Failed to generate a new story")
-        }
-    }
-
-    async addNewScene() {
-        try {
-            let pid = this.projectState.openedProjectId();
-            if (!pid)
-                throw new Error("invalid project id")
-            
-            const screenplayScene = await firstValueFrom(this.http.post<ScreenplaySceneModel>(`${environment.apiBaseUrl}/projects/${pid}/screenplayscenes`,
-                {
-                    content: '',
-                    duration: 60
-                }
-            ));
-            this._screenplayScenes.update((currentScenes) => [...currentScenes, screenplayScene]);
-        } catch (error) {
-            throw new Error("Failed to generate a new story")
-        }
-    }
-
-
+    
     getSceneByID(sceneId: string): ScreenplaySceneModel | undefined {
         return this._screenplayScenes().find(scene => scene.id === sceneId)
     }

@@ -16,6 +16,20 @@ export class StoryState {
     private _story = signal<StoryModel | null>(null);
 
     readonly story = this._story.asReadonly();
+    
+    async getProjectStory(): Promise<StoryModel> {
+        try {
+            let pid = this.projectState.openedProjectId();
+            if (!pid)
+                throw new Error("invalid project id")
+            
+            const story = await firstValueFrom(this.http.get<StoryModel>(`${environment.apiBaseUrl}/projects/${pid}/story`))
+            this._story.update(() => story);
+            return story;
+        } catch (error) {
+            throw new Error("Failed to generate a new story")
+        }
+    }
 
     async generateStory(): Promise<StoryModel> {
         try {
@@ -38,20 +52,6 @@ export class StoryState {
                 throw new Error("invalid project id")
             
             const story = await firstValueFrom(this.http.put<StoryModel>(`${environment.apiBaseUrl}/stories/${updatedStory.id}`, updatedStory))
-            this._story.update(() => story);
-            return story;
-        } catch (error) {
-            throw new Error("Failed to generate a new story")
-        }
-    }
-
-    async getProjectStory(): Promise<StoryModel> {
-        try {
-            let pid = this.projectState.openedProjectId();
-            if (!pid)
-                throw new Error("invalid project id")
-            
-            const story = await firstValueFrom(this.http.get<StoryModel>(`${environment.apiBaseUrl}/projects/${pid}/story`))
             this._story.update(() => story);
             return story;
         } catch (error) {

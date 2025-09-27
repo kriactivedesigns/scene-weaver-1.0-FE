@@ -30,6 +30,20 @@ export class CanvasState {
     }, {} as Record<string, StoryThreadModel>);
   });
 
+  async getProjectStoryThreads(): Promise<Array<StoryThreadModel>> {
+    try {
+      let pid = this.projectState.openedProjectId();
+      if (!pid)
+          throw new Error("invalid project id")
+            
+      const threads = await firstValueFrom(this.http.get<Array<StoryThreadModel>>(`${environment.apiBaseUrl}/projects/${pid}/storythreads`));
+      this._threads.set(threads)
+      return threads;
+    } catch (error) {
+      throw new Error('Error fetching worlds and character data')
+    }
+  }
+  
   async addThread(thread: Omit<StoryThreadModel, 'id' | 'projectId' | 'createdAt' | 'updatedAt'>): Promise<StoryThreadModel> {
     try {
       let pid = this.projectState.openedProjectId();
@@ -71,17 +85,4 @@ export class CanvasState {
     }
   }
 
-  async getStoryThreadsByProjectId(pid: string): Promise<Array<StoryThreadModel>> {
-    try {
-      const threads = await firstValueFrom(
-        this.http.get<Array<StoryThreadModel>>(`${environment.apiBaseUrl}/projects/${this.projectState.openedProject()?.id}/storythreads`).
-          pipe(characters => characters)
-      )
-      this._threads.set(threads)
-      return threads;
-    } catch (error) {
-      throw new Error('Error fetching worlds and character data')
-    }
-  }
-  
 }

@@ -12,6 +12,7 @@ import { CommonService } from "../../services/common.service";
 import { StoryboardState } from "../../state/storyboard.state";
 import { AnimaticsState } from "../../state/animatics.state";
 import { LoaderService } from "../../services/loader.service";
+import { DialogService } from "../../services/dialog.service";
 
 export abstract class BaseComponent {
 
@@ -21,6 +22,7 @@ export abstract class BaseComponent {
     protected readonly globalState = inject(GlobalState);
     protected readonly router = inject(Router);
     protected readonly commonService = inject(CommonService);
+    protected readonly dialogService = inject(DialogService);
 
     // Stage wise state slices inject
     protected readonly projectState = inject(ProjectState);

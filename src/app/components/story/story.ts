@@ -3,6 +3,7 @@ import { BaseComponent } from "../../shared/components/base-component/base-compo
 import { Pages } from "../../shared/enums/pages.enum";
 import { IconButton } from "../../shared/components/icon-button/icon-button";
 import { TextEditorComponent } from "../../shared/components/text-editor/text-editor";
+import { DialogResult, DialogType } from "../../shared/types/dialog.types";
 
 @Component({
     selector: 'app-story',
@@ -38,14 +39,63 @@ export class Story extends BaseComponent implements OnInit {
     }
 
     navigateTo(page: Pages) {
-        if (page === Pages.Screenplay) {
-            this.screenplayState.generateScreenplayScenes()
-                .then(() => {
-                    this.goTo(page);
-                })
-        } else {
+
+        if (page !== Pages.Screenplay)
             this.goTo(page);
-        }
+
+        this.screenplayState.getProjectScreenplay()
+        .then(screenplayScenes => {
+            if (screenplayScenes) {
+                const dialogRef$ = this.dialogService.open({
+                    title: 'Confirm',
+                    message: `
+                        You already have a screenplay saved. Generating a new screenplay will permanently overwrite the existing one.
+                        <div class="options">
+                            <p>
+                                Click <strong>Generate</strong> to generate and replace the current screenplay with new.
+                            </p>
+                            <p>
+                                Click <strong>Skip</strong> to keep the existing screenplay and navigate to the Screenplay page.
+                            </p>
+                            <p>
+                                Click <strong>Close</strong> to close this dialog.
+                            </p>
+                        </div>
+                    `,
+                    type: DialogType.Confirmation,
+                    buttons: [
+                        {
+                            type: 'cancel',
+                            text: 'Close'
+                        },
+                        {
+                            type: 'confirm',
+                            text: 'Generate'
+                        },
+                        {
+                            type: 'continue',
+                            text: 'Skip'
+                        }
+                    ]
+                })
+                
+                dialogRef$.subscribe(result => {
+                    
+                    if (result === DialogResult.Confirm) {
+                        this.screenplayState.generateScreenplayScenes()
+                            .then(() => {
+                                this.goTo(page);
+                            })
+                    } else if (result === DialogResult.Continue) {
+                        this.goTo(page);
+                    } else {
+                        return;
+                    }
+                })
+            } else {
+                this.goTo(page);
+            }
+        })
     }
     
 }

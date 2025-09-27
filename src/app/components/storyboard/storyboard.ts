@@ -1,12 +1,12 @@
-import { Component, computed, effect, inject, signal } from "@angular/core";
+import { Component, computed, effect,  OnInit,  signal } from "@angular/core";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
 import { Pages } from "../../shared/enums/pages.enum";
 import { IconButton } from "../../shared/components/icon-button/icon-button";
 import { StoryboardMiniComponent } from "../../shared/components/story-board/story-board-mini/story-board-mini";
 import { StoryboardMainComponent } from "../../shared/components/story-board/story-board-main/story-board-main";
 import { StoryboardImageModel } from "../../shared/models/storyboard-image.model";
-import { ScreenplayState } from "../../shared/state/screenplay.state";
 import { ScreenplaySceneModel } from "../../shared/models/screenplay-scene.model";
+import { DialogResult, DialogType } from "../../shared/types/dialog.types";
 
 @Component({
     selector: 'app-storyboard',
@@ -19,7 +19,7 @@ import { ScreenplaySceneModel } from "../../shared/models/screenplay-scene.model
     StoryboardMainComponent
 ]
 })
-export class Storyboard extends BaseComponent {
+export class Storyboard extends BaseComponent implements OnInit {
 
     storyboard = this.storyboardState.storyboard;
     selectedImage = signal<StoryboardImageModel>(this.storyboard()[0]);
@@ -32,6 +32,10 @@ export class Storyboard extends BaseComponent {
             return scene
         }
     });
+
+    ngOnInit(): void {
+        this.storyboardState.getProjectStoryboard();
+    }
 
     constructor() {
         super();
@@ -57,7 +61,64 @@ export class Storyboard extends BaseComponent {
     }
 
     navigateTo(page: Pages) {
-        this.goTo(page);
+        
+        if (page !== Pages.Animatics)
+            this.goTo(page);
+
+        this.animaticState.getProjectAnimatics()
+        .then(animatics => {
+            debugger
+            if (animatics) {
+                const dialogRef$ = this.dialogService.open({
+                    title: 'Confirm',
+                    message: `
+                        You already have a animatics saved. Generating a new animatics will permanently overwrite the existing one.
+                        <div class="options">
+                            <p>
+                                Click <strong>Generate</strong> to generate and replace the current animatics with new.
+                            </p>
+                            <p>
+                                Click <strong>Skip</strong> to keep the existing animatics and navigate to the animatics page.
+                            </p>
+                            <p>
+                                Click <strong>Close</strong> to close this dialog.
+                            </p>
+                        </div>
+                    `,
+                    type: DialogType.Confirmation,
+                    buttons: [
+                        {
+                            type: 'cancel',
+                            text: 'Close'
+                        },
+                        {
+                            type: 'confirm',
+                            text: 'Generate'
+                        },
+                        {
+                            type: 'continue',
+                            text: 'Skip'
+                        }
+                    ]
+                })
+                
+                dialogRef$.subscribe(result => {
+                    
+                    if (result === DialogResult.Confirm) {
+                        this.animaticState.generateProjectAnimatics()
+                            .then(() => {
+                                this.goTo(page);
+                            })
+                    } else if (result === DialogResult.Continue) {
+                        this.goTo(page);
+                    } else {
+                        return;
+                    }
+                })
+            } else {
+                this.goTo(page);
+            }
+        })
     }
     
 }
