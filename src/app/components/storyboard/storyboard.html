@@ -12,11 +12,11 @@
       </div>
       <div class="content">
         <div class="storyboard-stip">
-          @for (image of storyboard(); track $index) {
-            <story-board-mini [storyboardImage]="image" (onselect)="selectStoryboardImage($event)" [isSelected]="image?.id === selectedImage()?.id"/>
+          @for (image of storyboards(); track $index) {
+            <story-board-mini [storyboardImage]="image" (onselect)="selectStoryboardImage($event)" [isSelected]="image.id === selectedImage().id"/>
           }
         </div>
-          <div class="storyboard-main">
+        <div class="storyboard-main">
             @if (selectedImage()) {
               <story-board-main [storyboardImage]="selectedImage()" (onpromptsubmit)="submitPrompt($event)"/>
             }

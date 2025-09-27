@@ -16,32 +16,33 @@ import { DialogResult, DialogType } from "../../shared/types/dialog.types";
     imports: [
     IconButton,
     StoryboardMiniComponent,
-    StoryboardMainComponent
+   StoryboardMainComponent
 ]
 })
 export class Storyboard extends BaseComponent implements OnInit {
 
-    storyboard = this.storyboardState.storyboard;
-    selectedImage = signal<StoryboardImageModel>(this.storyboard()[0]);
-    scene= computed<ScreenplaySceneModel | undefined>(() => {
-        const sceneId = this.selectedImage()?.sceneId;
-        if(!sceneId) {
-            return
-        } else {
-            const scene = this.screenplayState.getSceneByID(sceneId);
-            return scene
-        }
-    });
+    storyboards = this.storyboardState.storyboards;
+    status = this.storyboardState.status;
+    progress = this.storyboardState.progress;
+
+    selectedImage = signal<StoryboardImageModel>(this.storyboards()[0]);
 
     ngOnInit(): void {
-        this.storyboardState.getProjectStoryboard();
+        // Get screenplay list and storyboard list for the project
+        this.screenplayState.getProjectScreenplay()
+        .then(() => {
+            this.storyboardState.getProjectStoryboard();
+        })
     }
 
     constructor() {
         super();
         effect(() => {
-            if (this.storyboard().length)
-                this.selectStoryboardImage(this.storyboard()[0].sceneId);
+            console.log(this.storyboardState.storyboards())
+        })
+        effect(() => {
+            if (this.storyboards().length)
+                this.selectStoryboardImage(this.storyboards()[0].sceneId);
         })
     }
 
@@ -54,71 +55,70 @@ export class Storyboard extends BaseComponent implements OnInit {
     }
 
     submitPrompt(prompt: string) {
-        const selectedImageId = this.selectedImage()?.id;
-        if (!selectedImageId)
-            return;
-        this.storyboardState.updateImageWithPrompt(prompt,selectedImageId)
+        // const selectedImageId = this.selectedImage()?.id;
+        // if (!selectedImageId)
+        //     return;
+        // this.storyboardState.updateImageWithPrompt(prompt,selectedImageId)
     }
 
     navigateTo(page: Pages) {
         
-        if (page !== Pages.Animatics)
-            this.goTo(page);
+        // if (page !== Pages.Animatics)
+        //     this.goTo(page);
 
-        this.animaticState.getProjectAnimatics()
-        .then(animatics => {
-            debugger
-            if (animatics) {
-                const dialogRef$ = this.dialogService.open({
-                    title: 'Confirm',
-                    message: `
-                        You already have a animatics saved. Generating a new animatics will permanently overwrite the existing one.
-                        <div class="options">
-                            <p>
-                                Click <strong>Generate</strong> to generate and replace the current animatics with new.
-                            </p>
-                            <p>
-                                Click <strong>Skip</strong> to keep the existing animatics and navigate to the animatics page.
-                            </p>
-                            <p>
-                                Click <strong>Close</strong> to close this dialog.
-                            </p>
-                        </div>
-                    `,
-                    type: DialogType.Confirmation,
-                    buttons: [
-                        {
-                            type: 'cancel',
-                            text: 'Close'
-                        },
-                        {
-                            type: 'confirm',
-                            text: 'Generate'
-                        },
-                        {
-                            type: 'continue',
-                            text: 'Skip'
-                        }
-                    ]
-                })
+        // this.animaticState.getProjectAnimatics()
+        // .then(animatics => {
+        //     if (animatics) {
+        //         const dialogRef$ = this.dialogService.open({
+        //             title: 'Confirm',
+        //             message: `
+        //                 You already have a animatics saved. Generating a new animatics will permanently overwrite the existing one.
+        //                 <div class="options">
+        //                     <p>
+        //                         Click <strong>Generate</strong> to generate and replace the current animatics with new.
+        //                     </p>
+        //                     <p>
+        //                         Click <strong>Skip</strong> to keep the existing animatics and navigate to the animatics page.
+        //                     </p>
+        //                     <p>
+        //                         Click <strong>Close</strong> to close this dialog.
+        //                     </p>
+        //                 </div>
+        //             `,
+        //             type: DialogType.Confirmation,
+        //             buttons: [
+        //                 {
+        //                     type: 'cancel',
+        //                     text: 'Close'
+        //                 },
+        //                 {
+        //                     type: 'confirm',
+        //                     text: 'Generate'
+        //                 },
+        //                 {
+        //                     type: 'continue',
+        //                     text: 'Skip'
+        //                 }
+        //             ]
+        //         })
                 
-                dialogRef$.subscribe(result => {
+        //         dialogRef$.subscribe(result => {
                     
-                    if (result === DialogResult.Confirm) {
-                        this.animaticState.generateProjectAnimatics()
-                            .then(() => {
-                                this.goTo(page);
-                            })
-                    } else if (result === DialogResult.Continue) {
-                        this.goTo(page);
-                    } else {
-                        return;
-                    }
-                })
-            } else {
-                this.goTo(page);
-            }
-        })
+        //             if (result === DialogResult.Confirm) {
+        //                 this.animaticState.generateProjectAnimatics()
+        //                     .then(() => {
+        //                         this.goTo(page);
+        //                     })
+        //             } else if (result === DialogResult.Continue) {
+        //                 this.goTo(page);
+        //             } else {
+        //                 return;
+        //             }
+        //         })
+        //     } else {
+        //         this.goTo(page);
+        //     }
+        // })
     }
     
 }

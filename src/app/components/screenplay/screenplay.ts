@@ -109,8 +109,9 @@ export class Screenplay extends BaseComponent implements AfterViewInit, OnInit {
                 dialogRef$.subscribe(result => {
                     
                     if (result === DialogResult.Confirm) {
-                        this.storyboardState.generateStoryboard()
-                            .then(() => {
+                        this.storyboardState.generateStoryboards()
+                            .then((s) => {
+                                console.log(s)
                                 this.goTo(page);
                             })
                     } else if (result === DialogResult.Continue) {

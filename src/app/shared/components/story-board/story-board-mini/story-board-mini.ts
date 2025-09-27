@@ -15,6 +15,12 @@ export class StoryboardMiniComponent {
     private readonly screenplayState = inject(ScreenplayState);
     
     storyboardImage = input.required<StoryboardImageModel>();
+    imageUrl = computed<string>(() => {
+       if (this.storyboardImage()?.imagePath === 'generating')
+            return this.storyboardImage()?.imagePath
+        const path = `http://127.0.0.1:8000/${this.storyboardImage()?.imagePath}?timestamp=${new Date().getTime()}`
+        return path
+    })
     scene= computed<ScreenplaySceneModel | null>(() => {
         const sceneId = this.storyboardImage()?.sceneId;
         const scene = this.screenplayState.getSceneByID(sceneId);
@@ -23,7 +29,6 @@ export class StoryboardMiniComponent {
         } else {
             return scene
         }
-
     });
     isSelected = input<boolean>(false);
     onselect = output<string>();

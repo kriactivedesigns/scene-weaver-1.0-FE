@@ -20,7 +20,7 @@ import { AnimaticSceneModel } from "../../shared/models/animatics-scene.model";
 export class Animatics extends BaseComponent implements OnInit {
 
     animatics = this.animaticState.animatics;
-    storyboard = this.storyboardState.storyboard;
+    storyboard = this.storyboardState.storyboards;
     selectedAnimatics = signal<AnimaticSceneModel>(this.animatics()[0])
 
     constructor() {
