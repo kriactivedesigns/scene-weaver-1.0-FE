@@ -13,10 +13,12 @@ import { StoryboardState } from "../../state/storyboard.state";
 import { AnimaticsState } from "../../state/animatics.state";
 import { LoaderService } from "../../services/loader.service";
 import { DialogService } from "../../services/dialog.service";
+import { STAGE_CONFIG, StageConfig } from "../../extras/stage-config";
 
 export abstract class BaseComponent {
 
     public Pages = Pages;
+    protected readonly stages: StageConfig[] = STAGE_CONFIG;
     protected readonly loginState = inject(LoginState);
     protected readonly loaderService = inject(LoaderService);
     protected readonly globalState = inject(GlobalState);
@@ -35,6 +37,24 @@ export abstract class BaseComponent {
 
     protected goTo(page: string): void {
         this.router.navigateByUrl(page);
+    }
+
+    protected getNextStage(currentStage: string): Pages | undefined {
+        const activeStages = this.stages.filter(stage => stage.enabled);
+        const currentIndex = activeStages.findIndex(stage => stage.route === currentStage);
+        if (currentIndex > 0 && currentIndex < activeStages.length - 1 && activeStages[currentIndex + 1].enabled) {
+            return activeStages[currentIndex + 1].route;
+        }
+        return undefined;
+    }
+
+    protected getPreviousStage(currentStage: string): Pages | undefined {
+        const activeStages = this.stages.filter(stage => stage.enabled);
+        const currentIndex = activeStages.findIndex(stage => stage.route === currentStage);
+        if (currentIndex !== -1 && currentIndex > 0 && activeStages[currentIndex - 1].enabled) {
+            return activeStages[currentIndex - 1].route;
+        }
+        return undefined;
     }
 
 }

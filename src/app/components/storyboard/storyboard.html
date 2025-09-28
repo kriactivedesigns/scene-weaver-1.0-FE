@@ -2,7 +2,7 @@
   <div class="upper-section"></div>
   <div class="content-container">
     <div class="left">
-      <icon-button text="Previous" icon="left" (onclick)="navigateTo(Pages.Screenplay)"/>
+      <icon-button text="Previous" icon="left" (onclick)="navigateTo(getPreviousStage(Pages.Storyboard))"/>
     </div>
     <div class="middle">
       <div class="header">
@@ -24,7 +24,9 @@
       </div>
     </div>
     <div class="right">
-      <icon-button textIcon="aistar" text="Generate" icon="right" (onclick)="navigateTo(Pages.Animatics)"/>
+      @if (getNextStage(Pages.Storyboard)) {
+        <icon-button textIcon="aistar" text="Generate" icon="right" (onclick)="navigateTo(getNextStage(Pages.Storyboard))"/>
+      }
     </div>
   </div>
 </div>

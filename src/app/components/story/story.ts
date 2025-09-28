@@ -38,8 +38,9 @@ export class Story extends BaseComponent implements OnInit {
         }
     }
 
-    navigateTo(page: Pages) {
-
+    navigateTo(page?: Pages) {
+        if (!page) return;
+        
         if (page !== Pages.Screenplay) {
             this.goTo(page);
             return

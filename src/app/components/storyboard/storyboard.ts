@@ -59,7 +59,8 @@ export class Storyboard extends BaseComponent implements OnInit {
         // this.storyboardState.updateImageWithPrompt(prompt,selectedImageId)
     }
 
-    navigateTo(page: Pages) {
+    navigateTo(page?: Pages) {
+        if (!page) return
         
         if (page !== Pages.Animatics) {
             this.goTo(page);

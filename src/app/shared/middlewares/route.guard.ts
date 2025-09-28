@@ -4,6 +4,7 @@ import { Pages } from "../enums/pages.enum";
 import { ProjectState } from "../state/project.state";
 import { StorageKeys } from "../enums/storagekeys.enum";
 import { GlobalState } from "../services/global-state.service";
+import { STAGE_CONFIG } from "../extras/stage-config";
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +16,11 @@ export class RouteGuard implements CanActivate {
     private router = inject(Router);
 
     async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+        // If stage.enabled is false, redirect to dashboard
+        if (!STAGE_CONFIG.find(s => state.url.includes(s.route))?.enabled) {
+            this.router.navigateByUrl(Pages.Dashboard);
+            return false;
+        }
 
         if (state.url.includes(Pages.Login)) 
             return this.allowOrNotToNavigate(true, state.url);
@@ -55,6 +61,5 @@ export class RouteGuard implements CanActivate {
         this.globalState.setCurrentPage(url);
         return isallowed;
     }
-
     
 }

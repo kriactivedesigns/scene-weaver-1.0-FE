@@ -53,7 +53,9 @@
       </div>
     </div>
     <div class="right">
-      <icon-button text="Next" icon="right" (onclick)="navigateTo(Pages.Canvas)"/>
+      @if (getNextStage(Pages.Realm)) {
+        <icon-button text="Next" icon="right" (onclick)="navigateTo(getNextStage(Pages.Realm))"/>
+      }
     </div>
   </div>
 </div>

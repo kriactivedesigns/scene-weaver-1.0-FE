@@ -34,7 +34,9 @@ export class Realm extends BaseComponent implements OnInit {
         this.realmState.getProjectWorlds()
     }
     
-    navigateTo(page: Pages) {
+    navigateTo(page?: Pages) {
+        if (!page)
+            return
         this.goTo(page);
     }
    

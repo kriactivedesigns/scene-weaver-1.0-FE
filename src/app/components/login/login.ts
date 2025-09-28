@@ -1,6 +1,6 @@
 import { Component, computed, signal } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { customEmailValidator } from "../../shared/extras/customValidators";
+import { customEmailValidator } from "../../shared/extras/custom-validators";
 import { UserModel } from "../../shared/models/user.model";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
 import { ToggleButtons } from "../../shared/components/toggle-buttons/toggle-buttons";

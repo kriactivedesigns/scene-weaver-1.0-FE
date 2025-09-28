@@ -22,9 +22,12 @@ export class AnimaticsVideoComponent {
     private readonly commonService = inject(CommonService);
     private readonly screenplayState = inject(ScreenplayState);
     
-    animaticScene = input.required<AnimaticSceneModel>();
+    animaticScene = input<AnimaticSceneModel | null>();
     scene= computed<ScreenplaySceneModel | null>(() => {
         const sceneId = this.animaticScene()?.sceneId;
+        if (!sceneId) {
+            return null
+        }
         const scene = this.screenplayState.getSceneByID(sceneId);
         if(!scene) {
             return null
@@ -33,9 +36,9 @@ export class AnimaticsVideoComponent {
         }
         
     });
-    imageUrl = computed<string>(() => {
+    imageUrl = computed<string | null>(() => {
         if (this.animaticScene()?.videoPath === 'generating')
-            return this.animaticScene()?.videoPath
+            return this.animaticScene()?.videoPath || null
         const path = `http://127.0.0.1:8000/${this.animaticScene()?.videoPath}?timestamp=${new Date().getTime()}`
         return path
     })

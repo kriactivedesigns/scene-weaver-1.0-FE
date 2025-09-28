@@ -65,8 +65,9 @@ export class Screenplay extends BaseComponent implements AfterViewInit, OnInit {
         this.screenplayState.addNewScene();
     }
     
-    navigateTo(page: Pages) {
-    
+    navigateTo(page?: Pages) {
+        if (!page) return;
+        
         if (page !== Pages.Storyboard) {
             this.goTo(page);
             return

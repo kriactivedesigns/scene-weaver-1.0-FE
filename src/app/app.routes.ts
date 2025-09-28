@@ -44,9 +44,9 @@ export const routes: Routes = [
         loadComponent: () => import('./components/storyboard/storyboard').then(m => m.Storyboard),
         canActivate: [AuthGuard, RouteGuard]
     },
-    // {
-    //     path: Pages.Animatics,
-    //     loadComponent: () => import('./components/animatics/animatics').then(m => m.Animatics),
-    //     canActivate: [AuthGuard, RouteGuard]
-    // }
+    {
+        path: Pages.Animatics,
+        loadComponent: () => import('./components/animatics/animatics').then(m => m.Animatics),
+        canActivate: [AuthGuard, RouteGuard]
+    }
 ];

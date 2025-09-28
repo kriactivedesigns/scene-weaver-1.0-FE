@@ -16,8 +16,8 @@ import { CommonService } from "../../services/common.service";
 export class VideoPlayerComponent {
 
     private commonService = inject(CommonService);
-    src = input.required<string>();
-    duration = input.required<number>();
+    src = input<string>();
+    duration = input<number>();
 
     private videoPlayerRef = viewChild.required<ElementRef<HTMLVideoElement>>('videoPlayer');
 

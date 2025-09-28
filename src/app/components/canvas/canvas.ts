@@ -35,7 +35,9 @@ export class Canvas extends BaseComponent implements OnInit {
         this.canvasState.deleteThread(thread.id);
     }
     
-    navigateTo(page: Pages) {
+    navigateTo(page?: Pages) {
+        if (!page)
+            return
 
         if (page !== Pages.Story) {
             this.goTo(page);

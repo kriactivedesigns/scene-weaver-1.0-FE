@@ -24,7 +24,7 @@ export class Animatics extends BaseComponent implements OnInit {
     progress = this.animaticState.progress;
 
     storyboard = this.storyboardState.storyboards;
-    selectedAnimatics = signal<AnimaticSceneModel>(this.animatics()[0])
+    selectedAnimatics = signal<AnimaticSceneModel | null>(this.animatics()[0])
 
     constructor() {
         super();

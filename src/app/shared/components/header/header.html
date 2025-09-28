@@ -17,7 +17,14 @@
                     <span>{{projectState.openedProject()?.projectName}}</span>
                 </div>
                 <div class="breadcrumbs">
-                    <div class="page" [class.active]="globalState.currentPage() === Pages.Realm">
+                    @for (stage of stages; track $index) {
+                        @if (stage.enabled && stage.isInBreadcrumb) {
+                            <div class="page" [class.active]="globalState.currentPage() === stage.route">
+                                <span (click)="goTo(stage.route)">{{stage.name}}</span>
+                            </div>
+                        }
+                    }
+                    <!-- <div class="page" [class.active]="globalState.currentPage() === Pages.Realm">
                         <span (click)="goTo(Pages.Realm)">Realm</span>
                     </div>
                     <div class="page" [class.active]="globalState.currentPage() === Pages.Canvas">
@@ -34,7 +41,7 @@
                     </div>
                     <div class="page" [class.active]="globalState.currentPage() === Pages.Animatics">
                         <span (click)="goTo(Pages.Animatics)">Animatics</span>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         }
