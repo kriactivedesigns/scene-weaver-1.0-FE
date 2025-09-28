@@ -30,9 +30,7 @@ export class Storyboard extends BaseComponent implements OnInit {
     ngOnInit(): void {
         // Get screenplay list and storyboard list for the project
         this.screenplayState.getProjectScreenplay()
-        .then(() => {
-            this.storyboardState.getProjectStoryboard();
-        })
+        .then(() => this.storyboardState.getProjectStoryboard())
     }
 
     constructor() {

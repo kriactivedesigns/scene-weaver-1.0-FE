@@ -1,15 +1,12 @@
-import { effect, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { ProjectState } from './project.state';
-import { delay, firstValueFrom, map, Observable, of, pipe, Subscription } from 'rxjs';
+import { delay, firstValueFrom, of, Subscription } from 'rxjs';
 import { StoryboardImageModel } from '../models/storyboard-image.model';
-import { ProjectModel } from '../models/project.model';
 import { HttpClient } from '@angular/common/http';
 import { ScreenplayState } from './screenplay.state';
 import { StoryboardWebSocketService } from '../services/storyboard-websocket.service';
 import { environment } from '../../../environments/environment';
 import { ScreenplaySceneModel } from '../models/screenplay-scene.model';
-
-type GenerationStatus = 'idle' | 'starting' | 'in-progress' | 'completed' | 'cancelled' | 'error';
 
 @Injectable({ providedIn: 'root' })
 export class StoryboardState {
@@ -55,10 +52,12 @@ export class StoryboardState {
             throw new Error("Cannot generate storyboards: No project or scenes available.")
         
         this._status.set('starting');
-        const placeholders = scenes.map(scene => this.createPlaceholder(pid!, scene));
+        // const placeholders = scenes.map(scene => this.createPlaceholder(pid!, scene));
+        const placeholders = [scenes[0],scenes[1]].map(scene => this.createPlaceholder(pid!, scene));
         this._storyboards.set(placeholders);
         
-        const sceneIds = scenes.map(s => s.id);
+        // const sceneIds = scenes.map(s => s.id);
+        const sceneIds = [scenes[0],scenes[1]].map(s => s.id);
         const payload = { scene_ids: sceneIds };
         
         const url = `${environment.apiBaseUrl}/projects/${pid}/storyboards/generate`;
@@ -141,7 +140,7 @@ export class StoryboardState {
                 if (this.status() === 'in-progress') this._status.set('completed');
             }
         });
-  }
+    }
 
   cancelGeneration(): void {
     if (!this.currentJobId) return;

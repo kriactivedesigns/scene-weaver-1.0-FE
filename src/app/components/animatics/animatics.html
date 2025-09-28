@@ -13,7 +13,7 @@
       <div class="content">
         <div class="storyboard-stip">
           @for (image of storyboard(); track $index) {
-            <story-board-mini [storyboardImage]="image" (onselect)="selectAnimaticScene($event)" [isSelected]="image.sceneId === selectedAnimatics().sceneId"/>
+            <story-board-mini [storyboardImage]="image" (onselect)="selectAnimaticScene($event)" [isSelected]="image.sceneId === selectedAnimatics()?.sceneId"/>
           }
         </div>
           <div class="storyboard-main">

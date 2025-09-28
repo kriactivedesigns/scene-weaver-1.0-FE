@@ -20,19 +20,31 @@ import { AnimaticSceneModel } from "../../shared/models/animatics-scene.model";
 export class Animatics extends BaseComponent implements OnInit {
 
     animatics = this.animaticState.animatics;
+    status = this.animaticState.status;
+    progress = this.animaticState.progress;
+
     storyboard = this.storyboardState.storyboards;
     selectedAnimatics = signal<AnimaticSceneModel>(this.animatics()[0])
 
     constructor() {
         super();
+
         effect(() => {
-            if (this.animatics().length)
+            console.log("Animatics status changed:", this.status());
+        })
+        
+        effect(() => {
+            if (!this.selectedAnimatics() && this.animatics().length) {
                 this.selectAnimaticScene(this.animatics()[0].sceneId);
+            }
         })
     }
 
     ngOnInit(): void {
-        this.animaticState.getProjectAnimatics();
+        // Get storyboard list and animatics list for the project
+        this.screenplayState.getProjectScreenplay()
+        .then(() => this.storyboardState.getProjectStoryboard())
+        .then(() => this.animaticState.getProjectAnimatics());
     }
 
     selectAnimaticScene(sceneId: string) {
@@ -44,10 +56,10 @@ export class Animatics extends BaseComponent implements OnInit {
     }
 
     submitPrompt(prompt: string) {
-        const selectedImageId = this.selectedAnimatics()?.id;
-        if (!selectedImageId)
-            return;
-        this.storyboardState.updateImageWithPrompt(prompt,selectedImageId)
+        // const selectedImageId = this.selectedAnimatics()?.id;
+        // if (!selectedImageId)
+        //     return;
+        // this.storyboardState.updateImageWithPrompt(prompt,selectedImageId)
     }
 
     navigateTo(page: Pages) {
