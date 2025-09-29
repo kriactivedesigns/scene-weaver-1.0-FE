@@ -45,58 +45,61 @@ export class Canvas extends BaseComponent implements OnInit {
         }
 
         this.storyState.getProjectStory()
-        .then(story => {
-            if (story) {
-                const dialogRef$ = this.dialogService.open({
-                    title: 'Confirm',
-                    message: `
-                        You already have a story saved. Generating a new story will permanently overwrite the existing one.
-                        <div class="options">
-                            <p>
-                                Click <strong>Generate</strong> to replace the current story.
-                            </p>
-                            <p>
-                                Click <strong>Skip</strong> to keep the existing story and navigate to the Story page.
-                            </p>
-                            <p>
-                                Click <strong>Close</strong> to close this dialog.
-                            </p>
-                        </div>
-                    `,
-                    type: DialogType.Confirmation,
-                    buttons: [
-                        {
-                            type: 'cancel',
-                            text: 'Close'
-                        },
-                        {
-                            type: 'confirm',
-                            text: 'Generate'
-                        },
-                        {
-                            type: 'continue',
-                            text: 'Skip'
-                        }
-                    ]
-                })
-                
-                dialogRef$.subscribe(result => {
-                    
-                    if (result === DialogResult.Confirm) {
-                        this.storyState.generateStory()
-                            .then(() => {
-                                this.goTo(page);
-                            })
-                    } else if (result === DialogResult.Continue) {
-                        this.goTo(page);
-                    } else {
-                        return;
+        .then(() => {
+            const dialogRef$ = this.dialogService.open({
+                title: 'Confirm',
+                message: `
+                    You already have a story saved. Generating a new story will permanently overwrite the existing one.
+                    <div class="options">
+                        <p>
+                            Click <strong>Generate</strong> to replace the current story.
+                        </p>
+                        <p>
+                            Click <strong>Skip</strong> to keep the existing story and navigate to the Story page.
+                        </p>
+                        <p>
+                            Click <strong>Close</strong> to close this dialog.
+                        </p>
+                    </div>
+                `,
+                type: DialogType.Confirmation,
+                buttons: [
+                    {
+                        type: 'cancel',
+                        text: 'Close'
+                    },
+                    {
+                        type: 'confirm',
+                        text: 'Generate'
+                    },
+                    {
+                        type: 'continue',
+                        text: 'Skip'
                     }
-                })
-            } else {
-                this.goTo(page);
-            }
+                ]
+            })
+            
+            dialogRef$.subscribe(result => {
+                if (result === DialogResult.Confirm) {
+                    this.generateStoryAndNavigateTo(page);
+                } else if (result === DialogResult.Continue) {
+                    this.goTo(page);
+                } else {
+                    return;
+                }
+            })
+        })
+        .catch(() => {
+            this.generateStoryAndNavigateTo(page);
         })
 
     }
+
+    private generateStoryAndNavigateTo(page: Pages) {
+        this.storyState.generateStory()
+        .then(() => {
+            this.goTo(page);
+        })
+    }
+    
 }

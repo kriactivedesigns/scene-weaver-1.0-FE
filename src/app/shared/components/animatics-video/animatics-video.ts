@@ -39,7 +39,7 @@ export class AnimaticsVideoComponent {
     imageUrl = computed<string | null>(() => {
         if (this.animaticScene()?.videoPath === 'generating')
             return this.animaticScene()?.videoPath || null
-        const path = `http://127.0.0.1:8000/${this.animaticScene()?.videoPath}?timestamp=${new Date().getTime()}`
+        const path = `${this.animaticScene()?.videoPath}?timestamp=${new Date().getTime()}`
         return path
     })
     onpromptsubmit = output<string>();

@@ -5,8 +5,8 @@ import { IconButton } from "../../shared/components/icon-button/icon-button";
 import { StoryboardMiniComponent } from "../../shared/components/story-board/story-board-mini/story-board-mini";
 import { StoryboardMainComponent } from "../../shared/components/story-board/story-board-main/story-board-main";
 import { StoryboardImageModel } from "../../shared/models/storyboard-image.model";
-import { ScreenplaySceneModel } from "../../shared/models/screenplay-scene.model";
 import { DialogResult, DialogType } from "../../shared/types/dialog.types";
+import { ProcessingBarComponent } from "../../shared/components/processing-bar/processing-bar";
 
 @Component({
     selector: 'app-storyboard',
@@ -16,7 +16,8 @@ import { DialogResult, DialogType } from "../../shared/types/dialog.types";
     imports: [
     IconButton,
     StoryboardMiniComponent,
-   StoryboardMainComponent
+    StoryboardMainComponent,
+    ProcessingBarComponent
 ]
 })
 export class Storyboard extends BaseComponent implements OnInit {
@@ -24,22 +25,48 @@ export class Storyboard extends BaseComponent implements OnInit {
     storyboards = this.storyboardState.storyboards;
     status = this.storyboardState.status;
     progress = this.storyboardState.progress;
+    buttonText = computed(() => {
+        switch (this.status()) {
+            case 'cancelling':
+                return 'STORYBOARD GENERATION - CANCELLING...';
+            case 'in-progress':
+                return 'STORYBOARD GENERATION - STOP?';
+            case 'error':
+                return 'STORYBOARD GENERATION FAILED - RETRY?';
+            default:
+                return 'GENERATE STORYBOARDS?';
+        }
+    })
 
     selectedImage = signal<StoryboardImageModel>(this.storyboards()[0]);
 
     ngOnInit(): void {
-        // Get screenplay list and storyboard list for the project
-        this.screenplayState.getProjectScreenplay()
-        .then(() => this.storyboardState.getProjectStoryboard())
+        if (this.status() === 'idle' && this.storyboards().length === 0) {
+            this.screenplayState.getProjectScreenplay()
+            .then(() => this.storyboardState.getProjectStoryboard())
+        }
     }
 
     constructor() {
         super();
         effect(() => {
+            console.log("Storyboard status changed:", this.status());
+            if (this.status() === 'cancelled') {
+                this.storyboardState.getProjectStoryboard()
+                .then(() => this.selectStoryboardImage(this.storyboards()[0].sceneId))
+            }
+        })
+        effect(() => {
             if (!this.storyboards().length)
                 return
             if (!this.selectedImage()) {
                 this.selectStoryboardImage(this.storyboards()[0].sceneId);
+            }
+        })
+        effect(() => {
+            const lastGeneratedSceneId = this.storyboardState.lastGeneratedImageSceneId();
+            if (lastGeneratedSceneId) {
+                this.selectStoryboardImage(lastGeneratedSceneId)
             }
         })
     }
@@ -57,6 +84,17 @@ export class Storyboard extends BaseComponent implements OnInit {
         // if (!selectedImageId)
         //     return;
         // this.storyboardState.updateImageWithPrompt(prompt,selectedImageId)
+    }
+
+    cancelStoryboardGeneration() {
+        if (this.buttonText() === 'STORYBOARD GENERATION - CANCELLING...') {
+            return
+        } else if (this.buttonText() == 'STORYBOARD GENERATION - STOP?') {
+            this.storyboardState.cancelGeneration();
+            return
+        } else {
+            this.storyboardState.generateStoryboards();
+        }
     }
 
     navigateTo(page?: Pages) {

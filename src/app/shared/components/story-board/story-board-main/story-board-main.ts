@@ -34,7 +34,7 @@ export class StoryboardMainComponent {
     imageUrl = computed<string>(() => {
         if (this.storyboardImage()?.imagePath === 'generating')
             return this.storyboardImage()?.imagePath
-        const path = `http://127.0.0.1:8000/${this.storyboardImage()?.imagePath}?timestamp=${new Date().getTime()}`
+        const path = `${this.storyboardImage()?.imagePath}?timestamp=${new Date().getTime()}`
         return path
     })
     onpromptsubmit = output<string>();

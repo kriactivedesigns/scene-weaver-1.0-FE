@@ -17,6 +17,7 @@ export class StoryboardState {
     private readonly websocketService = inject(StoryboardWebSocketService);
 
     private readonly _storyboards = signal<Array<StoryboardImageModel>>([]);
+    private readonly _lastGeneratedImageSceneId = signal<string | null>(null);
     private readonly _status = signal<GenerationStatus>('idle');
     private readonly _progress = signal<string>('0/0');
 
@@ -24,6 +25,7 @@ export class StoryboardState {
     private wsSubscription: Subscription | null = null;
 
     readonly storyboards = this._storyboards.asReadonly();
+    readonly lastGeneratedImageSceneId = this._lastGeneratedImageSceneId.asReadonly();
     readonly status = this._status.asReadonly();
     readonly progress = this._progress.asReadonly();
 
@@ -51,15 +53,13 @@ export class StoryboardState {
         if (!pid || scenes.length == 0)
             throw new Error("Cannot generate storyboards: No project or scenes available.")
         
-        this._status.set('starting');
-        // const placeholders = scenes.map(scene => this.createPlaceholder(pid!, scene));
-        const placeholders = [scenes[0],scenes[1]].map(scene => this.createPlaceholder(pid!, scene));
+        const placeholders = scenes.map(scene => this.createPlaceholder(pid!, scene));
         this._storyboards.set(placeholders);
         
-        // const sceneIds = scenes.map(s => s.id);
-        const sceneIds = [scenes[0],scenes[1]].map(s => s.id);
+        const sceneIds = scenes.map(s => s.id);
         const payload = { scene_ids: sceneIds };
         
+        this._status.set('starting');
         const url = `${environment.apiBaseUrl}/projects/${pid}/storyboards/generate`;
         try {
             const res = await firstValueFrom(this.http.post<{ job_id: string}>(url, payload));
@@ -71,82 +71,55 @@ export class StoryboardState {
         }
     }
 
-    updateStoryboard(data: StoryboardImageModel) {
-        const currentProject = this.projectState.openedProject();
-        const storyboard = this.storyboards();
-
-        if (!currentProject)
-            return
-
-        if(storyboard.length) {
-            // Update existing scene in screenplay arra
-            data = {
-                ...data,
-                updatedAt: new Date(),
-            }
-            this._storyboards.update((storyboard) => storyboard.map(image => image.id == data.id ? { ...image, ...data } : image));
-            this.updateProject()
-        }
-
-        return of(true).pipe(delay(3000));
-        
-    }
-
-    updateImageWithPrompt(prompt: string, imageId: string): void {
-        const storyboard = [...this._storyboards()];
-        if (storyboard.length) {
-            storyboard.forEach((image: any) => {
-                if (image.id === imageId) {
-                    image.imagePath = 'mock-data/scenes/scene02.png'
-                }
-            })
-        }
-        this._storyboards.set(storyboard);
-        this.updateProject();
-    }
-
     getStoryboardImageBySceneID(sceneId: string): StoryboardImageModel | undefined {
         return this._storyboards().find(image => image.sceneId === sceneId)
     }
 
-    private updateProject(): void {
-        // const currentProject = this.projectState.openedProject();
-        // if (!currentProject)
-        //     return
-        // this.projectState.updateOpenedProject(currentProject.id, { storyboard: this._storyboard() });
-    }
-
     private listenForUpdates(jobId: string): void {
-        this._status.set('in-progress');
-    
         this.wsSubscription = this.websocketService.connect(jobId).subscribe({
             next: (update) => {
-                if (update.event === 'IMAGE_GENERATED' && update.storyboard) {
+                console.log("Received WS update:", update);
+                if (update.event === 'GENERATION_IN_PROGRESS') {
+                    this._status.set('in-progress');
+                } else if (update.event === 'IMAGE_GENERATED' && update.storyboard) {
                     this._progress.set(update.progress!);
                     this._storyboards.update(currentBoards => 
                         currentBoards.map(board => 
                         board.sceneId === update.storyboard!.sceneId ? update.storyboard! : board
                     ));
+                    this._lastGeneratedImageSceneId.set(update.storyboard!.sceneId);
                 } else if (update.event === 'JOB_COMPLETED') {
                     this._status.set('completed');
+                    this._lastGeneratedImageSceneId.set(null);
                     this.cleanup();
                 } else if (update.event === 'JOB_CANCELLED') {
                     this._status.set('cancelled');
+                    this._lastGeneratedImageSceneId.set(null);
+                    this.cleanup();
+                } else if (update.event === 'ERROR') {
+                    this._status.set('error');
+                    this._lastGeneratedImageSceneId.set(null);
                     this.cleanup();
                 }
             },
-            error: () => this._status.set('error'),
+            error: (err) => {
+                console.error("WebSocket error occurred", err);
+            },
             complete: () => {
+                console.log("WebSocket connection closed");
                 if (this.status() === 'in-progress') this._status.set('completed');
             }
         });
     }
 
-  cancelGeneration(): void {
-    if (!this.currentJobId) return;
-    const url = `${environment.apiBaseUrl}/storyboards/cancel/${this.currentJobId}`;
-    this.http.post(url, {}).subscribe();
-  }
+    async cancelGeneration(): Promise<void> {
+        if (!this.currentJobId) return;
+            this._status.set('cancelling');
+            const url = `${environment.apiBaseUrl}/storyboards/cancel/${this.currentJobId}`;
+            const response = await firstValueFrom(this.http.post(url, {}));
+            console.log("Cancellation response:", response);
+        return
+    }
 
   private createPlaceholder(projectId: string, scene: ScreenplaySceneModel): StoryboardImageModel {
     return {

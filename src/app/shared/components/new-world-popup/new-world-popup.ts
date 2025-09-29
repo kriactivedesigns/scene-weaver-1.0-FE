@@ -37,7 +37,7 @@ export class NewWorldPopup {
     oncreate = output<WorldModel>();
     world = input<WorldModel | null>();
     imageUrl = computed<string>(() => {
-        const path = `http://127.0.0.1:8000${this.world()?.imagePath}?timestamp=${new Date().getTime()}`
+        const path = `${this.world()?.imagePath}?timestamp=${new Date().getTime()}`
         return path
     })
     

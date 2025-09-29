@@ -5,9 +5,11 @@
         .middle {
             .content {
                 padding: 0;
-                display: flex;
+                display: grid;
+                grid-template-columns: auto max-content;
                 .storyboard-stip {
                     display: flex;
+                    width: fit-content;
                     flex-direction: column;
                     border-right: 1px solid $color-border;
                     padding: 8px;

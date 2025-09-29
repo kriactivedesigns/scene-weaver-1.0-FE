@@ -11,15 +11,28 @@
         </div>
       </div>
       <div class="content">
-        <div class="storyboard-stip">
+        <div class="storyboard-strip">
           @for (image of storyboards(); track $index) {
             <story-board-mini [storyboardImage]="image" (onselect)="selectStoryboardImage($event)" [isSelected]="image.id === selectedImage().id"/>
           }
         </div>
         <div class="storyboard-main">
+          <div class="selected-image-container">
             @if (selectedImage()) {
               <story-board-main [storyboardImage]="selectedImage()" (onpromptsubmit)="submitPrompt($event)"/>
             }
+          </div>
+          <div class="processing-bar-cancel-button-container">
+            @if (status() === 'in-progress' || status() === 'cancelling') {
+              <processing-bar />
+            }
+            @if (status() === 'in-progress' || status() === 'cancelling' || status() === 'error' || status() === 'idle') {
+              <button [class.stop]="status() === 'in-progress' || status() === 'cancelling'"
+                      [class.confirm]="status() === 'error' || status() === 'idle'"
+                      [disabled]="status() === 'cancelling'"
+                      class="outlined" (click)="cancelStoryboardGeneration()">{{buttonText()}}</button>
+            }
+          </div>
         </div>
       </div>
     </div>

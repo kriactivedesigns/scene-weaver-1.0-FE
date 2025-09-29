@@ -37,7 +37,7 @@ export class NewCharacterPopup {
     oncreate = output<CharacterModel>();
     character = input<CharacterModel | null>();
     imageUrl = computed<string>(() => {
-        const path = `http://127.0.0.1:8000${this.character()?.imagePath}?timestamp=${new Date().getTime()}`
+        const path = `${this.character()?.imagePath}?timestamp=${new Date().getTime()}`
         return path
     })
 

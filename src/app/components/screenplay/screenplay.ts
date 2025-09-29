@@ -75,7 +75,7 @@ export class Screenplay extends BaseComponent implements AfterViewInit, OnInit {
 
         this.storyboardState.getProjectStoryboard()
         .then(storyboard => {
-            if (storyboard) {
+            if (storyboard.length) {
                 const dialogRef$ = this.dialogService.open({
                     title: 'Confirm',
                     message: `
@@ -110,13 +110,8 @@ export class Screenplay extends BaseComponent implements AfterViewInit, OnInit {
                 })
                 
                 dialogRef$.subscribe(result => {
-                    
                     if (result === DialogResult.Confirm) {
-                        this.storyboardState.generateStoryboards()
-                            .then((s) => {
-                                console.log(s)
-                                this.goTo(page);
-                            })
+                        this.generateStoryboardAndNavigate();
                     } else if (result === DialogResult.Continue) {
                         this.goTo(page);
                     } else {
@@ -124,8 +119,15 @@ export class Screenplay extends BaseComponent implements AfterViewInit, OnInit {
                     }
                 })
             } else {
-                this.goTo(page);
+                this.generateStoryboardAndNavigate();
             }
+        })
+    }
+    
+    private generateStoryboardAndNavigate() {
+        this.storyboardState.generateStoryboards()
+        .then(() => {
+            this.goTo(Pages.Storyboard);
         })
     }
     

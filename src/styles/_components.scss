@@ -88,6 +88,7 @@
 
 button.primary-button,
 button.primary-button.outlined,
+button.stop,
 button.cancel,
 button.confirm,
 button.continue,
@@ -156,6 +157,32 @@ button.cancel {
     &:hover {
         letter-spacing: 0.2rem;
         background-color: color.adjust($color: $color-info, $lightness: -10%);
+        font-weight: 600 !important;
+    }
+    &[disabled] {
+        background-color: $color-primary-light;
+        color: $color-text-light;
+        cursor: not-allowed;
+    }
+}
+
+button.stop {
+    background-color: $color-error;
+    color: $color-text-light;
+    font-weight: 500 !important;
+    &.outlined {
+        background-color: transparent;
+        border: 1px solid $color-error;
+        color: $color-error;
+        &:hover {
+            background-color: transparent;
+            border: 1px solid color.adjust($color: $color-error, $lightness: -10%);
+            color: color.adjust($color: $color-error, $lightness: -10%);;
+        }
+    }
+    &:hover {
+        letter-spacing: 0.2rem;
+        background-color: color.adjust($color: $color-error, $lightness: -10%);
         font-weight: 600 !important;
     }
     &[disabled] {

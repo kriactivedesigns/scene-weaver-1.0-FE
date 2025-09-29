@@ -48,7 +48,7 @@ export class Story extends BaseComponent implements OnInit {
 
         this.screenplayState.getProjectScreenplay()
         .then(screenplayScenes => {
-            if (screenplayScenes) {
+            if (screenplayScenes.length) {
                 const dialogRef$ = this.dialogService.open({
                     title: 'Confirm',
                     message: `
@@ -85,10 +85,7 @@ export class Story extends BaseComponent implements OnInit {
                 dialogRef$.subscribe(result => {
                     
                     if (result === DialogResult.Confirm) {
-                        this.screenplayState.generateScreenplayScenes()
-                            .then(() => {
-                                this.goTo(page);
-                            })
+                        this.generateScreenplayAndNavigate();
                     } else if (result === DialogResult.Continue) {
                         this.goTo(page);
                     } else {
@@ -96,9 +93,16 @@ export class Story extends BaseComponent implements OnInit {
                     }
                 })
             } else {
-                this.goTo(page);
+                this.generateScreenplayAndNavigate();
             }
         })
+    }
+
+    private generateScreenplayAndNavigate() {
+        this.screenplayState.generateScreenplayScenes()
+            .then(() => {
+                this.goTo(Pages.Screenplay);
+            })
     }
     
 }

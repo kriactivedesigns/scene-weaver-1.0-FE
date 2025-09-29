@@ -18,7 +18,7 @@ export class CharacterCard implements OnInit {
     commonService = inject(CommonService);
     
     character = input<CharacterModel>();
-    imageUrl = computed(() => `http://127.0.0.1:8000${this.character()?.imagePath}?timestamp=${new Date().getTime()}`);
+    imageUrl = computed(() => `${this.character()?.imagePath}?timestamp=${new Date().getTime()}`);
     ondelete = output<string>();
     onedit = output<string>();
     calculatedWidth: number = 0;
