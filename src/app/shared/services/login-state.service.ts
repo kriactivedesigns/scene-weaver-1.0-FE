@@ -17,6 +17,7 @@ export class LoginState {
   // Use signals for reactive state (Angular 16+)
   private _user = signal<UserModel | null>(null);
   private _token = signal<string | null>(null);
+  private _refreshToken = signal<string | null>(null);
   private _isLoggedIn = signal<boolean>(false);
 
   // Public readonly signals
@@ -55,6 +56,22 @@ export class LoginState {
       this.router.navigateByUrl(Pages.Login);
   }
 
+  async reAuth(): Promise<void> {
+    try {
+      const response = await firstValueFrom(this.http.post<{ access_token: string }>(`${environment.apiBaseUrl}/auth/refresh`, {
+        refresh_token: this._refreshToken()
+      }));
+      const currentAuthData: AuthResponse = JSON.parse(localStorage.getItem(StorageKeys.AuthResponse) || '{}');
+      this._setAuthData({
+        ...currentAuthData,
+        access_token: response.access_token
+      });
+      return
+    } catch (error) {
+      console.error('Login error:', error);
+    }
+  }
+
   ifUserLoggedIn(): boolean {
     if (this.isLoggedIn()) {
       return true;
@@ -74,6 +91,7 @@ export class LoginState {
   private _setAuthData(authResponse: AuthResponse): void {
     this._user.set(authResponse.user);
     this._token.set(authResponse.access_token);
+    this._refreshToken.set(authResponse.refresh_token);
     this._isLoggedIn.set(true);
     localStorage.setItem(StorageKeys.AuthResponse, JSON.stringify(authResponse));
   }
@@ -81,6 +99,7 @@ export class LoginState {
   private _clearAuthData(): void {
     this._user.set(null);
     this._token.set(null);
+    this._refreshToken.set(null);
     this._isLoggedIn.set(false);
     localStorage.removeItem(StorageKeys.AuthResponse);
   }

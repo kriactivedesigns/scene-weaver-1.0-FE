@@ -15,5 +15,5 @@ export const STAGE_CONFIG: StageConfig[] = [
     { name: 'Story', route: Pages.Story, enabled: true, isInBreadcrumb: true },
     { name: 'Screenplay', route: Pages.Screenplay, enabled: true, isInBreadcrumb: true },
     { name: 'Storyboard', route: Pages.Storyboard, enabled: true, isInBreadcrumb: true },
-    { name: 'Animatics', route: Pages.Animatics, enabled: false, isInBreadcrumb: true }
+    { name: 'Animatics', route: Pages.Animatics, enabled: true, isInBreadcrumb: true }
 ];

@@ -1,16 +1,18 @@
-import { computed, CSP_NONCE, inject, Injectable, signal } from "@angular/core";
+import { computed, CSP_NONCE, effect, inject, Injectable, signal } from "@angular/core";
 import { ProjectMetadataModel } from "../models/project-metadata.model";
 import { HttpClient } from "@angular/common/http";
 import { ProjectModel } from "../models/project.model";
 import { StorageKeys } from "../enums/storagekeys.enum";
 import { firstValueFrom, lastValueFrom, map, Observable, pipe, tap } from "rxjs";
 import { environment } from "../../../environments/environment";
+import { LoginState } from "../services/login-state.service";
 
 @Injectable({ providedIn: 'root' })
 export class ProjectState {
 
     // Dependency Injections
     private http = inject(HttpClient);
+    private readonly loginState= inject(LoginState);
 
     // Private states
     private _projects = signal<ProjectModel[]>([]);
@@ -23,6 +25,15 @@ export class ProjectState {
     // Computed selectors
     readonly openedProjectId = computed(() => this._openedProject()?.id);
     readonly hasProjects = computed(() => this.projects().length > 0);
+
+    constructor(){
+        effect(() => {
+            if (this.loginState.isLoggedIn() === false) {
+                this.closeProject();
+                this._projects.set([]);
+            }
+        })
+    }
 
     // Projects Management
     addProject(project: ProjectMetadataModel): void {
