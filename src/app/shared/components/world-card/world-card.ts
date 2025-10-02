@@ -23,7 +23,7 @@ export class WorldCard implements OnInit {
     ondelete = output<string>();
     onedit = output<string>();
     calculatedWidth: number = 0;
-    height: number = 200;
+    height: number = 170;
     aspectRatio = input<string>('16:9');
 
     private fb = inject(FormBuilder);

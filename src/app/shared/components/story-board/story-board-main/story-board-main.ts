@@ -42,7 +42,7 @@ export class StoryboardMainComponent {
 
     height: number = 0;
     width = computed(() => {
-        this.height = 450;
+        this.height = 250;
         return this.commonService.updateWidth(this.height, "16:9");
     });
 

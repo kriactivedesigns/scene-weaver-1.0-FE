@@ -35,7 +35,7 @@ export class StoryboardMiniComponent {
 
     height: number = 0;
     width = computed(() => {
-        this.height = 120;
+        this.height = 100;
         return this.commonService.updateWidth(this.height, "16:9");
     });
 

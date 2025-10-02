@@ -26,7 +26,7 @@ export class ProjectState {
 
     // Projects Management
     addProject(project: ProjectMetadataModel): void {
-        this.http.post<ProjectModel>(`${environment.apiBaseUrl}/projects`, project)
+        this.http.post<ProjectModel>(`${environment.apiBaseUrl}/projects/`, project)
         .subscribe({
             next: (newProject: ProjectModel) => {
                 this._projects.update(projects => [...projects, newProject]);
@@ -54,7 +54,7 @@ export class ProjectState {
     }
 
     deleteProject(id: string): void {
-        this.http.delete<void>(`${environment.apiBaseUrl}/projects/${id}`).subscribe({
+        this.http.delete<void>(`${environment.apiBaseUrl}/projects/${id}/`).subscribe({
             next: value => {
                 this._projects.update(projects => projects.filter(p => p.id !== id));
             },
@@ -92,7 +92,7 @@ export class ProjectState {
             return Promise.resolve(this._projects())
         }
 
-        const projects$ = this.http.get<Array<ProjectModel>>(`${environment.apiBaseUrl}/projects`).pipe(
+        const projects$ = this.http.get<Array<ProjectModel>>(`${environment.apiBaseUrl}/projects/`).pipe(
             tap((projects: Array<ProjectModel>) => {
                 this._projects.set(projects)
             })
@@ -101,7 +101,7 @@ export class ProjectState {
     }
 
     private fetchProjectById(projectId: string): Observable<ProjectModel> {
-        return this.http.get<ProjectModel>(`${environment.apiBaseUrl}/projects/${projectId}`);
+        return this.http.get<ProjectModel>(`${environment.apiBaseUrl}/projects/${projectId}/`);
     }
 
     isProjectOpen(): boolean {

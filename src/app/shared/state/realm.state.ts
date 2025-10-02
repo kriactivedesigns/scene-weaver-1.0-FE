@@ -45,24 +45,27 @@ export class RealmState {
       if (!pid)
         throw new Error("Invalid project id");
       const char = await firstValueFrom(this.http.post<CharacterModel>(`${environment.apiBaseUrl}/projects/${pid}/characters`, character));
-      this._characters.update(chars => [...chars, char]);
+      this._characters.update(chars => chars.concat([char]));
       return char;
     } catch (error) {
       throw new Error("Failed to create a new Character")
     }
   }
 
-  async generateCharacterImage(characterId: string, prompt: string): Promise<void> {
+  async updateCharacterImage(characterId: string, prompt: string): Promise<CharacterModel> {
     try {
       const pid = this.projectState.openedProject()?.id;
       if (!pid)
         throw new Error("Invalid project id");
       const char = await firstValueFrom(this.http.put<CharacterModel>(`${environment.apiBaseUrl}/characters/${characterId}/update-image`, { prompt: prompt }));
-      this._characters.update((currentChracters: Array<CharacterModel>) => {
-        const index = currentChracters.findIndex(ch => ch.id == char.id);
-        currentChracters[index] = char;
-        return [...currentChracters];
+      const currentCharacters = this._characters();
+      currentCharacters.forEach(c => {
+        if (c.id == char.id) {
+          c.imagePath = `${char.imagePath}?v=${new Date().getTime()}`; // Cache busting
+        }
       });
+      this._characters.set([...currentCharacters]);
+      return char;
     } catch (error) {
       throw new Error("Failed to generate character image")
     }

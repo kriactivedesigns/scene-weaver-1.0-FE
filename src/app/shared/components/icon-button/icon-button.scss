@@ -10,17 +10,22 @@ button.icon-button {
     border: none;
     color: $color-text-dark;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 0.8rem;
     padding: 0;
     text-transform: uppercase;
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    transition: all 350ms ease-in-out;
     .icon {
         display: flex;
         align-items: center;
         justify-content: center;
         transition: all 0.3s ease-in-out;
+        height: 15px;
+        svg {
+            width: 20px;
+        }
         &.delete:hover {
             svg path {
                 fill: $color-error;
@@ -46,9 +51,6 @@ button.icon-button {
         &.margin-top {
             margin-top: 10px;
         }
-        .icon {
-
-        }
     }
     &[disabled] {
         color: $color-text-light;
@@ -56,5 +58,9 @@ button.icon-button {
         svg path {
             fill: $color-text-light
         }
+    }
+    &:hover:not([disabled]) {
+        letter-spacing: 0.1rem;
+        font-weight: 600;
     }
 }

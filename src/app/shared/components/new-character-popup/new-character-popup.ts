@@ -35,6 +35,7 @@ export class NewCharacterPopup {
     open = input.required<boolean>();
     onclose = output<void>();
     oncreate = output<CharacterModel>();
+    oncharacterupdate = output<CharacterModel>();
     character = input<CharacterModel | null>();
     imageUrl = computed<string>(() => {
         const path = `${this.character()?.imagePath}?timestamp=${new Date().getTime()}`
@@ -82,7 +83,8 @@ export class NewCharacterPopup {
         if (!characterId || !prompt)
             return
 
-        this.realmState.generateCharacterImage(characterId, prompt)
+        this.realmState.updateCharacterImage(characterId, prompt)
+        .then(char => this.oncharacterupdate.emit(char))
     }
 
     close() {

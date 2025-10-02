@@ -18,11 +18,10 @@ export class CharacterCard implements OnInit {
     commonService = inject(CommonService);
     
     character = input<CharacterModel>();
-    imageUrl = computed(() => `${this.character()?.imagePath}?timestamp=${new Date().getTime()}`);
     ondelete = output<string>();
     onedit = output<string>();
     calculatedWidth: number = 0;
-    height: number = 200;
+    height: number = 150;
     aspectRatio = input<string>('3:4');
 
     private fb = inject(FormBuilder);

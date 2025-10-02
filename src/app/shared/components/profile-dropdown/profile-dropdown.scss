@@ -19,9 +19,9 @@
         flex-direction: column;
         box-shadow: $shadow;
         border-top: 1px solid $color-border;
-        border-right: 1px solid $color-divider;
-        border-bottom: 1px solid $color-divider;
-        border-left: 1px solid $color-divider;
+        border-right: 1px solid $color-border;
+        border-bottom: 1px solid $color-border;
+        border-left: 1px solid $color-border;
         background-color: $color-background;
         border-radius: 0 0 0 10px;
         padding: 0 15px;
@@ -29,6 +29,7 @@
         opacity: 0;
         visibility: hidden;
         display: none;
+        padding-bottom: 5px;
         &.open {
             transform: translateY(0);
             opacity: 1;
@@ -42,14 +43,14 @@
             margin-top: 25px;
             img {
                 margin: 0px 0;
-                width: 40px;
-                height: 40px;
+                width: 35px;
+                height: 35px;
                 margin-bottom: 10px;
             }
         }
         h3 {
             align-self: center;
-            font-size: 1rem;
+            font-size: 0.9rem;
             padding-bottom: 15px;
             width: 100%;
             text-align: center;
@@ -58,7 +59,7 @@
         .menu-item-container {
             display: flex;
             flex-direction: column;
-            padding: 15px 0;
+            font-size: 0.8rem;
             .menu-item {
                 display: flex;
                 padding: 10px 0;

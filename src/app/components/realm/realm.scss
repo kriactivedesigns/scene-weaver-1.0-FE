@@ -4,10 +4,11 @@
     .content-container {
         .middle {
             .character-world-container {
-                display: flex;
+                display: grid;
+                grid-template-columns: 45% 55%;
                 height: 100%;
                 .cards-container {
-                    width: 50%;
+                    width: 100%;
                     &:first-child {
                         border-right: 1px solid $color-border;
                     }

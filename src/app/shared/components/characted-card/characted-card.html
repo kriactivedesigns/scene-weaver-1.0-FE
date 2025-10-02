@@ -1,12 +1,12 @@
 <div class="character-card-container">
   <div class="character-image" [style.height.px]="height" [style.width.px]="calculatedWidth">
-    <img [src]="imageUrl()" alt="{{ character()?.name }}" />
+    <img [src]="character()?.imagePath" alt="{{ character()?.name }}" />
   </div>
   <div class="details-icon">
     <div class="name-button">
       <div class="name">
         <span>Name</span>
-        <div>{{character()?.name}}</div>
+        <div  class="name-text">{{character()?.name}}</div>
       </div>
       <div class="delete-icon">
         <icon-button icon="delete" (onclick)="deleteCharacter()" />

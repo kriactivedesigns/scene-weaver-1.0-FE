@@ -33,13 +33,17 @@
         .name,
         .description {
             span {
-                font-size: 1.1rem;
+                font-size: 1rem;
                 font-weight: 600;
             }
             .description-text {
-                margin: 6px 0;
                 max-height: 150px;
                 overflow-y: auto;
+            }
+            .name-text,
+            .description-text {
+                margin-top: 6px;
+                font-size: 0.8rem;
             }
         }
         .description-edit {

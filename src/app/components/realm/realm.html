@@ -18,7 +18,7 @@
             </div>
           </div>
           <div class="content">
-            @for (character of realmState.characters(); track $index) {
+            @for (character of realmState.characters(); track character.imagePath) {
               <character-card
                 [character]="character"
                 (ondelete)="deleteCharacter($event)"
@@ -40,7 +40,7 @@
             </div>
           </div>
           <div class="content">
-            @for (world of realmState.worlds(); track $index) {
+            @for (world of realmState.worlds(); track world.imagePath) {
                 <world-card
                   [world]="world"
                   (ondelete)="deleteWorld($event)"
@@ -60,6 +60,12 @@
   </div>
 </div>
 @if (isCharacterPopupOpen()) {
-  <new-character-popup [open]="isCharacterPopupOpen()" [character]="character()" (onclose)="onCharacterPopupClose()" (oncreate)="onCharacterCreate($event)"/>
+  <new-character-popup [open]="isCharacterPopupOpen()"
+                      [character]="openedCharacter()"
+                      (onclose)="onCharacterPopupClose()"
+                      (oncreate)="onCharacterCreateOrUpdate($event)"
+                      (oncharacterupdate)="onCharacterCreateOrUpdate($event)"/>
 }
-<new-world-popup [open]="isWorldPopupOpen()" [world]="world()" (onclose)="onWorldPopupClose()" (oncreate)="onWorldCreate($event)"/>
+@if (isWorldPopupOpen()) {
+  <new-world-popup [open]="isWorldPopupOpen()" [world]="openedWorld()" (onclose)="onWorldPopupClose()" (oncreate)="onWorldCreate($event)"/>
+}
