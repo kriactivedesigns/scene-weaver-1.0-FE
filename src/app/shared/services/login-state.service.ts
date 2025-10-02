@@ -16,11 +16,13 @@ export class LoginState {
 
   // Use signals for reactive state (Angular 16+)
   private _user = signal<UserModel | null>(null);
+  private _token = signal<string | null>(null);
   private _isLoggedIn = signal<boolean>(false);
 
   // Public readonly signals
   readonly user = this._user.asReadonly();
   readonly isLoggedIn = this._isLoggedIn.asReadonly();
+  readonly token = this._token.asReadonly();
   
   // Computed values
   readonly userDisplayName = computed(() => 
@@ -30,9 +32,7 @@ export class LoginState {
   async login(user: LoginModel): Promise<void> {
     try {
       const response = await firstValueFrom(this.http.post<AuthResponse>(`${environment.apiBaseUrl}/auth/login`, user));
-      this._user.set(response.user);
-      this._isLoggedIn.set(true);
-      sessionStorage.setItem(StorageKeys.LoggedInUser, JSON.stringify(response.user));
+      this._setAuthData(response);
       return
     } catch (error) {
       console.error('Login error:', error);
@@ -42,9 +42,7 @@ export class LoginState {
   async signup(user: SignupModel): Promise<void> {
     try {
       const response = await firstValueFrom(this.http.post<AuthResponse>(`${environment.apiBaseUrl}/auth/signup`, user));
-      this._user.set(response.user);
-      this._isLoggedIn.set(true);
-      sessionStorage.setItem(StorageKeys.LoggedInUser, JSON.stringify(response.user));
+      this._setAuthData(response);
       return
     } catch (error) {
       console.error('Login error:', error);
@@ -52,9 +50,7 @@ export class LoginState {
   }
 
   logout(shouldRedirect: boolean = true): void {
-    this._user.set(null);
-    this._isLoggedIn.set(false);
-    sessionStorage.removeItem(StorageKeys.LoggedInUser);
+    this._clearAuthData();
     if (shouldRedirect)
       this.router.navigateByUrl(Pages.Login);
   }
@@ -64,16 +60,29 @@ export class LoginState {
       return true;
     }
 
-    const storedUser = sessionStorage.getItem(StorageKeys.LoggedInUser);
+    const storedAuth = localStorage.getItem(StorageKeys.AuthResponse);
     
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-      this._user.set(user);
-      this._isLoggedIn.set(true);
-      return true
+    if (storedAuth) {
+      const authData: AuthResponse = JSON.parse(storedAuth);
+      this._setAuthData(authData);
+      return true;
     }
 
     return false;
+  }
+
+  private _setAuthData(authResponse: AuthResponse): void {
+    this._user.set(authResponse.user);
+    this._token.set(authResponse.access_token);
+    this._isLoggedIn.set(true);
+    localStorage.setItem(StorageKeys.AuthResponse, JSON.stringify(authResponse));
+  }
+
+  private _clearAuthData(): void {
+    this._user.set(null);
+    this._token.set(null);
+    this._isLoggedIn.set(false);
+    localStorage.removeItem(StorageKeys.AuthResponse);
   }
   
 }

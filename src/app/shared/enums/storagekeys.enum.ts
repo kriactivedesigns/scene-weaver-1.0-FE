@@ -1,4 +1,4 @@
 export enum StorageKeys {
-  LoggedInUser = 'loggedinuser',
-  OpenedProject = 'openedproject'
+  AuthResponse = 'auth_response',
+  OpenedProject = 'opened_project'
 }
