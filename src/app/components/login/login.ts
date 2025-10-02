@@ -1,9 +1,10 @@
-import { Component, computed, signal } from "@angular/core";
+import { Component, computed, effect, signal } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { customEmailValidator } from "../../shared/extras/custom-validators";
-import { UserModel } from "../../shared/models/user.model";
+import { LoginModel, SignupModel, UserModel } from "../../shared/models/user.model";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
 import { ToggleButtons } from "../../shared/components/toggle-buttons/toggle-buttons";
+import { Pages } from "../../shared/enums/pages.enum";
 
 type Tabs = 'signin' | 'signup';
 
@@ -20,37 +21,69 @@ export class Login extends BaseComponent {
 
     public selectedTab = signal<Tabs>('signin');
     public form = new FormGroup({
+        name: new FormControl('', [
+            Validators.required,
+            Validators.minLength(3)
+        ]),
         email: new FormControl('', [
             Validators.required,
             customEmailValidator
         ]),
         password: new FormControl('', [
             Validators.required,
-            Validators.minLength(8)
+            Validators.minLength(5)
         ])
     })
 
     readonly selectedButton = computed(() => this.selectedTab() === 'signin' ? 'left' : 'right');
 
+    get name() { return this.form.get('name'); }
     get email() { return this.form.get('email'); }
     get password() { return this.form.get('password'); }
+
+    constructor() {
+        super();
+        effect(() => {
+            const tab = this.selectedTab();
+            const nameControl = this.form.get('name');
+            if (tab === 'signup') {
+                nameControl?.setValidators([
+                    Validators.required,
+                    Validators.minLength(3)
+                ]);
+            } else {
+                nameControl?.clearValidators();
+            }
+            nameControl?.updateValueAndValidity();
+        });
+    }
 
     public onSubmit(): void {
         if (!this.form.valid) {
             this.form.markAllAsTouched();
             return;
         }
-        const user: UserModel = {
-            id: '',
-            email: this.email?.value || '',
-            name: 'John Doe'
+        const user: LoginModel = {
+            email : this.email?.value || '',
+            password : this.password?.value || ''
         }
         if(this.selectedTab() === 'signin') {
-            // Handle sign-in logic
             this.loginState.login(user)
+            .then(() => {
+                this.router.navigateByUrl(Pages.Dashboard);
+            })
+            .catch((error) => {
+                console.error('Login error:', error);
+            });
         } else {
-            // Handle sign-up logic
-            this.loginState.login(user)
+            Object.assign(user, { name: this.name?.value || '' });
+            this.loginState.signup(user as SignupModel)
+            .then(() => {
+                this.router.navigateByUrl(Pages.Dashboard);
+            })
+            .catch((error) => {
+                console.error('Signup error:', error);
+            });
         }
     }
 

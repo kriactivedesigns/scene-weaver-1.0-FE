@@ -1,14 +1,19 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { UserModel } from '../models/user.model';
+import { AuthResponse, LoginModel, SignupModel, UserModel } from '../models/user.model';
 import { Pages } from '../enums/pages.enum';
 import { Router } from '@angular/router';
 import { StorageKeys } from '../enums/storagekeys.enum';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LoginState {
 
   // Dependency injections
-  private router = inject(Router);
+  private readonly router = inject(Router);
+  private readonly http = inject(HttpClient);
+
   // Use signals for reactive state (Angular 16+)
   private _user = signal<UserModel | null>(null);
   private _isLoggedIn = signal<boolean>(false);
@@ -22,11 +27,28 @@ export class LoginState {
     this.user()?.name || this.user()?.email || 'Anonymous'
   );
 
-  login(user: UserModel): void {
-    this._user.set(user);
-    this._isLoggedIn.set(true);
-    sessionStorage.setItem(StorageKeys.LoggedInUser, JSON.stringify(user));
-    this.router.navigateByUrl(Pages.Dashboard);
+  async login(user: LoginModel): Promise<void> {
+    try {
+      const response = await firstValueFrom(this.http.post<AuthResponse>(`${environment.apiBaseUrl}/auth/login`, user));
+      this._user.set(response.user);
+      this._isLoggedIn.set(true);
+      sessionStorage.setItem(StorageKeys.LoggedInUser, JSON.stringify(response.user));
+      return
+    } catch (error) {
+      console.error('Login error:', error);
+    }
+  }
+
+  async signup(user: SignupModel): Promise<void> {
+    try {
+      const response = await firstValueFrom(this.http.post<AuthResponse>(`${environment.apiBaseUrl}/auth/signup`, user));
+      this._user.set(response.user);
+      this._isLoggedIn.set(true);
+      sessionStorage.setItem(StorageKeys.LoggedInUser, JSON.stringify(response.user));
+      return
+    } catch (error) {
+      console.error('Login error:', error);
+    }
   }
 
   logout(shouldRedirect: boolean = true): void {
