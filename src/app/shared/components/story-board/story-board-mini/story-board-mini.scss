@@ -11,11 +11,8 @@
     &:hover {
         box-shadow: $shadow;
         border-color: $color-secondary-base;
-        border-width: 2px;
+        border-width: 1px;
         background-color: rgba($color-primary-light, $alpha: 0.4);
-        .storyboard-mini-content img {
-            border: 1px solid $color-secondary-base;
-        }
     }
     &.active {
         background-color: rgba($color-primary-light, $alpha: 0.2);

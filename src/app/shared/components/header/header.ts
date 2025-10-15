@@ -30,6 +30,7 @@ export class Header extends BaseComponent {
         this.openProfileDropdown();
         break;
       case 'signout':
+        this.projectState.closeProject();
         this.loginState.logout();
         this.openProfileDropdown();
         break;

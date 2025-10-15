@@ -53,6 +53,7 @@ export class StoryboardState {
         if (!pid || scenes.length == 0)
             throw new Error("Cannot generate storyboards: No project or scenes available.")
         
+        
         const placeholders = scenes.map(scene => this.createPlaceholder(pid!, scene));
         this._storyboards.set(placeholders);
         

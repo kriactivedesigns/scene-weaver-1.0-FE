@@ -40,7 +40,7 @@ export class RouteGuard implements CanActivate {
     
         const storedProjectId = sessionStorage.getItem(StorageKeys.OpenedProject);
         const projectExists = this.projectState.projects().some(p => p.id == storedProjectId);
-    
+
         if (projectExists && storedProjectId) {
             try {
             // Allowed to navigate to any paes

@@ -1,4 +1,4 @@
-import { computed, CSP_NONCE, effect, inject, Injectable, signal } from "@angular/core";
+import { computed, inject, Injectable, signal } from "@angular/core";
 import { ProjectMetadataModel } from "../models/project-metadata.model";
 import { HttpClient } from "@angular/common/http";
 import { ProjectModel } from "../models/project.model";
@@ -25,15 +25,6 @@ export class ProjectState {
     // Computed selectors
     readonly openedProjectId = computed(() => this._openedProject()?.id);
     readonly hasProjects = computed(() => this.projects().length > 0);
-
-    constructor(){
-        effect(() => {
-            if (this.loginState.isLoggedIn() === false) {
-                this.closeProject();
-                this._projects.set([]);
-            }
-        })
-    }
 
     // Projects Management
     addProject(project: ProjectMetadataModel): void {
