@@ -85,4 +85,8 @@ export class CanvasState {
     }
   }
 
+  clearCanvasData(): void {
+    this._threads.set([]);
+  }
+
 }

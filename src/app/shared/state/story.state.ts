@@ -58,5 +58,9 @@ export class StoryState {
             throw new Error("Failed to generate a new story")
         }
     }
+
+    clearStoryData(): void {
+        this._story.set(null);
+    }
     
 }

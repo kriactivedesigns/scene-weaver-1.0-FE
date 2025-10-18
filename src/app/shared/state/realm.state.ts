@@ -187,4 +187,9 @@ export class RealmState {
     this._worlds.set(settings);
   }
 
+  clearRealmData(): void {
+    this._characters.set([]);
+    this._worlds.set([]);
+  }
+
 }

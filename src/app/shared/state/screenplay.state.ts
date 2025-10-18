@@ -143,4 +143,8 @@ export class ScreenplayState {
         return this._screenplayScenes().find(scene => scene.id === sceneId)
     }
 
+    clearScreenplayData(): void {
+        this._screenplayScenes.set([]);
+    }
+
 }

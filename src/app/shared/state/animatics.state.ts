@@ -165,5 +165,12 @@ export class AnimaticsState {
         if (!currentProject)
             return
     }
+
+    clearAnimaticData(): void {
+      this._animatics.set([]);
+      this._status.set('idle');
+      this._progress.set('0/0');
+      this.cleanup();
+    }
     
 }

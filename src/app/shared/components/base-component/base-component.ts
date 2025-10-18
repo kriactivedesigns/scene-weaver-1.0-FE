@@ -1,4 +1,4 @@
-import { inject } from "@angular/core";
+import { effect, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { LoginState } from "../../services/login-state.service";
 import { GlobalState } from "../../services/global-state.service";

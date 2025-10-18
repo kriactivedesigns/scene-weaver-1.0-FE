@@ -141,5 +141,13 @@ export class StoryboardState {
     this.websocketService.disconnect();
     this.currentJobId = null;
   }
+
+  clearStoryboardData(): void {
+    this._storyboards.set([]);
+    this._lastGeneratedImageSceneId.set(null);
+    this._status.set('idle');
+    this._progress.set('0/0');
+    this.cleanup();
+  }
     
 }
