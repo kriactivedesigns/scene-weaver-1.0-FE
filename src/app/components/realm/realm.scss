@@ -9,6 +9,7 @@
                 height: 100%;
                 .cards-container {
                     width: 100%;
+                    overflow: hidden;
                     &:first-child {
                         border-right: 1px solid $color-border;
                     }
