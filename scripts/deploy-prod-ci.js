@@ -32,9 +32,11 @@ function deployProductionCI() {
     process.exit(1);
   }
 
+  const deployCommand = `firebase deploy --project sceneweaver-1 --only hosting:sceneweaver-1 --non-interactive -m "${releaseMessage}"`;
+
   // Deploy to production target with message
   const deploySuccess = executeCommand(
-    `firebase deploy --only hosting:production --non-interactive -m "${releaseMessage}"`,
+    deployCommand,
     '✅ Successfully deployed to production!',
     '❌ Production deployment failed'
   );
