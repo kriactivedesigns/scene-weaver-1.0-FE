@@ -19,7 +19,6 @@ export class WorldCard implements OnInit {
     commonService = inject(CommonService);
     
     world = input<WorldModel>();
-    imageUrl = computed(() => `${this.world()?.imagePath}?timestamp=${new Date().getTime()}`);
     ondelete = output<string>();
     onedit = output<string>();
     calculatedWidth: number = 0;

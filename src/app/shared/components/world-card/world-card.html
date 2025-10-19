@@ -1,6 +1,6 @@
 <div class="character-card-container">
   <div class="character-image" [style.height.px]="height" [style.width.px]="calculatedWidth">
-    <img [src]="imageUrl()" alt="{{ world()?.name }}" />
+    <img [src]="world()?.imagePath" alt="{{ world()?.name }}" />
   </div>
   <div class="details-icon">
     <div class="name-button">
