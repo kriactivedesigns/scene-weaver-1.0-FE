@@ -29,9 +29,8 @@ function deployProductionCI() {
   // Select Firebase project
   console.log(chalk.blue('\n📦 Selecting Firebase project...\n'));
 
-  const credentialsPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
   console.log(credentialsPath)
-  if (!executeCommand(`GOOGLE_APPLICATION_CREDENTIALS=${credentialsPath} firebase use sceneweaver-1`, 'Project selected', 'Failed to select project')) {
+  if (!executeCommand(`firebase use sceneweaver-1`, 'Project selected', 'Failed to select project')) {
     process.exit(1);
   }
 
