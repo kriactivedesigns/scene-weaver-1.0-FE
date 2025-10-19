@@ -3,8 +3,7 @@ name: Deploy to Production
 on:
   push:
     branches:
-      - main                # Deploy when release branch is merged back to main
-      - 'release-*'         # Deploy when code is pushed to release branches
+      - main
   workflow_dispatch:
 
 jobs:
@@ -32,6 +31,8 @@ jobs:
         run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > $HOME/firebase-service-account.json
 
       - name: Build and Deploy to Production
-        run: npm run release:prod:ci
+        run: |
+          export GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase-service-account.json
+          npm run release:prod:ci
         env:
-          FIREBASE_CREDENTIALS_PATH: "$HOME/firebase-service-account.json"
+          GOOGLE_APPLICATION_CREDENTIALS: $HOME/firebase-service-account.json
