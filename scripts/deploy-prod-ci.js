@@ -29,7 +29,6 @@ function deployProductionCI() {
   // Select Firebase project
   console.log(chalk.blue('\n📦 Selecting Firebase project...\n'));
 
-  console.log(credentialsPath)
   if (!executeCommand(`firebase use sceneweaver-1`, 'Project selected', 'Failed to select project')) {
     process.exit(1);
   }
