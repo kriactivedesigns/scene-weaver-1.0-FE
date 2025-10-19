@@ -17,9 +17,18 @@ async function deployProduction() {
   const versionPath = path.join(__dirname, '..', 'version.json');
   const versionData = JSON.parse(fs.readFileSync(versionPath, 'utf8'));
   const version = versionData.version;
+
+  // Get current date and time in mm/dd/yyyy HH:mm format (24-hour)
+  const now = new Date();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const year = now.getFullYear();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const dateTime = `${month}/${day}/${year} ${hours}:${minutes}`;
   
   // Create release message
-  const releaseMessage = `Local - version-${version}`;
+  const releaseMessage = `Local - version-${version}-${dateTime}`;
   
   console.log(chalk.blue(`\n📦 Release: ${releaseMessage}\n`));
 
