@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "sceneweaver-1"
+  },
+  "targets": {
+    "sceneweaver-1": {
+      "hosting": {
+        "production": [
+          "sceneweaver-1"
+        ]
+      }
+    }
   }
 }
