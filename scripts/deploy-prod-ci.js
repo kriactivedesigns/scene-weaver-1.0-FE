@@ -26,12 +26,6 @@ function deployProductionCI() {
   
   console.log(chalk.blue(`\n📦 Release: ${releaseMessage}\n`));
 
-  // Select Firebase project
-  console.log(chalk.blue('\n📦 Selecting Firebase project...\n'));
-  if (!executeCommand('firebase use sceneweaver-1', 'Project selected', 'Failed to select project')) {
-    process.exit(1);
-  }
-
   const deployCommand = `firebase deploy --project sceneweaver-1 --only hosting:sceneweaver-1 --non-interactive -m "${releaseMessage}"`;
 
   // Deploy to production target with message
