@@ -33,4 +33,4 @@ jobs:
       - name: Build and Deploy to Production
         run: npm run release:prod:ci
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: $HOME/firebase-service-account.json
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.home }}/firebase-service-account.json
