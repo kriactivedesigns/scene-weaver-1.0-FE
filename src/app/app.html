@@ -1,0 +1,13 @@
+@if (loaderService.loading()) {
+    <loader />
+}
+<div class="root-container">
+    @if (loginState.isLoggedIn()) {
+        <app-header />
+    }
+    <router-outlet />
+
+    <footer class="footer">
+        &copy; CausalSyntax Inc. 2025
+    </footer>
+</div>

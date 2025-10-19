@@ -1,0 +1,14 @@
+<div class="storyboard-mini-container" [class.active]="isSelected()" (click)="selectImage()">
+    <div class="storyboard-mini-header">
+        <div class="storyboard-mini-header-text">{{`Scene #${scene()?.sceneNumber}`}}</div>
+    </div>
+    <div class="storyboard-mini-content" [style.width.px]="width()" [style.height.px]="height">
+        @if (imageUrl() === 'generating') {
+            <div class="loader-container" [style.width.px]="width()" [style.height.px]="height">
+                <span class="loader"></span>
+            </div>
+        } @else {
+            <img [src]="imageUrl()" alt="" [style.width.px]="width()" [style.height.px]="height">
+        }
+    </div>
+</div>

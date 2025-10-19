@@ -1,0 +1,41 @@
+@use '../../../../styles/theme' as *;
+
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  background: #000;
+  
+  video {
+    width: 100%;
+    display: block;
+    cursor: pointer;
+  }
+  
+  .controls {
+    height: 50px;
+    display: grid;
+    grid-template-columns: 40px auto 70px;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: $color-surface;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: white;
+  }
+
+  .time-display {
+    color: $color-text-dark;
+    font-weight: 600;
+    text-align: center;
+    user-select: none;
+  }
+  
+  .progress-slider {
+    flex-grow: 1;
+    cursor: pointer;
+  }
+}
+

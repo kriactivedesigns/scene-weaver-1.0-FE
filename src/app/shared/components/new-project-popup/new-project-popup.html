@@ -1,0 +1,43 @@
+<div class="new-project-popup popup" [class.open]="open()">
+    @if (open()) {
+        <div class="popup-content-container">
+            <div class="container">
+                <div class="close-icon" (click)="close()">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1.4 14L0 12.6L5.6 7L0 1.4L1.4 0L7 5.6L12.6 0L14 1.4L8.4 7L14 12.6L12.6 14L7 8.4L1.4 14Z" fill="#1D1B20"/>
+                    </svg>
+                </div>
+                <h3>Create a new Project</h3>
+                <form [formGroup]="form" class="login-form input-form" (ngSubmit)="onSubmit()">
+                    <div class="input-container">
+                        <div class="input-label-container">
+                            <label for="projectName">Project Name</label>
+                            <input class="input" type="text" id="projectName" placeholder=" " formControlName="projectName" required autocomplete="off"/>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <div class="input-label-container">
+                            <label for="aspectRatio">aspectRatio</label>
+                            <input class="input" type="text" id="aspectRatio" placeholder=" " formControlName="aspectRatio" readonly tabindex="-1" autocomplete="off"/>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <div class="input-label-container">
+                            <label for="visualStyle">Visual Style</label>
+                            <input class="input" type="text" id="visualStyle" placeholder=" " formControlName="visualStyle" readonly tabindex="-1" autocomplete="off"/>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <div class="input-label-container">
+                            <label for="description">Description</label>
+                            <textarea class="input" type="text" id="description" placeholder=" " formControlName="description" required autocomplete="off"></textarea>
+                        </div>
+                    </div>
+                    <button class="primary-button" [disabled]="!form.valid" type="submit">
+                        Create
+                    </button>
+                </form>
+            </div>
+        </div>
+    }
+</div>

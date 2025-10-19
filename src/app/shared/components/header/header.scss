@@ -1,0 +1,113 @@
+@use '../../../../styles/theme' as *;
+
+.header-container {
+    height: 90px;
+    display: grid;
+    grid-template-columns: 250px auto 250px;
+    padding: 16px 10px;
+    box-shadow: $shadow;
+    user-select: none;
+    .left-logo-menu {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        cursor: pointer;
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img {
+                height: 35px;
+            }
+        }
+        .branding {
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+            align-items: flex-start;
+            .product {
+                font-size: 1rem;
+                font-weight: 600;
+                color: $color-text-dark;
+            }
+            .company {
+                font-size: 0.9rem;
+                color: $color-text-light;
+            }
+        }
+    }
+    .center-content-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        h3.dashboard-text {
+            font-size: 1rem;
+            font-weight: 600;
+            color: $color-text-dark;
+        }
+        .breadcrumb-container {
+            .project-title {
+                font-size: 1rem;
+                font-weight: 600;
+                border-bottom: 1px solid $color-border;
+                padding-bottom: 8px;
+            }
+            .breadcrumbs {
+                display: flex;
+                margin-top: 8px;
+                .page {
+                    font-size: 0.9rem;
+                    color: $color-text-light;
+                    span {
+                        cursor: pointer;
+                    }
+                    &.active {
+                        font-weight: 600;
+                        color: $color-text-dark;
+                    }
+                    &:not(:last-child)::after {
+                        content: '\0276F';
+                        font-size: 0.8rem;
+                        margin: 0 15px;
+                    }
+                    
+                }
+            }
+        }
+    }
+    .right-profile-menu {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        .name-email {
+            text-align: right;
+            .name {
+                span {
+                    font-size: 1rem;
+                    font-weight: 600;
+                    color: $color-text-dark;
+                }
+            }
+            .email {
+                font-size: 0.9rem;
+                color: $color-text-light;
+            }
+        }
+        .profile-image {
+            img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                margin-left: 10px;
+                cursor: pointer;  
+            }
+        }
+        .profile-dropdown-container {
+            position: absolute;
+            right: 0;
+            top: 0;
+            transform: translateY(90px);
+            z-index: 1;
+        }
+    }
+}

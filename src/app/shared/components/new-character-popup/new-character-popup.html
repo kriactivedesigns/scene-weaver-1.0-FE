@@ -1,0 +1,56 @@
+<div class="new-project-popup popup" [class.open]="open()">
+    @if (open()) {
+        <div class="popup-content-container">
+            <div class="container">
+                <div class="close-icon" (click)="close()">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1.4 14L0 12.6L5.6 7L0 1.4L1.4 0L7 5.6L12.6 0L14 1.4L8.4 7L14 12.6L12.6 14L7 8.4L1.4 14Z" fill="#1D1B20"/>
+                    </svg>
+                </div>
+                <h3>{{`${character() ? 'Update' : 'Add a new' } Character`}}</h3>
+                <div class="content">
+                    @if (character()) {
+                        <div class="image-container" [style.width.px]="width()" [style.height.px]="height">
+                            <img [src]="imageUrl()" alt="image" [style.width.px]="width()" [style.height.px]="height">
+                        </div>
+                    }
+                    <div class="form-container">
+                        <form [formGroup]="form" class="input-form" (ngSubmit)="onSubmit()">
+                            <div class="input-container">
+                                <div class="input-label-container">
+                                    <label for="name">Character Name</label>
+                                    <input maxlength="128" class="input" type="text" id="name" placeholder="Enter Character Name" formControlName="name" required autocomplete="off"/>
+                                </div>
+                            </div>
+                            <div class="input-container">
+                                <div class="input-label-container">
+                                    <label for="description">Description</label>
+                                    <textarea class="input" type="text" id="description" placeholder="Enter Character Description" formControlName="description" required></textarea>
+                                </div>
+                            </div>
+                            @if (character()) {
+                                <div class="input-container">
+                                    <div class="input-label-container">
+                                        <label for="prompt">Prompt</label>
+                                        <div class="prompt-button-container">
+                                            <textarea class="input" type="text" id="prompt" placeholder="Enter prompt to modify the current image" formControlName="prompt"></textarea>
+                                            <icon-button type="button" text="AI" icon="aistar" (onclick)="onGenerateImage()"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="buttons-container">
+                                <button class="secondary-button outlined" (click)="close()" type="button">
+                                    Close
+                                </button>
+                                <button class="primary-button" [disabled]="form.invalid" type="submit">
+                                    {{`${ character() ? 'Update' : 'Create'}`}}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

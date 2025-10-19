@@ -1,0 +1,39 @@
+@use '../../../../styles/theme' as *;
+
+.new-project-popup {
+    .popup-content-container {
+        background-color: $color-background;
+        border-radius: 6px;
+        width: 500px;
+        padding: 15px;
+        .container {
+            position: relative;
+            border-radius: 6px;
+            border: 1px solid $color-border;
+            padding: 40px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .close-icon {
+                position: absolute;
+                top: 0;
+                right: 0;
+                padding: 5px;
+                cursor: pointer;
+                &:hover svg path{
+                    fill: $color-error;
+                }
+            }
+            h3 {
+                margin-bottom: 30px;
+                font-size: 1.3rem;
+                font-weight: 600;
+            }
+            .input-group {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 15px;
+            }
+        }
+    }
+}

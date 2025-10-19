@@ -1,0 +1,86 @@
+@use '../../../../styles/theme' as *;
+
+.new-project-popup {
+    .popup-content-container {
+        background-color: $color-background;
+        border-radius: 6px;
+        padding: 10px;
+        .container {
+            position: relative;
+            border-radius: 6px;
+            border: 1px solid $color-border;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            .close-icon {
+                position: absolute;
+                top: 0;
+                right: 0;
+                padding: 10px;
+                cursor: pointer;
+                &:hover svg path{
+                    fill: $color-error;
+                }
+            }
+            h3 {
+                margin-bottom: 20px ;
+                margin-top: 10px;
+                font-size: 1.5rem;
+                font-weight: 600;
+            }
+            .content {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                border: 1px solid $color-border;
+                border-radius: 5px;
+                padding: 10px;
+                .form-container {
+                    width: 100%;
+                    width: 350px;
+                }
+                .image-container {
+                    margin-right: 15px;
+                    border: 1px solid $color-border;
+                    border-radius: 5px;
+                    overflow: hidden;
+                    img {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                .buttons-container {
+                    display: flex;
+                    gap: 10px;
+                }
+                .prompt-button-container {
+                    display: grid;
+                    grid-template-columns: auto min-content;
+                    align-items: center;
+                    icon-button {
+                        height: 90px;
+                        margin-top: 5px;
+                        animation: pulse 2s infinite;
+                        &:hover {
+                            cursor: pointer;
+                        }
+                        @keyframes pulse {
+                            0% {
+                                opacity: 1;
+                            }
+                            50% {
+                                opacity: 0.6;
+                            }
+                            100% {
+                                opacity: 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

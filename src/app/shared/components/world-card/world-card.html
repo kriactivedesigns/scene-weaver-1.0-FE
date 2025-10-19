@@ -1,0 +1,25 @@
+<div class="character-card-container">
+  <div class="character-image" [style.height.px]="height" [style.width.px]="calculatedWidth">
+    <img [src]="imageUrl()" alt="{{ world()?.name }}" />
+  </div>
+  <div class="details-icon">
+    <div class="name-button">
+      <div class="name">
+        <span>Name</span>
+        <div class="name-text">{{world()?.name}}</div>
+      </div>
+      <div class="delete-icon">
+        <icon-button icon="delete" (onclick)="deleteWorld()" />
+      </div>
+    </div>
+    <div class="description-edit">
+      <div class="description">
+        <span>Description</span>
+        <div class="description-text">{{world()?.description}}</div>
+      </div>
+      <div class="edit">
+        <icon-button icon="edit" (onclick)="editItem()"/>
+      </div>
+    </div>
+  </div>
+</div>

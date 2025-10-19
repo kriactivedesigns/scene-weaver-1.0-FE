@@ -1,0 +1,45 @@
+<div class="main-container">
+  <div class="upper-section"></div>
+  <div class="content-container">
+    <div class="left">
+      <icon-button text="Previous" icon="left" (onclick)="navigateTo(getPreviousStage(Pages.Story))"/>
+    </div>
+    <div class="middle">
+      <div class="header">
+        <div class="label">
+          Here is your Story generated, feel free to add your imaginations...
+        </div>
+        <div class="button-indicator">
+          <icon-button class="save-icon" icon="save" (onclick)="getStoryContentAndSave()"/>
+          <div class="saved-indicator" [class.saving]="isSaving()">
+              @if (saveFailed) {
+                  <div class="failed">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="7" cy="7" r="7" fill="#EF5350"/>
+                          <path d="M3 7L6.5 9.5L11.5 4" stroke="white"/>
+                      </svg>
+                  </div>
+              } @else {
+                  <div class="success">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="7" cy="7" r="7" fill="#6CC4A1"/>
+                          <path d="M3 7L6.5 9.5L11.5 4" stroke="white"/>
+                      </svg>
+                  </div>
+              }
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="story-text-area">
+          <text-editor [data]="storyState.story()" />
+        </div>
+      </div>
+    </div>
+    <div class="right">
+      @if (getNextStage(Pages.Story)) {
+        <icon-button textIcon="aistar" text="Generate" icon="right" (onclick)="navigateTo(getNextStage(Pages.Story))"/>
+      }
+    </div>
+  </div>
+</div>

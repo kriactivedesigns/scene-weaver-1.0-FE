@@ -1,0 +1,22 @@
+<div class="toggle-buttons-container">
+  <button
+    class="tab"
+    [class.active]="active() === 'left'"
+    (click)="onButtonToggle()"
+    type="button"
+  >
+    {{buttonNames()[0]}}
+  </button>
+  <button
+  class="tab"
+  [class.active]="active() === 'right'"
+  (click)="onButtonToggle()"
+  type="button"
+  >
+    {{buttonNames()[1]}}
+  </button>
+  <div
+    class="tab-bg"
+    [style.transform]="active() === 'right' ? 'translateX(100%)' : 'translateX(0%)'"
+  ></div>
+</div>

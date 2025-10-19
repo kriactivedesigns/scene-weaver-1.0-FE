@@ -1,0 +1,21 @@
+@use '../../../styles/theme' as *;
+
+.main-container {
+    .content-container {
+        .project-cards-container {
+            height: 100%;
+            .project-header {
+                background-color: $color-surface;
+                border-bottom: 1px solid $color-border;
+                display: grid;
+                grid-template-columns: 2fr 1fr 1fr 1fr;
+                padding: 15px 15px;
+            }
+            .projects-list {
+                height: 100%;
+                overflow-y: auto;
+                padding-bottom: 100px;
+            }
+        }
+    }
+}

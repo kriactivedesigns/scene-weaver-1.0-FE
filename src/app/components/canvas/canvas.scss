@@ -1,0 +1,17 @@
+@use '../../../styles/theme' as *;
+
+.main-container {
+    .content-container {
+        .middle {
+            .header {
+                justify-content: space-between;
+            }
+            .content {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-auto-rows: min-content;
+                gap: 8px;
+            }
+        }
+    }
+}

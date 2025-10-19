@@ -1,0 +1,121 @@
+@use 'theme' as *;
+
+.main-container {
+    height: calc(100% - (90px + 40px));
+    background-color: $color-background;
+    display: grid;
+    grid-template-rows: min-content calc(100% - 75px);
+    .upper-section {
+        height: 75px;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        background-image: linear-gradient(to right,$color-primary-light, $color-secondary-dark);
+        button.text-only-button {
+            color: $color-text-white;
+            font-weight: 500;
+            &:hover {
+                font-weight: 600;
+            }
+        }
+    }
+    .content-container {
+        box-shadow: $shadow;
+        padding-bottom: 0;
+        height: 100%;
+        display: grid;
+        grid-template-columns: min-content auto min-content;
+        .left,
+        .right {
+            width: 160px;
+            display: flex;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+        .middle {
+            width: auto;
+            border-top: 1px solid $color-border;
+            border-left: 1px solid $color-border;
+            border-right: 1px solid $color-border;
+            border-radius: 8px 8px 0 0;
+            background-color: $color-surface;
+            overflow: hidden;
+            margin-top: 50px;
+            .header {
+                background-color: $color-surface;
+                border-bottom: 1px solid $color-border;
+                padding: 0 15px;
+                height: 50px;
+                display: flex;
+                width: 100%;
+                align-items: center;
+                .label {
+                    font-size: 1rem;
+                    font-weight: 500;
+                }
+            }
+            .content {
+                padding: 0 10px;
+                overflow-y: auto;
+                height: calc(100% - 50px);
+                padding-top: 10px;
+            }
+        }
+    }
+}
+
+.saved-indicator {
+    display: flex;
+    justify-content: flex-end;
+    align-items: end;
+    .success,
+    .failed {
+        display: flex;
+        align-items: center;
+    }
+    &.saving {
+        animation: pulse 2s infinite;
+        .success svg circle {
+            fill: $color-text-medium;
+        }
+    }
+    @keyframes pulse {
+        0% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.1;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+}
+
+footer.footer {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.error {
+    color: $color-error;
+}
+.success {
+    color: $color-success;
+}
+.warning {
+    color: $color-warning;
+}
+.info {
+    color: $color-info;
+}

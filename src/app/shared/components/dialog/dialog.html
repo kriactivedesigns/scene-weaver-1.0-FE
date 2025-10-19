@@ -1,0 +1,18 @@
+<div class="dialog-overlay">
+  <div class="dialog-content">
+    <h2 [ngClass]="data().type">{{ data().title }}</h2>
+    <div class="content" [innerHTML]="data().message"></div>
+    <div class="dialog-actions">
+      @for (button of data().buttons; track $index) {
+        <button 
+                [class.confirm]="button.type === 'confirm'"
+                [class.cancel]="button.type === 'cancel'"
+                [class.continue]="button.type === 'continue'"
+                [class.outlined]="button.type === 'continue' || button.type === 'cancel'"
+                (click)="handleButtonClick(button.type)">
+                {{button.text}}
+        </button>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<div class="header-container">
+    <div class="left-logo-menu">
+        <div class="logo">
+            <img src="scene_weaver_logo_only.png" alt="logo">
+        </div>
+        <div class="branding">
+            <span class="product">SceneWeaver 1.0</span>
+            <span class="company">CausalSyntax Inc.</span>
+        </div>
+    </div>
+    <div class="center-content-container">
+        @if (globalState.currentPage() === Pages.Dashboard) {
+            <h3 class="dashboard-text">Dashboard</h3>
+        } @else {
+            <div class="breadcrumb-container">
+                <div class="project-title">
+                    <span>{{projectState.openedProject()?.projectName}}</span>
+                </div>
+                <div class="breadcrumbs">
+                    @for (stage of stages; track $index) {
+                        @if (stage.enabled && stage.isInBreadcrumb) {
+                            <div class="page" [class.active]="globalState.currentPage() === stage.route">
+                                <span (click)="goTo(stage.route)">{{stage.name}}</span>
+                            </div>
+                        }
+                    }
+                    <!-- <div class="page" [class.active]="globalState.currentPage() === Pages.Realm">
+                        <span (click)="goTo(Pages.Realm)">Realm</span>
+                    </div>
+                    <div class="page" [class.active]="globalState.currentPage() === Pages.Canvas">
+                        <span (click)="goTo(Pages.Canvas)">Canvas</span>
+                    </div>
+                    <div class="page" [class.active]="globalState.currentPage() === Pages.Story">
+                        <span (click)="goTo(Pages.Story)">Story</span>
+                    </div>
+                    <div class="page" [class.active]="globalState.currentPage() === Pages.Screenplay">
+                        <span (click)="goTo(Pages.Screenplay)">Screenplay</span>
+                    </div>
+                    <div class="page" [class.active]="globalState.currentPage() === Pages.Storyboard">
+                        <span (click)="goTo(Pages.Storyboard)">Storyboard</span>
+                    </div>
+                    <div class="page" [class.active]="globalState.currentPage() === Pages.Animatics">
+                        <span (click)="goTo(Pages.Animatics)">Animatics</span>
+                    </div> -->
+                </div>
+            </div>
+        }
+    </div>
+    <div class="right-profile-menu">
+        <div class="name-email">
+            <div class="name">
+                <span>{{loginState.user()?.name}}</span>
+            </div>
+            <div class="email">
+                <span>{{loginState.user()?.email}}</span>
+            </div>
+        </div>
+        <div class="profile-image" (click)="openProfileDropdown()">
+            <img src="profile.png" alt="img">
+        </div>
+        <div class="profile-dropdown-container">
+            <profile-dropdown 
+                [open]="isDropdownOpen()"
+                [user]="loginState.user()"
+                (onclick)="onMenuItemClick($event)"
+                [isProjectOpened]="isProjectOpened()"
+            />
+        </div>
+    </div>
+</div>

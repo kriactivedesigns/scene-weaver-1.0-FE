@@ -1,0 +1,27 @@
+<div class="video-container">
+  <video
+    #videoPlayer
+    [src]="src()"
+    (click)="togglePlayPause()"
+    (loadedmetadata)="onMetadataLoaded()"
+    (timeupdate)="onTimeUpdate()"
+    (play)="isPlaying.set(true)"
+    (pause)="isPlaying.set(false)"
+    [style.width.px]="width()" [style.height.px]="height"
+  ></video>
+
+  <div class="controls">
+    <icon-button (click)="togglePlayPause()" [icon]="isPlaying() ? 'pause' : 'play'"/>
+    <input
+      type="range"
+      class="progress-slider"
+      [min]="0"
+      [max]="duration()"
+      [value]="currentTime()"
+      (input)="onSliderChange($event)"
+    />
+    <div class="time-display">
+      {{ currentTime() | number : '1.0-0' }}s / {{ duration() | number : '1.0-0' }}s
+    </div>
+  </div>
+</div>

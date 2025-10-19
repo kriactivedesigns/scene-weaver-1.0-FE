@@ -1,0 +1,43 @@
+@use '../../../styles/theme' as *;
+
+.main-container {
+    .content-container {
+        .middle {
+            .content {
+                padding: 0;
+                display: flex;
+                .storyboard-strip {
+                    display: flex;
+                    flex-shrink: 0;
+                    width: fit-content;
+                    flex-direction: column;
+                    border-right: 1px solid $color-border;
+                    padding: 8px;
+                    gap: 10px;
+                    height: 100%;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                }
+                .storyboard-main {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                    width: 100%;
+                    overflow: hidden;
+                    .processing-bar-cancel-button-container {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        margin-top: 30px;
+                        button.stop.outlined {
+                            margin: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

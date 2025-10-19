@@ -1,0 +1,31 @@
+<div class="main-container">
+  <div class="upper-section">
+  </div>
+  <div class="content-container">
+    <div class="left">
+      <icon-button text="Previous" icon="left" (onclick)="navigateTo(getPreviousStage(Pages.Canvas))"/>
+    </div>
+    <div class="middle">
+      <div class="header">
+        <div class="label">
+          Add your story snippets here...
+        </div>
+        <div class="button">
+          <button class="text-only-button" (click)="addNewSnippet()">
+            + Add New Snippet
+          </button>
+        </div>
+      </div>
+      <div class="content">
+        @for (thread of canvasState.threads(); track $index) {
+          <story-thread [data]="thread" (ondelete)="deleteSnippet($event)" />
+        }
+      </div>
+    </div>
+    <div class="right">
+      @if (getNextStage(Pages.Canvas)) {
+        <icon-button textIcon="aistar" text="Generate" icon="right" (onclick)="navigateTo(getNextStage(Pages.Canvas))"/>
+      }
+    </div>
+  </div>
+</div>

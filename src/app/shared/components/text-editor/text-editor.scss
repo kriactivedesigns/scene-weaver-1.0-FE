@@ -1,0 +1,51 @@
+@use '../../../../styles/theme' as *;
+
+.story-editor-container {
+    border-radius: 5px;
+    background-color: $color-surface;
+    font-family: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-bottom: 10px;
+}
+
+.floating-prompt-wrapper {
+  position: absolute;
+  z-index: 1001; /* Must be higher than the editor's z-index */
+}
+
+:host ::ng-deep {
+    .save-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        scale: 0.8;
+    }
+    ngx-editor {
+    }
+    .NgxEditor__MenuBar {
+        border-radius: 5px 5px 0 0;
+        border: 1px solid $color-border;
+    }
+    .NgxEditor {
+        padding: 1rem;
+        outline: none;
+        flex-grow: 1;
+        font-family: inherit;
+        border-radius: 5px 5px 5px 5px;
+        border: 1px solid $color-border;
+    }
+    .fake-selection {
+        background-color: $color-primary-light; 
+        color: $color-text-dark;
+    }
+    ::selection {
+        background-color: $color-primary-light; 
+        color: $color-text-dark;
+    }
+    ::-moz-selection {
+        background-color: $color-primary-light; 
+        color: $color-text-dark;
+    }
+}

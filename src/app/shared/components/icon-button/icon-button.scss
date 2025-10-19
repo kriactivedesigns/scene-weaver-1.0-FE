@@ -1,0 +1,66 @@
+@use '../../../../styles/theme' as *;
+
+:host {
+    display: flex;
+    align-items: center;
+}
+
+button.icon-button {
+    background: none;
+    border: none;
+    color: $color-text-dark;
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    transition: all 350ms ease-in-out;
+    .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease-in-out;
+        height: 15px;
+        svg {
+            width: 20px;
+        }
+        &.delete:hover {
+            svg path {
+                fill: $color-error;
+            }
+        }
+        &.margin {
+            margin-bottom: 8px;
+        }
+        .delete-icon {
+            &:hover svg path{
+                fill: $color-error;
+            }
+        }
+        &.pause {
+            transform: translateX(-5px);
+        }
+    }
+    .text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        &.margin-top {
+            margin-top: 10px;
+        }
+    }
+    &[disabled] {
+        color: $color-text-light;
+        cursor: not-allowed;
+        svg path {
+            fill: $color-text-light
+        }
+    }
+    &:hover:not([disabled]) {
+        letter-spacing: 0.1rem;
+        font-weight: 600;
+    }
+}

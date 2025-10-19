@@ -1,0 +1,22 @@
+<div class="project-card">
+    <div class="row-details-container">
+        <span class="project-title" (click)="openProject(project())">
+            {{ project().projectName }}
+        </span>
+        <div class="labelled-content" (click)="openProject(project())">
+            <span class="label">Created On:&nbsp;</span>
+            <span class="text">{{ project().createdAt | date }}</span>
+        </div>
+        <div class="labelled-content" (click)="openProject(project())">
+            <span class="label">Updated On:&nbsp;</span>
+            <span class="text">{{ project().updatedAt | date }}</span>
+        </div>
+        <div class="labelled-content delete">
+            <icon-button icon="delete" (onclick)="onDeleteButtonClick()"/>
+        </div>
+    </div>
+    <div class="description" (click)="openProject(project())">
+        <span>Description</span>
+        <div class="description-text">{{project().description}}</div>
+    </div>
+</div>

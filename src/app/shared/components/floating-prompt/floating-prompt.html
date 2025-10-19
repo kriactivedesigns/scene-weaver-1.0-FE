@@ -1,0 +1,14 @@
+<div class="input-container">
+    <input 
+        #inputElement
+        type="text"
+        class="prompt-input"
+        [(ngModel)]="promptText"
+        (keydown.enter)="onSubmit($event)"
+        (keydown.escape)="onCancel()"
+        (blur)="onCancel()"
+        (clickOutside)="onCancel()"
+        autocomplete="off"
+        placeholder="Enter your prompt..."
+    />
+</div>

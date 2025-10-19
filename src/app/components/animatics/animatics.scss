@@ -1,0 +1,30 @@
+@use '../../../styles/theme' as *;
+
+.main-container {
+    .content-container {
+        .middle {
+            .content {
+                padding: 0;
+                display: grid;
+                grid-template-columns: auto max-content;
+                .storyboard-stip {
+                    display: flex;
+                    width: fit-content;
+                    flex-direction: column;
+                    border-right: 1px solid $color-border;
+                    padding: 8px;
+                    gap: 10px;
+                    height: 100%;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                }
+                .storyboard-main {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin: auto;
+                }
+            }
+        }
+    }
+}

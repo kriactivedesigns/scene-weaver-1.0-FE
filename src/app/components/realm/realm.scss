@@ -1,0 +1,23 @@
+@use '../../../styles/theme' as *;
+
+.main-container {
+    .content-container {
+        .middle {
+            .character-world-container {
+                display: grid;
+                grid-template-columns: 45% 55%;
+                height: 100%;
+                .cards-container {
+                    width: 100%;
+                    overflow: hidden;
+                    &:first-child {
+                        border-right: 1px solid $color-border;
+                    }
+                    .header {
+                        justify-content: space-between;
+                    }
+                }
+            }
+        }
+    }
+}

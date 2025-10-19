@@ -1,0 +1,50 @@
+<div class="thread-container">
+    <div class="title">
+        <div class="thread-order">
+            {{`#${data().order}`}}
+        </div>
+        <div class="delete-button">
+            <button class="delete-icon-button" (click)="deleteThread()">
+                <svg width="14" height="17" viewBox="0 0 14 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5.22188 0.5H8.78125C9.2125 0.5 9.59375 0.775 9.73125 1.18438L10 2H13C13.5531 2 14 2.44687 14 3C14 3.55312 13.5531 4 13 4H1C0.446875 4 0 3.55312 0 3C0 2.44687 0.446875 2 1 2H4L4.27187 1.18438C4.40937 0.775 4.79063 0.5 5.22188 0.5ZM1 5.5H13V15C13 16.1031 12.1031 17 11 17H3C1.89688 17 1 16.1031 1 15V5.5ZM7.53125 7.96875C7.2375 7.675 6.7625 7.675 6.47188 7.96875L4.22188 10.2188C3.92813 10.5125 3.92813 10.9875 4.22188 11.2781C4.51562 11.5687 4.99062 11.5719 5.28125 11.2781L6.25 10.3094V13.5C6.25 13.9156 6.58437 14.25 7 14.25C7.41563 14.25 7.75 13.9156 7.75 13.5V10.3094L8.71875 11.2781C9.0125 11.5719 9.4875 11.5719 9.77812 11.2781C10.0687 10.9844 10.0719 10.5094 9.77812 10.2188L7.52812 7.96875H7.53125Z" fill="#333333"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div class="story-thread-content">
+        <div class="text-input">
+            @if (editing) {
+                <div class="input-container">
+                    <textarea name="thread"
+                            (clickOutside)="onOutsideClick()"
+                            placeholder="Add your thoughts here..."
+                            [value]="data().content"
+                            (input)="onContentChange($event)"
+                            id="thread">
+                    </textarea>
+                </div>
+            } @else {
+                <div class="text" (click)="editContent()">
+                    {{data().content}}
+                </div>
+            }
+        </div>
+        <div class="saved-indicator" [class.saving]="isSaving()">
+            @if (saveFailed) {
+                <div class="failed">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="7" cy="7" r="7" fill="#EF5350"/>
+                        <path d="M3 7L6.5 9.5L11.5 4" stroke="white"/>
+                    </svg>
+                </div>
+            } @else {
+                <div class="success">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="7" cy="7" r="7" fill="#6CC4A1"/>
+                        <path d="M3 7L6.5 9.5L11.5 4" stroke="white"/>
+                    </svg>
+                </div>
+            }
+        </div>
+    </div>
+</div>

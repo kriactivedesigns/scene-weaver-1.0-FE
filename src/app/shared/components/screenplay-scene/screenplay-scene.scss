@@ -1,0 +1,45 @@
+@use '../../../../styles/theme' as *;
+
+.screenplay-scene-container {
+    margin-bottom: 25px;
+    .screenplay-scene-header {
+        user-select: none;
+        display: flex;
+        padding: 15px 15px;
+        border-top: 1px solid $color-border;
+        border-right: 1px solid $color-border;
+        border-left: 1px solid $color-border;
+        border-radius: 3px 3px 0 0;
+        margin-bottom: -3px;
+        font-size: 1rem;
+        .screenplay-scene-header-left {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            width: calc(100% - 200px);
+            .scene-number {
+                font-weight: 600;
+                width: 50%;
+            }
+            .scene-duration {
+                display: flex;
+                align-items: center;
+                width: 50%;
+                .duration-text {
+                    font-weight: 600;
+                    margin-right: 15px;
+                }
+                .duration-time {
+                    letter-spacing: 0.1rem;
+                }
+            }
+        }
+        .screenplay-scene-header-right {
+            width: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+    }
+}
