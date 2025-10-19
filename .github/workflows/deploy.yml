@@ -31,7 +31,9 @@ jobs:
         run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > $HOME/firebase-service-account.json
 
       - name: Authenticate Firebase with Service Account
-        run: firebase use sceneweaver-1 --token $(cat $HOME/firebase-service-account.json | jq -r .private_key_id)
+        run: |
+          export GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase-service-account.json
+          firebase use sceneweaver-1
         env:
           GOOGLE_APPLICATION_CREDENTIALS: $HOME/firebase-service-account.json
 
