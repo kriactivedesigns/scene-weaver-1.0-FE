@@ -34,4 +34,4 @@ jobs:
       - name: Build and Deploy to Production
         run: npm run release:prod:ci
         env:
-          FIREBASE_CREDENTIALS_PATH: ${{ runner.home }}/firebase-service-account.json
+          FIREBASE_CREDENTIALS_PATH: "$HOME/firebase-service-account.json"
