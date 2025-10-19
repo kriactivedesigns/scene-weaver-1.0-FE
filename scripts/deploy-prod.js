@@ -23,11 +23,11 @@ async function deployProduction() {
   const month = String(now.getMonth() + 1).padStart(2, '0');
   const day = String(now.getDate()).padStart(2, '0');
   const year = now.getFullYear();
-  const dateTime = `${month}/${day}/${year}`;
+  const date = `${month}/${day}/${year}`;
 
   // Create release message
-  const releaseMessage = `Local - version-${version} ${dateTime}`;
-  
+  const releaseMessage = `Local - version-${version} ${date}`;
+
   console.log(chalk.blue(`\n📦 Release: ${releaseMessage}\n`));
 
   // Select Firebase project

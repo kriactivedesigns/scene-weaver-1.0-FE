@@ -16,11 +16,12 @@ function deployProductionCI() {
   const now = new Date();
   const month = String(now.getMonth() + 1).padStart(2, '0');
   const day = String(now.getDate()).padStart(2, '0');
-  const dateTime = `${month}/${day}/${year}`;
-  
+  const year = now.getFullYear();
+  const date = `${month}/${day}/${year}`;
+
   // Create release message
-  const releaseMessage = `CI - version-${version} ${dateTime}`;
-  
+  const releaseMessage = `CI - version-${version} ${date}`;
+
   console.log(chalk.blue(`\n📦 Release: ${releaseMessage}\n`));
 
   // Select Firebase project
