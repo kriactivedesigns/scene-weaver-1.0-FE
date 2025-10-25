@@ -11,7 +11,6 @@
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        cursor: pointer;
         .logo {
             display: flex;
             justify-content: center;
@@ -29,6 +28,18 @@
                 font-size: 1rem;
                 font-weight: 600;
                 color: $color-text-dark;
+                .version {
+                    font-size: 0.75rem;
+                    font-weight: 400;
+                    color: $color-text-light;
+                    text-decoration: none;
+                    &:hover {
+                        text-decoration: underline;
+                        text-underline-offset: 2px;
+                        cursor: pointer;
+                        color: $color-info;
+                    }
+                }
             }
             .company {
                 font-size: 0.9rem;

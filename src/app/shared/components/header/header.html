@@ -4,7 +4,7 @@
             <img src="scene_weaver_logo_only.png" alt="logo">
         </div>
         <div class="branding">
-            <span class="product">SceneWeaver 1.0</span>
+            <span class="product">SceneWeaver <a href="version.json" target="_blank" class="version">v{{globalState.currentVersion()}}</a></span>
             <span class="company">CausalSyntax Inc.</span>
         </div>
     </div>
@@ -24,24 +24,6 @@
                             </div>
                         }
                     }
-                    <!-- <div class="page" [class.active]="globalState.currentPage() === Pages.Realm">
-                        <span (click)="goTo(Pages.Realm)">Realm</span>
-                    </div>
-                    <div class="page" [class.active]="globalState.currentPage() === Pages.Canvas">
-                        <span (click)="goTo(Pages.Canvas)">Canvas</span>
-                    </div>
-                    <div class="page" [class.active]="globalState.currentPage() === Pages.Story">
-                        <span (click)="goTo(Pages.Story)">Story</span>
-                    </div>
-                    <div class="page" [class.active]="globalState.currentPage() === Pages.Screenplay">
-                        <span (click)="goTo(Pages.Screenplay)">Screenplay</span>
-                    </div>
-                    <div class="page" [class.active]="globalState.currentPage() === Pages.Storyboard">
-                        <span (click)="goTo(Pages.Storyboard)">Storyboard</span>
-                    </div>
-                    <div class="page" [class.active]="globalState.currentPage() === Pages.Animatics">
-                        <span (click)="goTo(Pages.Animatics)">Animatics</span>
-                    </div> -->
                 </div>
             </div>
         }

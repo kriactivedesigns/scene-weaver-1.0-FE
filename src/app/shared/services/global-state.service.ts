@@ -2,42 +2,29 @@ import { Injectable, signal, inject, effect } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { Pages } from '../enums/pages.enum';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class GlobalState {
   // Dependancy Injections
-  private router = inject(Router);
+  private httpClient = inject(HttpClient);
 
   // Reactive signals for state
   private _currentPage = signal<string>('dashboard');
+  private _currentVersion = signal<string>('');
 
   // Public readonly access
   readonly currentPage = this._currentPage.asReadonly();
+  readonly currentVersion = this._currentVersion.asReadonly();
 
   constructor() {
-    this.setupRouterListener();
+    this.getCurrentVersion();
   }
 
-  // Private methods
-  private setupRouterListener(): void {
-    this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationEnd),
-        map((event) => event as NavigationEnd)
-      )
-      .subscribe((event) => {
-        this.handleRouteChange(event.url);
-      });
-  }
-
-  private handleRouteChange(url: string): void {
-    // Extract projectId from query params
-    // const urlTree = this.router.parseUrl(url);
-    // const projectId = urlTree.queryParams['projectId'];
-
-    // if (projectId && projectId !== this.projectState.currentProjectId()) {
-    //   //this.projectState.setCurrentProjectId(projectId);
-    // }
+  private getCurrentVersion(): void {
+    this.httpClient.get('version.json').subscribe((data: any) => {
+        this._currentVersion.set(data.version || 'unknown');
+    });
   }
 
   // Navigation & Page State
