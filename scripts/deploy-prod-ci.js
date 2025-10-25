@@ -8,7 +8,7 @@ function deployProductionCI() {
   console.log(chalk.yellow('⚠️  Running in CI/CD mode - no confirmation required\n'));
 
   // Read version from version.json
-  const versionPath = path.join(__dirname, '..', 'version.json');
+  const versionPath = path.join(__dirname, '..', 'public/version.json');
   const versionData = JSON.parse(fs.readFileSync(versionPath, 'utf8'));
   const version = versionData.version;
   

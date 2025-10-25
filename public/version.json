@@ -1,11 +1,10 @@
 {
-  "version": "1.0.3",
+  "version": "1.0.1",
   "changelog": {
-    "1.0.3": [
+    "1.0.1": [
+      "Fixed issue with version.json pathing in production builds.",
       "Improved styling and layout for the storyboard component.",
-      "Fixed bugs related to scene duration display."
-    ],
-    "1.0.2": [
+      "Fixed bugs related to scene duration display.",
       "Initial release with core features implemented for MVP."
     ]
   }

@@ -14,7 +14,7 @@ async function deployProduction() {
   }
 
   // Read version from version.json
-  const versionPath = path.join(__dirname, '..', 'version.json');
+  const versionPath = path.join(__dirname, '..', 'public/version.json');
   const versionData = JSON.parse(fs.readFileSync(versionPath, 'utf8'));
   const version = versionData.version;
 
