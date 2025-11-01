@@ -22,6 +22,7 @@ import { ProcessingBarComponent } from "../../shared/components/processing-bar/p
 })
 export class Storyboard extends BaseComponent implements OnInit {
 
+    currentView: 'grid' | 'single' = 'single';
     storyboards = this.storyboardState.storyboards;
     status = this.storyboardState.status;
     progress = this.storyboardState.progress;
@@ -157,6 +158,10 @@ export class Storyboard extends BaseComponent implements OnInit {
                 this.goTo(page);
             }
         })
+    }
+
+    setView(view: 'single' | 'grid') {
+        this.currentView = view;
     }
     
 }

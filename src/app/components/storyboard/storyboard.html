@@ -9,19 +9,37 @@
         <div class="label">
           Here is your Storyboard generated, feel free to add your imaginations...
         </div>
+        <div class="header-buttons">
+          <span class="label">
+            View As:
+          </span>
+          <icon-button icon="image-icon" [class.active]="currentView === 'single'" (onclick)="setView('single')"/>
+          <div class="vertical-separator"></div>
+          <icon-button icon="grid-icon" [class.active]="currentView === 'grid'" (onclick)="setView('grid')"/>
+        </div>
       </div>
       <div class="content">
-        <div class="storyboard-strip">
-          @for (image of storyboards(); track $index) {
-            <story-board-mini [storyboardImage]="image" (onselect)="selectStoryboardImage($event)" [isSelected]="image.id === selectedImage().id"/>
-          }
-        </div>
-        <div class="storyboard-main">
-          <div class="selected-image-container">
-            @if (selectedImage()) {
-              <story-board-main [storyboardImage]="selectedImage()" (onpromptsubmit)="submitPrompt($event)"/>
+        @if (currentView === 'single') {
+          <div class="storyboard-strip">
+            @for (image of storyboards(); track $index) {
+              <story-board-mini [storyboardImage]="image" (onselect)="selectStoryboardImage($event)" [isSelected]="image.id === selectedImage().id"/>
             }
           </div>
+        }
+        <div class="storyboard-main" [class.grid-view]="currentView === 'grid'">
+          @if (currentView === 'single') {
+            <div class="selected-image-container">
+              @if (selectedImage()) {
+                <story-board-main [storyboardImage]="selectedImage()" (onpromptsubmit)="submitPrompt($event)"/>
+              }
+            </div>
+          } @else {
+            <div class="grid-view-container">
+              @for (image of storyboards(); track $index) {
+                <story-board-main [storyboardImage]="image" (onpromptsubmit)="submitPrompt($event)" viewAs="grid"/>
+              }
+            </div>
+          }
           <div class="processing-bar-cancel-button-container">
             @if (status() === 'in-progress' || status() === 'cancelling' || status() === 'error' || status() === 'idle') {
               <button [class.stop]="status() === 'in-progress' || status() === 'cancelling'"

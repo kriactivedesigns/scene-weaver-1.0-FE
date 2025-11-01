@@ -119,3 +119,8 @@ button {
 .info {
     color: $color-info;
 }
+.separator {
+    width: 100%;
+    height: 2px;
+    background-color: $color-divider;
+}
