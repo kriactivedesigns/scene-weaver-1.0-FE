@@ -6,8 +6,27 @@
     border-radius: 5px;
     box-shadow: $shadow;
     height: 100%;
-    display: grid;
-    grid-template-rows: 250px calc(100% - 250px);
+    background-color: $color-background;
+    overflow: hidden;
+    &.grid-view {
+        border-radius: 3px;
+        width: max-content;
+        height: auto;
+        display: flex;
+        padding: 0px 0px;
+        flex-direction: column;
+        .story-screenplay-info {
+            margin-top: 0;
+            .scene-number {
+                font-size: 0.8rem;
+                margin-bottom: 5px;
+            }
+        }
+    }
+    &.single-view {
+        display: grid;
+        grid-template-rows: 250px calc(100% - 250px);
+    }
     .storyboard-main-image {
         display: flex;
         justify-content: center;
@@ -55,9 +74,12 @@
         }
     }
     .story-screenplay-info {
-        display: grid;
-        height: 100%;
-        grid-template-rows: 40px calc(100% - 40px);
+        margin-top: 5px;
+        &.single-view {
+            display: grid;
+            height: 100%;
+            grid-template-rows: min-content 35px min-content calc(100% - 40px);
+        }
         .storyboard-main-info{
             display: flex;
             justify-content: space-between;
@@ -85,6 +107,7 @@
             font-size: 0.8rem;
             line-height: 1.5;
             overflow-y: auto;
+            margin-top: 5px;
         }
     }
     .storyboard-main-prompt-input {

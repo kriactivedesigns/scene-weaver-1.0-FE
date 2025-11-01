@@ -1,1 +1,1 @@
-export type ButtonIconType = 'left' | 'right' | 'delete' | 'edit' | 'aistar' | 'save' | 'play' | 'pause';
+export type ButtonIconType = 'left' | 'right' | 'delete' | 'edit' | 'aistar' | 'save' | 'play' | 'pause' | 'grid-icon' | 'image-icon';

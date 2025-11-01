@@ -20,8 +20,9 @@ export class StoryboardMainComponent {
     private readonly commonService = inject(CommonService);
     private readonly screenplayState = inject(ScreenplayState);
     
+    viewAs = input<'grid' | 'single'>('single');
     storyboardImage = input.required<StoryboardImageModel>();
-    scene= computed<ScreenplaySceneModel | null>(() => {
+    scene = computed<ScreenplaySceneModel | null>(() => {
         const sceneId = this.storyboardImage()?.sceneId;
         const scene = this.screenplayState.getSceneByID(sceneId);
         if(!scene) {
@@ -42,7 +43,7 @@ export class StoryboardMainComponent {
 
     height: number = 0;
     width = computed(() => {
-        this.height = 250;
+        this.height = this.viewAs() === 'single' ?  250 : 150;
         return this.commonService.updateWidth(this.height, "16:9");
     });
 
