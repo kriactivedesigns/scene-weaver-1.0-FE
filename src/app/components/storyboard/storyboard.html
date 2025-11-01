@@ -23,14 +23,16 @@
             }
           </div>
           <div class="processing-bar-cancel-button-container">
-            @if (status() === 'in-progress' || status() === 'cancelling') {
-              <processing-bar />
-            }
             @if (status() === 'in-progress' || status() === 'cancelling' || status() === 'error' || status() === 'idle') {
               <button [class.stop]="status() === 'in-progress' || status() === 'cancelling'"
-                      [class.confirm]="status() === 'error' || status() === 'idle'"
-                      [disabled]="status() === 'cancelling'"
-                      class="outlined" (click)="cancelStoryboardGeneration()">{{buttonText()}}</button>
+                    [class.confirm]="status() === 'error' || status() === 'idle'"
+                    [disabled]="status() === 'cancelling'"
+                    class="outlined" (click)="cancelStoryboardGeneration()">
+                {{buttonText()}}
+              </button>
+              @if (status() === 'in-progress' || status() === 'cancelling') {
+                <processing-bar />
+              }
             }
           </div>
         </div>

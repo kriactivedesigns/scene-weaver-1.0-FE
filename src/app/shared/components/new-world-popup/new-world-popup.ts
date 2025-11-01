@@ -35,6 +35,7 @@ export class NewWorldPopup {
     open = input.required<boolean>();
     onclose = output<void>();
     oncreate = output<WorldModel>();
+    onWorldUpdate = output<WorldModel>();
     world = input<WorldModel | null>();
     imageUrl = computed<string>(() => {
         const path = `${this.world()?.imagePath}?timestamp=${new Date().getTime()}`
@@ -83,7 +84,8 @@ export class NewWorldPopup {
         if (!worldId || !prompt)
             return
 
-        this.realmState.generateWorldImage(worldId, prompt)
+        this.realmState.updateWorldImage(worldId, prompt)
+        .then(wrld => this.onWorldUpdate.emit(wrld))
     }
     
     close() {

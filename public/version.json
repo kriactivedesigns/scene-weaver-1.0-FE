@@ -1,0 +1,12 @@
+{
+  "version": "1.0.1",
+  "changelog": {
+    "1.0.1": [
+      "Installed Content Square (Hotjar) tag",
+      "Fixed issue with version.json pathing in production builds.",
+      "Improved styling and layout for the storyboard component.",
+      "Fixed bugs related to scene duration display.",
+      "Initial release with core features implemented for MVP."
+    ]
+  }
+}

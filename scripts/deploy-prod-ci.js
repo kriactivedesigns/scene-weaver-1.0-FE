@@ -8,7 +8,7 @@ function deployProductionCI() {
   console.log(chalk.yellow('⚠️  Running in CI/CD mode - no confirmation required\n'));
 
   // Read version from version.json
-  const versionPath = path.join(__dirname, '..', 'version.json');
+  const versionPath = path.join(__dirname, '..', 'public/version.json');
   const versionData = JSON.parse(fs.readFileSync(versionPath, 'utf8'));
   const version = versionData.version;
   
@@ -17,18 +17,17 @@ function deployProductionCI() {
   const month = String(now.getMonth() + 1).padStart(2, '0');
   const day = String(now.getDate()).padStart(2, '0');
   const year = now.getFullYear();
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  const dateTime = `${month}/${day}/${year} ${hours}:${minutes}`;
-  
+  const date = `${month}/${day}/${year}`;
+
   // Create release message
-  const releaseMessage = `CI - version-${version}-${dateTime}`;
-  
+  const releaseMessage = `CI - version-${version} ${date}`;
+
   console.log(chalk.blue(`\n📦 Release: ${releaseMessage}\n`));
 
   // Select Firebase project
   console.log(chalk.blue('\n📦 Selecting Firebase project...\n'));
-  if (!executeCommand('firebase use sceneweaver-1', 'Project selected', 'Failed to select project')) {
+
+  if (!executeCommand(`firebase use sceneweaver-1`, 'Project selected', 'Failed to select project')) {
     process.exit(1);
   }
 

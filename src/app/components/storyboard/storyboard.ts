@@ -34,7 +34,7 @@ export class Storyboard extends BaseComponent implements OnInit {
             case 'error':
                 return 'STORYBOARD GENERATION FAILED - RETRY?';
             default:
-                return 'GENERATE STORYBOARDS?';
+                return 'GENERATE ALL STORYBOARDS?';
         }
     })
 

@@ -67,5 +67,9 @@
                       (oncharacterupdate)="onCharacterCreateOrUpdate($event)"/>
 }
 @if (isWorldPopupOpen()) {
-  <new-world-popup [open]="isWorldPopupOpen()" [world]="openedWorld()" (onclose)="onWorldPopupClose()" (oncreate)="onWorldCreate($event)"/>
+  <new-world-popup [open]="isWorldPopupOpen()"
+                  [world]="openedWorld()"
+                  (onclose)="onWorldPopupClose()"
+                  (oncreate)="onWorldCreateOrUpdate($event)"
+                  (onWorldUpdate)="onWorldCreateOrUpdate($event)"/>
 }

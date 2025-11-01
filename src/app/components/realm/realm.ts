@@ -72,7 +72,7 @@ export class Realm extends BaseComponent implements OnInit {
         this.isWorldPopupOpen.set(false);
     }
 
-    onWorldCreate(world: WorldModel) {
+    onWorldCreateOrUpdate(world: WorldModel) {
         this.openedWorld.set(world);
     }
 

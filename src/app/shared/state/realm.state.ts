@@ -1,10 +1,8 @@
 // world-bible.state.ts
-import { Injectable, signal, computed, effect, inject } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
 import { CharacterModel } from '../models/character.model';
 import { WorldModel } from '../models/world.model';
 import { ProjectState } from './project.state';
-import { ProjectModel } from '../models/project.model';
-import { CommonService } from '../services/common.service';
 import { firstValueFrom, map, Observable, pipe } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -14,7 +12,6 @@ export class RealmState {
   
   // Dependency Injection
   private readonly projectState = inject(ProjectState);
-  private readonly commonService = inject(CommonService);
   private readonly http = inject(HttpClient);
 
   private _characters = signal<CharacterModel[]>([]);
@@ -130,17 +127,20 @@ export class RealmState {
     }
   }
 
-  async generateWorldImage(worldId: string, prompt: string): Promise<void> {
+  async updateWorldImage(worldId: string, prompt: string): Promise<WorldModel> {
     try {
       const pid = this.projectState.openedProject()?.id;
       if (!pid)
         throw new Error("Invalid project id");
       const wrld = await firstValueFrom(this.http.put<WorldModel>(`${environment.apiBaseUrl}/worlds/${worldId}/update-image`, { prompt: prompt }));
-      this._worlds.update((currentWorlds: Array<WorldModel>) => {
-        const index = currentWorlds.findIndex(w => w.id == wrld.id);
-        currentWorlds[index] = wrld;
-        return [...currentWorlds];
+      const currentWorlds = this._worlds();
+      currentWorlds.forEach(w => {
+        if (w.id == wrld.id) {
+          w.imagePath = `${wrld.imagePath}?v=${new Date().getTime()}`; // Cache busting
+        }
       });
+      this._worlds.set([...currentWorlds]);
+      return wrld;
     } catch (error) {
       throw new Error("Failed to generate world image")
     }
