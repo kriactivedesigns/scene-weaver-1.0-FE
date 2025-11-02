@@ -18,17 +18,18 @@ import { SKIP_LOADER_TOKEN } from "../../shared/constants/constants";
     styleUrls: ['./storyboard.scss'],
     standalone: true,
     imports: [
-    IconButton,
-    StoryboardMiniComponent,
-    StoryboardMainComponent,
-    ProcessingBarComponent
-]
+        IconButton,
+        StoryboardMiniComponent,
+        StoryboardMainComponent,
+        ProcessingBarComponent
+    ]
 })
 export class Storyboard extends BaseComponent implements OnInit {
 
     http = inject(HttpClient);
     isGeneratingVideo = signal<boolean>(false);
     videoDownloadProgress = signal<number>(0);
+    isDownloadingImage = signal<boolean>(false);
     downloadImageProgress = signal<number>(0);
     currentView: 'grid' | 'single' = 'single';
     storyboards = this.storyboardState.storyboards;
@@ -261,7 +262,7 @@ export class Storyboard extends BaseComponent implements OnInit {
 
             // Create a signal for download progress
             let completedDownloads = 0;
-
+            this.isDownloadingImage.set(true);
 
             // Download all images in parallel
             const downloadPromises = imagePaths.map(async (imagePath, index) => {
@@ -320,6 +321,9 @@ export class Storyboard extends BaseComponent implements OnInit {
                 type: DialogType.Error,
                 buttons: [{ type: 'confirm', text: 'OK' }]
             });
+        } finally {
+            this.isDownloadingImage.set(false);
+            this.downloadImageProgress.set(0);
         }
     }
 

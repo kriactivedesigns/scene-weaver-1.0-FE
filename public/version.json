@@ -1,6 +1,10 @@
 {
-  "version": "1.1.0",
+  "version": "1.2.0",
   "changelog": {
+    "1.2.0": [
+      "Added option to Download All Storyboard Images as a ZIP file",
+      "Added option to Download Preview Video as MP4 file"
+    ],
     "1.1.0": [
       "Added Grid view in Storyboard Section"
     ],
