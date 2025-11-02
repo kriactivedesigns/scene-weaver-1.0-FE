@@ -1,6 +1,12 @@
 @use '../../../styles/theme' as *;
 
 .main-container {
+    .upper-section {
+        .buttons-container {
+            display: flex;
+            align-items: center;
+        }
+    }
     .content-container {
         .middle {
             .header {
@@ -9,11 +15,6 @@
                 .header-buttons {
                     display: flex;
                     gap: 10px;
-                    .vertical-separator {
-                        width: 2px;
-                        height: 20px;
-                        background-color: $color-divider;
-                    }
                     icon-button {
                         opacity: 0.5;
                         &.active {
