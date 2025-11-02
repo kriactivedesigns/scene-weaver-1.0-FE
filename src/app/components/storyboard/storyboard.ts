@@ -1,4 +1,4 @@
-import { Component, computed, effect,  OnInit,  signal } from "@angular/core";
+import { Component, computed, effect,  inject,  OnInit,  signal } from "@angular/core";
 import { BaseComponent } from "../../shared/components/base-component/base-component";
 import { Pages } from "../../shared/enums/pages.enum";
 import { IconButton } from "../../shared/components/icon-button/icon-button";
@@ -7,6 +7,10 @@ import { StoryboardMainComponent } from "../../shared/components/story-board/sto
 import { StoryboardImageModel } from "../../shared/models/storyboard-image.model";
 import { DialogResult, DialogType } from "../../shared/types/dialog.types";
 import { ProcessingBarComponent } from "../../shared/components/processing-bar/processing-bar";
+import { filter, firstValueFrom, map, tap } from "rxjs";
+import { HttpClient, HttpContext, HttpEventType, HttpResponse } from "@angular/common/http";
+import { environment } from "../../../environments/environment";
+import { SKIP_LOADER_TOKEN } from "../../shared/constants/constants";
 
 @Component({
     selector: 'app-storyboard',
@@ -22,6 +26,10 @@ import { ProcessingBarComponent } from "../../shared/components/processing-bar/p
 })
 export class Storyboard extends BaseComponent implements OnInit {
 
+    http = inject(HttpClient);
+    isGeneratingVideo = signal<boolean>(false);
+    videoDownloadProgress = signal<number>(0);
+    downloadImageProgress = signal<number>(0);
     currentView: 'grid' | 'single' = 'single';
     storyboards = this.storyboardState.storyboards;
     status = this.storyboardState.status;
@@ -163,5 +171,156 @@ export class Storyboard extends BaseComponent implements OnInit {
     setView(view: 'single' | 'grid') {
         this.currentView = view;
     }
-    
+
+    async generateVideo() {
+        if (this.isGeneratingVideo()) return;
+        
+        try {
+            this.isGeneratingVideo.set(true);
+            this.videoDownloadProgress.set(0);
+
+            const scene_ids = this.storyboards().map(s => s.sceneId);
+            
+            if (!scene_ids.length) {
+                throw new Error('No scenes available to generate video');
+            }
+
+            const response = await firstValueFrom(
+                this.http.post(
+                    `${environment.apiBaseUrl}/projects/${this.projectState.openedProjectId()}/animatics/preview-video`,
+                    { scene_ids },
+                    {
+                        responseType: 'blob',
+                        reportProgress: true,
+                        observe: 'events',
+                        context: new HttpContext().set(SKIP_LOADER_TOKEN, true)
+                    }
+                ).pipe(
+                    tap(event => {
+                        if (event.type === HttpEventType.DownloadProgress) {
+                            const percentDone = event.total ? 
+                                Math.round(100 * event.loaded / event.total) : 
+                                0;
+                            this.videoDownloadProgress.set(percentDone);
+                        }
+                    }),
+                    filter(event => event.type === HttpEventType.Response),
+                    map(event => event as HttpResponse<Blob>)
+                )
+            );
+
+            if (!response.body) {
+                throw new Error('No video data received from server');
+            }
+
+            // Create and trigger download
+            const videoURL = URL.createObjectURL(response.body);
+            const a = document.createElement('a');
+            a.href = videoURL;
+            a.download = 'animatic-preview.mp4';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            // Cleanup
+            setTimeout(() => URL.revokeObjectURL(videoURL), 100);
+
+        } catch (error) {
+            console.error('Video generation failed:', error);
+            this.dialogService.open({
+                title: 'Error',
+                message: 'Failed to generate preview video. Please try again.',
+                type: DialogType.Error,
+                buttons: [{
+                    type: 'confirm',
+                    text: 'OK'
+                }]
+            });
+        } finally {
+            this.isGeneratingVideo.set(false);
+            this.videoDownloadProgress.set(0);
+        }
+    }
+
+    async downloadImages() {
+        const imagePaths = this.storyboards().map(s => s.imagePath);
+        if (!imagePaths.length) {
+            this.dialogService.open({
+                title: 'Error',
+                message: 'No storyboard images available to download.',
+                type: DialogType.Error,
+                buttons: [{ type: 'confirm', text: 'OK' }]
+            });
+            return;
+        }
+        
+        try {
+            // Dynamically import JSZip
+            const JSZip = (await import('jszip')).default;
+            const zip = new JSZip();
+
+            // Create a signal for download progress
+            let completedDownloads = 0;
+
+
+            // Download all images in parallel
+            const downloadPromises = imagePaths.map(async (imagePath, index) => {
+                try {
+                    const response = await fetch(imagePath);
+                    const blob = await response.blob();
+                    zip.file(`storyboard-scene-${index + 1}.png`, blob);
+                    
+                    // Update progress
+                    completedDownloads++;
+                    this.downloadImageProgress.set(Math.round((completedDownloads / imagePaths.length) * 100));
+                    return true;
+                } catch (error) {
+                    console.error(`Failed to download image ${index + 1}:`, error);
+                    return false;
+                }
+            });
+
+
+            // Wait for all downloads to complete
+            const results = await Promise.all(downloadPromises);
+            const failedCount = results.filter(result => !result).length;
+
+
+            if (failedCount > 0) {
+                this.dialogService.open({
+                    title: 'Warning',
+                    message: `${failedCount} images failed to download. The zip will contain only successfully downloaded images.`,
+                    type: DialogType.Warn,
+                    buttons: [{ type: 'confirm', text: 'Continue' }]
+                });
+            }
+
+            // Generate and download zip file
+            const zipBlob = await zip.generateAsync({ 
+                type: 'blob',
+                compression: 'DEFLATE',
+                compressionOptions: { level: 6 }
+            });
+
+            const downloadUrl = URL.createObjectURL(zipBlob);
+            const a = document.createElement('a');
+            a.href = downloadUrl;
+            a.download = 'storyboard-images.zip';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            // Cleanup
+            setTimeout(() => URL.revokeObjectURL(downloadUrl), 100);
+        } catch (error) {
+            console.error('Failed to download images:', error);
+            this.dialogService.open({
+                title: 'Error',
+                message: 'Failed to download some images. Please try again.',
+                type: DialogType.Error,
+                buttons: [{ type: 'confirm', text: 'OK' }]
+            });
+        }
+    }
+
 }
